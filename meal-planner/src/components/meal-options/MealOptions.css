@@ -1,0 +1,73 @@
+/* addMealOption Component */
+.add-meal-popup {
+  position: absolute;
+  background-color: rgb(51, 51, 51);
+  border-radius: 10px;
+  padding: 10px;
+  input {
+    height: 18px;
+    padding: 3px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .input-option-container {
+      .name {
+        font-size: 12px;
+        margin-left: 7px;
+        /* background-color: rgb(160, 117, 117); */
+        background-color: rgb(51, 51, 51);
+        border-radius: 3px;
+        width: fit-content;
+        padding: 0px 2px;
+        height: 15px;
+        margin-bottom: 5px;
+      }
+    }
+    .input-option-container:focus-within .name {
+      transform: translateY(8px); /* Move the .name element down by 20px */
+      transition: linear 0.15s all;
+    }
+    .ingredients-main-container {
+      .ingredients-action-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .ingredient-item-container {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        align-items: center;
+   
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px;
+        padding: 0px;
+      }
+      .ingredients-container {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .add-button {
+    padding: 10px;
+  }
+  .plus-icon,
+  .x-icon {
+    padding: 5px;
+    /* background-color: hsl(0, 0%, 100%, 40%);
+        border: 1px grey solid;
+        border-radius: 10px;
+  } */
+  }
+}

@@ -1,0 +1,9 @@
+.calendar-container{
+    display: flex;
+    gap: 30px;
+    .day-info{
+        background-color: rgb(160, 150, 150);
+        height: 90px;
+        width: 150px;
+    }
+}
