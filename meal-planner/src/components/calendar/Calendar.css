@@ -1,9 +1,31 @@
-.calendar-container{
+.calendar-container {
+  display: flex;
+  gap: 30px;
+  .added-meals-list {
     display: flex;
-    gap: 30px;
-    .day-info{
+    flex-direction: column;
+    border: 2px dashed #000;
+    gap: 5px;
+    .meal-item-container {
+      display: flex;
+      gap: 10px;
+      /* align-items: ; */
+      justify-content: space-between;
+      align-items: baseline;
+      .meal-item {
         background-color: rgb(160, 150, 150);
-        height: 90px;
         width: 150px;
+      }
+      button {
+        /* width: px; */
+        /* height: 10px; */
+        background-color: transparent;
+        line-height: 0px;
+        padding: 4px;
+        img {
+          width: 9px;
+        }
+      }
     }
+  }
 }

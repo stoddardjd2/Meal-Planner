@@ -7,5 +7,37 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  gap: 300px;
+  gap: 100px;
+}
+
+/* DRAG COMPONENT */
+.container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.draggable {
+  width: 150px;
+  height: 150px;
+  background-color: lightblue;
+  text-align: center;
+  line-height: 150px;
+  border: 2px solid #000;
+  cursor: grab;
+  user-select: none; /* Prevent text selection while dragging */
+}
+
+.drop-target {
+  width: 150px;
+  height: 150px;
+  background-color: lightgray;
+  text-align: center;
+  line-height: 150px;
+  border: 2px dashed #000;
+}
+.placeholder-text{
+  font-style: italic;
+  color:rgb(189, 189, 189);
+  font-size: 12px;
 }

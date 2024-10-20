@@ -136,7 +136,7 @@ export default function AddNewMealOption(props) {
                         setFormInput((prev) => {
                           // const copy = [...prev];
                           // copy.splice(index, 1, e.target.value);
-                          return ({...prev, [inputField]:e.target.value});
+                          return { ...prev, [inputField]: e.target.value };
                         });
                       }}
                       value={formInput[inputField]}
