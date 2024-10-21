@@ -20,9 +20,7 @@ export default function Calendar({ mealOptions, draggedValueRef }) {
     //   assignment: 3,
     // },
   ]);
-  console.log("addedMeals", addedMeals);
-
-  const days = [
+  const [days, setDays] = useState([
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -30,7 +28,7 @@ export default function Calendar({ mealOptions, draggedValueRef }) {
     "Friday",
     "Saturday",
     "Sunday",
-  ];
+  ]);
   return (
     <div className="calendar-container">
       {days.map(
@@ -44,6 +42,7 @@ export default function Calendar({ mealOptions, draggedValueRef }) {
               dayIndex={index}
               setAddedMeals={setAddedMeals}
               addedMeals={addedMeals}
+              setDays={setDays}
             />
           );
         }
@@ -55,6 +54,7 @@ export default function Calendar({ mealOptions, draggedValueRef }) {
 
 function Day({
   day,
+  setDays,
   dayIndex,
   draggedValueRef,
   setAddedMeals,
@@ -87,25 +87,27 @@ function Day({
   const handleDrop = (e) => {
     e.preventDefault();
     const index = e.currentTarget.id;
-    if (targetRef.current) {
+    const draggedMeal = mealOptions[draggedValueRef.current.id];
+    if (targetRef.current && index <= 6) {
+      if (+index + +draggedMeal.servings > 7) {
+        // add additional columns if meals overflow
+        const total = +index + +draggedMeal.servings - 7;
+        setDays((prev) => {
+          console.log("setting days");
+          for (let i = 0; i > total; i++) {}
+          return [...prev, "+"];
+        });
+      }
       // targetRef.current.innerText = draggedValueRef.current; // Set the content of the drop target to the dragged value
       setAddedMeals((prev) => {
         // if (prev[dayIndex]) {
         return [
           ...prev,
           {
-            ...mealOptions[draggedValueRef.current.id],
+            index: draggedValueRef.current.id,
             assignment: index,
           },
         ];
-        // } else {
-        //   return [
-        //     {
-        //       ...mealOptions[draggedValueRef.current.id],
-        //       assignment: index,
-        //     },
-        //   ];
-        // }
       });
     }
   };
@@ -135,13 +137,15 @@ function Day({
         <>
           {addedMeals.map((meal, index) => {
             const assignment = meal.assignment;
-            console.log("colorOptions[+meal.assignment]");
-            console.log(meal.assignment);
             if (
               dayIndex == assignment ||
               (dayIndex >= assignment &&
-                dayIndex < +assignment + +meal.servings)
+                dayIndex < +assignment + +mealOptions[meal.index].servings)
             ) {
+              // if (+assignment + +meal.servings > 7) {
+              //   console.log("over 7, placing at front");
+              //   return <div>test</div>;
+              // }
               return (
                 <div
                   style={{
@@ -150,12 +154,15 @@ function Day({
                   key={index}
                   className="meal-item-container"
                 >
-                  <div>{meal.name}</div>
+                  {console.log("options", mealOptions)}
+                  <div>{mealOptions[meal.index].name}</div>
                   <button id={index} onClick={handleRemoveMeal}>
                     <img src={xIcon} />
                   </button>
                 </div>
               );
+            } else {
+              return <div className="hidden-text">hidden</div>;
             }
           })}
         </>

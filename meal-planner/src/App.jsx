@@ -6,6 +6,7 @@ import "./App.css";
 import Drag from "./components/Drag";
 import Calendar from "./components/calendar/Calendar";
 import MealOptions from "./components/meal-options/MealOptions";
+import CalendarGrid from "./components/CalendarGrid";
 function App() {
   const draggedValueRef = useRef('');  // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState([
@@ -30,6 +31,7 @@ function App() {
       {/* <Drag /> */}
       <MealOptions mealOptions={mealOptions} setMealOptions={setMealOptions} draggedValueRef={draggedValueRef}/>
       <Calendar mealOptions={mealOptions} draggedValueRef={draggedValueRef} />
+      <CalendarGrid mealOptions={mealOptions} draggedValueRef={draggedValueRef}/>
     </div>
   );
 }
