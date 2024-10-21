@@ -1,19 +1,27 @@
 import { useState, useRef } from "react";
-
-export default function AddNewMealOption({ setMealOptions, editMeal, setIsDropdown }) {
+import plusIcon from "../../assets/plus.svg";
+import xIcon from "../../assets/x.svg";
+export default function AddNewMealOption({
+  popupRef,
+  setMealOptions,
+  editMeal,
+  setIsDropdown,
+}) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
+  const inputQuantityRef = useRef(null);
+  const inputUnitsRef = useRef(null);
 
   const [formInput, setFormInput] = useState(
     // if editing, loadValues
     editMeal
       ? {
           name: editMeal.meal.name,
-          link:  editMeal.meal.link,
-          servings:  editMeal.meal.servings,
-          prepTimeMin:  editMeal.meal.prepTimeMin,
-          cost:  editMeal.meal.cost,
-          ingredients: [... editMeal.meal.ingredients],
+          link: editMeal.meal.link,
+          servings: editMeal.meal.servings,
+          prepTimeMin: editMeal.meal.prepTimeMin,
+          cost: editMeal.meal.cost,
+          ingredients: [...editMeal.meal.ingredients],
         }
       : {
           name: "",
@@ -21,18 +29,17 @@ export default function AddNewMealOption({ setMealOptions, editMeal, setIsDropdo
           servings: undefined,
           prepTimeMin: undefined,
           cost: "",
-          ingredients: [],
+          ingredients: [{ name: "", quantity: undefined, units: undefined }],
         }
   );
 
   function handleUpdateMeal(e) {
     e.preventDefault();
-    setIsDropdown(false)
+    setIsDropdown(false);
     setMealOptions((prev) => {
       const copy = [...prev];
-      copy.splice(editMeal.index, 1, formInput)
+      copy.splice(editMeal.index, 1, formInput);
       return [...copy];
-      
     });
   }
 
@@ -48,11 +55,23 @@ export default function AddNewMealOption({ setMealOptions, editMeal, setIsDropdo
   function handleSubmitIngredient(e) {
     e.preventDefault();
     const input = inputRef.current.value;
+    const inputQuantity = inputQuantityRef.current.value;
+    const inputUnits = inputUnitsRef.current.value;
+    console.log("units", inputUnits);
     if (input) {
+      //reset input fields:
       inputRef.current.value = "";
+      inputQuantityRef.current.value = "";
+      inputUnitsRef.current.value = "";
+
       setFormInput((prev) => {
         const ingredientsCopy = [...prev.ingredients];
-        ingredientsCopy.unshift(input);
+        console.log("ingredientsCopy", ingredientsCopy);
+        ingredientsCopy.unshift({
+          name: input,
+          quantity: inputQuantity,
+          units: inputUnits,
+        });
         return { ...prev, ingredients: [...ingredientsCopy] };
       });
     }
@@ -66,76 +85,87 @@ export default function AddNewMealOption({ setMealOptions, editMeal, setIsDropdo
     });
   }
   return (
-    <div className="add-meal-popup">
+    <div className="add-meal-popup" ref={popupRef}>
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
             return (
               <div key={index} className="ingredients-main-container">
+                <h4>Ingredients</h4>
                 <div className="input-option-container">
-                  <div className="name">
-                    {inputField.charAt(0).toUpperCase() + inputField.slice(1)}
-                  </div>
-                  {/* capitilize first letter of string */}
-                  <div className="ingredients-action-container">
+                  <div className="ingredients-key-grid">
+                    <div className="name ">Ingredient</div>
+                    <div className="name">Count</div>
+                    <div className="name">Units</div>
+
                     <input ref={inputRef}></input>
-                    <button onClick={handleSubmitIngredient}>
-                      <svg
-                        className="plus-icon"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                    <input
+                      className="quantity-input"
+                      ref={inputQuantityRef}
+                    ></input>
+
+                    <div className="flex-grid-item">
+                      <input
+                        className="units-input"
+                        ref={inputUnitsRef}
+                      ></input>
+                      <button
+                        className="add-ingredient-btn noFocusBtn"
+                        onClick={handleSubmitIngredient}
                       >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M7 15C7 15.2652 7.10536 15.5196 7.29289 15.7071C7.48043 15.8946 7.73478 16 8 16C8.26522 16 8.51957 15.8946 8.70711 15.7071C8.89464 15.5196 9 15.2652 9 15V9H15C15.2652 9 15.5196 8.89464 15.7071 8.70711C15.8946 8.51957 16 8.26522 16 8C16 7.73478 15.8946 7.48043 15.7071 7.29289C15.5196 7.10536 15.2652 7 15 7H9V1C9 0.734784 8.89464 0.48043 8.70711 0.292893C8.51957 0.105357 8.26522 0 8 0C7.73478 0 7.48043 0.105357 7.29289 0.292893C7.10536 0.48043 7 0.734784 7 1V7H1C0.734784 7 0.48043 7.10536 0.292893 7.29289C0.105357 7.48043 0 7.73478 0 8C0 8.26522 0.105357 8.51957 0.292893 8.70711C0.48043 8.89464 0.734784 9 1 9H7V15Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </button>
+                        <img className="plus-icon" src={plusIcon} />
+                      </button>
+                    </div>
+
+                    {formInput.ingredients.map((ingredient, index) => {
+                      return (
+                        <>
+                          <li className="ingredient-name grid-value-item">
+                            {ingredient.name}
+                          </li>
+                          <div className="grid-value-item">{ingredient.quantity}</div>
+                          <div className="flex-grid-item grid-value-item">
+                            <div>{ingredient.units}</div>
+                            <button
+                            className="remove-ingredient noFocusBtn"
+                              onClick={(e) => handleRemoveIngredient(e, index)}
+                            >
+                              <img className="x-icon" src={xIcon} />
+                            </button>
+                          </div>
+                        </>
+                      );
+                    })}
                   </div>
+
+                  {/* capitilize first letter of string */}
                 </div>
-                <ul className="ingredients-container">
+                {/* <ul className="ingredients-container">
                   {formInput.ingredients.map((ingredient, index) => {
                     return (
                       <li key={index}>
                         <div className="ingredient-item-container">
-                          <div>{ingredient}</div>
+                          <div>{ingredient.name}</div>
                           <button
                             onClick={(e) => handleRemoveIngredient(e, index)}
                           >
-                            <svg
-                              className="x-icon"
-                              width="12"
-                              height="12"
-                              viewBox="0 0 16 16"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M15 1L1 15M1.00003 1L15 15"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
+                            <img className="x-icon" src={xIcon} />
                           </button>
                         </div>
                       </li>
                     );
                   })}
-                </ul>
+                </ul> */}
               </div>
             );
           } else {
             return (
               <div className="input-option-container" key={index}>
+                {console.log("prep time", inputField)}
                 <div className="name">
-                  {inputField.charAt(0).toUpperCase() + inputField.slice(1)}
+                  {(inputField == "prepTimeMin")
+                    ? "Total Time (Minutes)"
+                    : inputField.charAt(0).toUpperCase() + inputField.slice(1)}
                 </div>
                 {/* capitilize first letter of string */}
                 <input

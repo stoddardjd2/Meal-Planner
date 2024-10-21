@@ -88,10 +88,13 @@ function Day({
     e.preventDefault();
     const index = e.currentTarget.id;
     const draggedMeal = mealOptions[draggedValueRef.current.id];
+
     if (targetRef.current && index <= 6) {
-      if (+index + +draggedMeal.servings > 7) {
+      console.log("dragged meals", draggedMeal);
+      if (+index + +draggedMeal.servings * draggedMeal.multiplier > 7) {
         // add additional columns if meals overflow
-        const total = +index + +draggedMeal.servings - 7;
+        const total =
+          +index + +draggedMeal.servings * draggedMeal.multiplier - 7;
         setDays((prev) => {
           console.log("setting days");
           for (let i = 0; i > total; i++) {}
@@ -104,10 +107,18 @@ function Day({
         return [
           ...prev,
           {
-            index: draggedValueRef.current.id,
+            ...draggedMeal,
             assignment: index,
           },
         ];
+        // } else {
+        //   return [
+        //     {
+        //       ...mealOptions[draggedValueRef.current.id],
+        //       assignment: index,
+        //     },
+        //   ];
+        // }
       });
     }
   };
@@ -140,7 +151,7 @@ function Day({
             if (
               dayIndex == assignment ||
               (dayIndex >= assignment &&
-                dayIndex < +assignment + +mealOptions[meal.index].servings)
+                dayIndex < +assignment + +meal.servings * meal.multiplier)
             ) {
               // if (+assignment + +meal.servings > 7) {
               //   console.log("over 7, placing at front");
@@ -154,8 +165,7 @@ function Day({
                   key={index}
                   className="meal-item-container"
                 >
-                  {console.log("options", mealOptions)}
-                  <div>{mealOptions[meal.index].name}</div>
+                  <div>{meal.name}</div>
                   <button id={index} onClick={handleRemoveMeal}>
                     <img src={xIcon} />
                   </button>

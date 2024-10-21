@@ -4,6 +4,8 @@
   padding: 2rem;
 }
 
+
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -31,6 +33,12 @@
 }
 .dropdown{
   position: absolute;
+  background-color: rgb(51, 51, 51);
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
 }
 .dropdown-button:after {
   content: url(./assets/dropdown.svg);
