@@ -1,0 +1,35 @@
+.added-meals-container {
+  display: flex;
+  flex-direction: column;
+  /* width: 100px; */
+  .keys-container{
+    /* background-color: grey; */
+    color:rgb(112, 112, 112)
+  }
+  .main-ingredients-items-container {
+    display: flex;
+    gap: 5px;
+    .count {
+      width: 50px;
+    }
+    .ingredient-name {
+      width: 80px;
+    }
+    .unit-container {
+      display: flex;
+      gap: 0px;
+
+      .quantity {
+        width: 40px;
+      }
+    }
+  }
+  .main-ingredients-header {
+    margin-bottom: 10px;
+  }
+
+  .analysis-container {
+    display: flex;
+    gap: 0px;
+  }
+}

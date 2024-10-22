@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import xIcon from "../../assets/x.svg";
 import clockIcon from "../../assets/clock.svg";
 import Dropdown from "../Dropdown";
+import servingsIcon from "../../assets/meal.svg";
 export default function MealOptions({
   draggedValueRef,
   mealOptions,
@@ -22,14 +23,11 @@ export default function MealOptions({
 
   // Handle clicks outside the popup
   const handleClickOutside = (event) => {
-    console.log("here1", popupRef.current, event.current);
-
     if (
       popupRef.current &&
       !popupRef.current.contains(event.target) &&
       !buttonRef.current.contains(event.target)
     ) {
-      console.log("close1");
       setIsAdding(false); // Close the popup if clicked outside
     }
   };
@@ -100,7 +98,6 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
 
   // Handle clicks outside the popup
   const handleClickOutside2 = (event) => {
-    console.log("here", popupRef2.current, event.current);
     if (
       popupRef2.current &&
       !popupRef2.current.contains(event.target) &&
@@ -143,7 +140,7 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
         ></button>
         <div>{meal.name}</div>
 
-        {meal.cost && (
+        {meal.cost && meal.servings && (
           <>
             <div>-</div>
             <div>
@@ -162,37 +159,42 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
             </div>
           </>
         )}
-        {meal?.servings ? (
-          <>
-            <div>-</div>
-            <div>Servings ( {+meal.servings * servingSizeMultiplier} )</div>
-            <div className="serving-size-multiplier-container">
-              {multiplierOptions.map((option, multiplierIndex) => {
-                return (
-                  <button
-                    key={multiplierIndex}
-                    onClick={(e) => {
-                      setMealOptions((prev) => {
-                        const copy = [...prev];
-                        copy.splice(index, 1, {
-                          ...prev[index],
-                          multiplier: option,
-                        });
-                        return copy;
+        <>
+          <div>-</div>
+          {meal.servings && (
+            <div className="flex-box">
+              <img src={servingsIcon} />
+              <div> {+meal.servings * servingSizeMultiplier} servings</div>
+            </div>
+          )}
+          <div className="serving-size-multiplier-container">
+            {multiplierOptions.map((option, multiplierIndex) => {
+              return (
+                <button
+                  key={multiplierIndex}
+                  onClick={(e) => {
+                    setMealOptions((prev) => {
+                      const copy = [...prev];
+                      copy.splice(index, 1, {
+                        ...prev[index],
+                        multiplier: option,
                       });
-                      setServingSizeMultiplier(option);
-                    }}
-                    style={
-                      servingSizeMultiplier === option
-                        ? { outline: "2px white solid" }
-                        : {}
-                    }
-                  >
-                    {`${option == 0.5 ? ".5" : option}x`}
-                  </button>
-                );
-              })}
-              {meal.ingredients && (
+                      return copy;
+                    });
+                    setServingSizeMultiplier(option);
+                  }}
+                  style={
+                    servingSizeMultiplier === option
+                      ? { outline: "2px white solid" }
+                      : {}
+                  }
+                >
+                  {`${option == 0.5 ? ".5" : option}x`}
+                </button>
+              );
+            })}
+
+            {/* {meal.ingredients && (
                 <>
                   <div>-</div>
                   <div>
@@ -212,19 +214,17 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
                     />
                   </div>
                 </>
-              )}
-              {meal.cost && (
-                <>
-                  <div>-</div>
-                  <div className="meal-cost">
-                    ${meal.cost * meal.multiplier}
-                  </div>
-                </>
-              )}
+              )} */}
+          </div>
+        </>
+        {meal.cost && (
+          <>
+            <div>-</div>
+            <div className="meal-cost">
+              ${meal.servings ? +meal.cost * +meal.multiplier : +meal.cost}
+              {/* if no servings selected, do not use multiplier*/}
             </div>
           </>
-        ) : (
-          <></>
         )}
         <button className="exit-button">
           <img className="x-icon" src={xIcon} />

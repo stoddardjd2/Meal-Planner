@@ -37,10 +37,14 @@
     }
     .flex-box {
       display: flex;
-      gap: 5px;
+      gap: 8px;
+      img{
+        width: 18px;
+        /* filter: brightness(100); */
+      }
     }
     .meal-cost {
-      width: 20px;
+      width: 30px;
     }
     .ingredients-dropdown {
       position: absolute;

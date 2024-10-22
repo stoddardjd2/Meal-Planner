@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import plusIcon from "../../assets/plus.svg";
 import xIcon from "../../assets/x.svg";
+import MealOptions from "./MealOptions";
 export default function AddNewMealOption({
   popupRef,
   setMealOptions,
@@ -22,6 +23,7 @@ export default function AddNewMealOption({
           prepTimeMin: editMeal.meal.prepTimeMin,
           cost: editMeal.meal.cost,
           ingredients: [...editMeal.meal.ingredients],
+          multiplier: editMeal.meal.multiplier,
         }
       : {
           name: "",
@@ -30,8 +32,27 @@ export default function AddNewMealOption({
           prepTimeMin: undefined,
           cost: "",
           ingredients: [{ name: "", quantity: undefined, units: undefined }],
+          multiplier: 1,
         }
   );
+
+  useEffect(() => {
+    console.log("update input");
+    if (editMeal) {
+      setMealOptions((prev) => {
+        const copy = [...prev];
+        copy.splice(editMeal.index, 1, formInput);
+        return [...copy];
+      });
+    }
+    //  else {
+    //   setMealOptions((prev) => {
+    //     const copy = [...prev];
+    //     copy.unshift(formInput);
+    //     return [...copy];
+    //   });
+    // }
+  }, [formInput]);
 
   function handleUpdateMeal(e) {
     e.preventDefault();
@@ -57,7 +78,6 @@ export default function AddNewMealOption({
     const input = inputRef.current.value;
     const inputQuantity = inputQuantityRef.current.value;
     const inputUnits = inputUnitsRef.current.value;
-    console.log("units", inputUnits);
     if (input) {
       //reset input fields:
       inputRef.current.value = "";
@@ -66,7 +86,6 @@ export default function AddNewMealOption({
 
       setFormInput((prev) => {
         const ingredientsCopy = [...prev.ingredients];
-        console.log("ingredientsCopy", ingredientsCopy);
         ingredientsCopy.unshift({
           name: input,
           quantity: inputQuantity,
@@ -123,11 +142,13 @@ export default function AddNewMealOption({
                           <li className="ingredient-name grid-value-item">
                             {ingredient.name}
                           </li>
-                          <div className="grid-value-item">{ingredient.quantity}</div>
+                          <div className="grid-value-item">
+                            {ingredient.quantity}
+                          </div>
                           <div className="flex-grid-item grid-value-item">
                             <div>{ingredient.units}</div>
                             <button
-                            className="remove-ingredient noFocusBtn"
+                              className="remove-ingredient noFocusBtn"
                               onClick={(e) => handleRemoveIngredient(e, index)}
                             >
                               <img className="x-icon" src={xIcon} />
@@ -158,12 +179,14 @@ export default function AddNewMealOption({
                 </ul> */}
               </div>
             );
+          } else if (inputField == "multiplier") {
+            // hide multiplier field
+            return;
           } else {
             return (
               <div className="input-option-container" key={index}>
-                {console.log("prep time", inputField)}
                 <div className="name">
-                  {(inputField == "prepTimeMin")
+                  {inputField == "prepTimeMin"
                     ? "Total Time (Minutes)"
                     : inputField.charAt(0).toUpperCase() + inputField.slice(1)}
                 </div>

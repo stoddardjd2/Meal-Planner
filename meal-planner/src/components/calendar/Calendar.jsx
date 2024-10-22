@@ -1,25 +1,12 @@
 import "./Calendar.css";
 import { useState, useRef } from "react";
 import xIcon from "../../assets/x.svg";
-export default function Calendar({ mealOptions, draggedValueRef }) {
-  const [addedMeals, setAddedMeals] = useState([
-    // {
-    //   name: "Burger",
-    //   link: "",
-    //   servings: 2,
-    //   prepTimeMin: 25,
-    //   ingredients: ["onions", "buns", "patty"],
-    //   assignment: 1,
-    // },
-    // {
-    //   name: "tortilla wrap",
-    //   link: "",
-    //   servings: 2,
-    //   prepTimeMin: 10,
-    //   ingredients: ["tortilla", "meat"],
-    //   assignment: 3,
-    // },
-  ]);
+export default function Calendar({
+  mealOptions,
+  draggedValueRef,
+  addedMeals,
+  setAddedMeals,
+}) {
   const [days, setDays] = useState([
     "Monday",
     "Tuesday",
@@ -90,13 +77,11 @@ function Day({
     const draggedMeal = mealOptions[draggedValueRef.current.id];
 
     if (targetRef.current && index <= 6) {
-      console.log("dragged meals", draggedMeal);
       if (+index + +draggedMeal.servings * draggedMeal.multiplier > 7) {
         // add additional columns if meals overflow
         const total =
           +index + +draggedMeal.servings * draggedMeal.multiplier - 7;
         setDays((prev) => {
-          console.log("setting days");
           for (let i = 0; i > total; i++) {}
           return [...prev, "+"];
         });
@@ -141,7 +126,9 @@ function Day({
       onDrop={handleDrop}
       id={dayIndex}
     >
-      <div style={dayIndex === currentDay ? { backgroundColor: "green" } : {}}>
+      <div
+        style={dayIndex === currentDay - 1 ? { backgroundColor: "green" } : {}}
+      >
         {day}
       </div>
       <div className="added-meals-list">
@@ -153,10 +140,7 @@ function Day({
               (dayIndex >= assignment &&
                 dayIndex < +assignment + +meal.servings * meal.multiplier)
             ) {
-              // if (+assignment + +meal.servings > 7) {
-              //   console.log("over 7, placing at front");
-              //   return <div>test</div>;
-              // }
+ 
               return (
                 <div
                   style={{
