@@ -74,7 +74,20 @@ function Day({
   const handleDrop = (e) => {
     e.preventDefault();
     const index = e.currentTarget.id;
-    const draggedMeal = mealOptions[draggedValueRef.current.id];
+    console.log("dropped", draggedValueRef.current);
+    const draggedName = draggedValueRef.current.name;
+    console.log("meal options", mealOptions);
+    let draggedMeal = {};
+    mealOptions.some((meal) => {
+      // find meal that matches name and exit after finding match
+      console.log("LOWERCASE", meal.name)
+      if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
+        draggedMeal = meal;
+        return true;
+      }
+      return false;
+    });
+    // const draggedMeal = mealOptions[draggedValueRef.current.id];
 
     if (targetRef.current && index <= 6) {
       if (+index + +draggedMeal.servings * draggedMeal.multiplier > 7) {
@@ -140,7 +153,6 @@ function Day({
               (dayIndex >= assignment &&
                 dayIndex < +assignment + +meal.servings * meal.multiplier)
             ) {
- 
               return (
                 <div
                   style={{

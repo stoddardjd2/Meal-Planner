@@ -87,8 +87,9 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
   // const ingredientsRef = useRef(null);
   // const ingredientsBtnRef = useRef(null);
   const multiplierOptions = [0.5, 1, 2];
-  const handleDragStart = (e, value) => {
-    draggedValueRef.current = { value: value, id: index }; // Set the value of the dragged element when dragging starts
+  const handleDragStart = (e, name) => {
+    console.log("drag start", name)
+    draggedValueRef.current = {name}; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
     e.target.style.cursor = "grab"; // Reset the cursor after dragging ends
@@ -132,7 +133,6 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
         draggable
         onDragStart={(e) => handleDragStart(e, meal.name)}
         onDragEnd={handleDragEnd}
-        style={{ cursor: "grab" }}
         className="meal-option"
       >
         <button

@@ -29,6 +29,18 @@ function App() {
       cost: undefined,
     },
     {
+      name: "Biscuit",
+      link: "",
+      servings: undefined,
+      prepTimeMin: undefined,
+      ingredients: [
+        { name: "soda", quantity: "1", units: undefined },
+        { name: "buns", quantity: "2", units: undefined },
+      ],
+      multiplier: 1,
+      cost: undefined,
+    },
+    {
       name: "Burger",
       link: "",
       servings: 4,
@@ -125,6 +137,7 @@ function App() {
             mealOptions={mealOptions}
             mainIngredientsArr={mainIngredientsArr}
             addedMeals={addedMeals}
+            draggedValueRef={draggedValueRef}
           />
         </div>
       </div>

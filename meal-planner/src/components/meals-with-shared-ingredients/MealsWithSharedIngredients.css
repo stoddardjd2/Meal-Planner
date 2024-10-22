@@ -1,8 +1,60 @@
 .reccomendations-by-ingredient-item-container {
   display: flex;
-  gap:5px;
-
+  gap: 5px;
 }
-  .recomended-dropdown-content{
-    margin-left: 29px;
+.list-item-container {
+  display: flex;
+  .list-item {
+    /* background-color: rgb(105, 105, 105); */
+    background-color: rgb(82, 82, 82);
+    /* color:black; */
+    border-radius: 5px;
+    width: fit-content;
+    padding: 2px 5px;
+    cursor: grab;
   }
+}
+.recomendation-by-ingredient-container{
+    width: 250px;
+}
+.dropdown-recommendation-container{
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    /* background-color: rgb(112, 112, 112)  */
+}
+.recomended-dropdown-content {
+  margin-left: 29px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap; /* Allows items to wrap to the next line when overflowing */
+  width: 200px;
+  .meal-recommeneded-item {
+  }
+}
+.hide-added-meals-container {
+  color: grey;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.recommended-meals-container {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap; /* Allows items to wrap to the next line when overflowing */
+  width: 200px;
+}
+/* .recommended-grid-container {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 50px));
+}
+
+.recommended-grid-item {
+  font-size: 1.2em;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+} */
