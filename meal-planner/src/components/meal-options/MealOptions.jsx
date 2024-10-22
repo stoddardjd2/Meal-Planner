@@ -5,6 +5,8 @@ import xIcon from "../../assets/x.svg";
 import clockIcon from "../../assets/clock.svg";
 import Dropdown from "../Dropdown";
 import servingsIcon from "../../assets/meal.svg";
+import dropdownIcon from "../../assets/dropdown.svg";
+
 export default function MealOptions({
   draggedValueRef,
   mealOptions,
@@ -137,7 +139,9 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
           onClick={handleDropdownToggle}
           className="dropdown-button"
           ref={buttonRef2}
-        ></button>
+        >
+          <img src={dropdownIcon} />
+        </button>
         <div>{meal.name}</div>
 
         {meal.cost && meal.servings && (

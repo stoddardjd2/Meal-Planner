@@ -6,24 +6,24 @@
   .main-ingredients-items-container {
     display: flex;
     gap: 5px;
-    .checkbox{
-        width: 20px;
-        display: flex;
-        justify-content: start;
-        align-items: center;
+    .checkbox {
+      width: 20px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
     }
     .count {
       width: 50px;
     }
     .ingredient-name {
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
       width: 80px;
     }
     .unit-container {
       display: flex;
       gap: 0px;
-
+      
       .quantity {
         width: 40px;
       }

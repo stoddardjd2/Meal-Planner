@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../shopping-list/ShoppingList.css";
-export default function ShoppingList({ addedMeals, mainIngredientsObj }) {
+export default function ShoppingList({ addedMeals, mainIngredientsArr }) {
   const [isChecked, setIsChecked] = useState({ 0: false });
 
   function handleCheckboxToggle(e, index) {
@@ -24,7 +24,7 @@ export default function ShoppingList({ addedMeals, mainIngredientsObj }) {
           </div>
         </div>
       </div>
-      {Object.keys(mainIngredientsObj).map((ingredientKey, index) => {
+      {mainIngredientsArr.map((ingredient, index) => {
         return (
           <div key={index} className="main-ingredients-items-container">
             {/* <div className="count">
@@ -40,22 +40,21 @@ export default function ShoppingList({ addedMeals, mainIngredientsObj }) {
             </div>
 
             <label htmlFor={`checkbox${index}`} className="ingredient-name">
-              {ingredientKey.charAt(0).toUpperCase() + ingredientKey.slice(1)}
+              {ingredient.name.charAt(0).toUpperCase() +
+                ingredient.name.slice(1)}
             </label>
             {/* <div className="ingredient-name"></div> */}
             <div>
-              {Object.keys(mainIngredientsObj[ingredientKey].quantities).map(
-                (unitKey, index) => {
-                  return (
-                    <div className="unit-container" key={index}>
-                      <div className="quantity">
-                        {mainIngredientsObj[ingredientKey].quantities[unitKey]}
-                      </div>
-                      <div>{unitKey == "undefined" ? "" : unitKey}</div>
+              {Object.keys(ingredient.quantities).map((unitKey, index) => {
+                return (
+                  <div className="unit-container" key={index}>
+                    <div className="quantity">
+                      {ingredient.quantities[unitKey]}
                     </div>
-                  );
-                }
-              )}
+                    <div>{unitKey == "undefined" ? "" : unitKey}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         );

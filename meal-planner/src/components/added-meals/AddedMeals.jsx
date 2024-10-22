@@ -1,5 +1,12 @@
 import "../added-meals/AddedMeals.css";
-export default function AddedMeals({ addedMeals, mainIngredientsObj }) {
+import dropdownIcon from "../../assets/dropdown.svg";
+import { useState } from "react";
+export default function AddedMeals({
+  addedMeals,
+  mainIngredientsArr,
+  mealOptions,
+}) {
+  const [isDropdown, setIsDropdown] = useState({});
   const totalCost = () => {
     const mealCosts = addedMeals.map((addedMeal) => {
       if (addedMeal.cost) {
@@ -14,6 +21,30 @@ export default function AddedMeals({ addedMeals, mainIngredientsObj }) {
     );
     return sum;
   };
+  // const getMealsWithUsedIngredients = () => {
+  //   // results corresponds with position of mainIngredientsArr. For each ingredient, shows all meals that use that ingredient
+  //   const ingredientNamesArr = mainIngredientsArr.map((ingredient) => {
+  //     return ingredient.name;
+  //   });
+  //   const matches = ingredientNamesArr.map((name) => {
+  //     const unfilterdArray = mealOptions.map((meal, index) => {
+  //       const mealIngredientsArr = meal.ingredients.map((ingredient) => {
+  //         return ingredient.name;
+  //       });
+  //       if (mealIngredientsArr.includes(name)) {
+  //         console.log("matched!", name);
+  //         return { name: meal.name, index: index };
+  //       }
+  //     });
+  //     const filteredArray = unfilterdArray.filter(
+  //       (element) => element !== undefined
+  //     );
+  //     return filteredArray;
+  //   });
+  //   console.log("mainIngredientsArr", mainIngredientsArr);
+  //   console.log("MATCHES", matches);
+  // };
+  // const mealsWithUsedIngredients = getMealsWithUsedIngredients();
 
   return (
     <div className="added-meals-container">
@@ -23,6 +54,7 @@ export default function AddedMeals({ addedMeals, mainIngredientsObj }) {
       <div>Total: ${totalCost()}</div>
       <h5 className="main-ingredients-header ">Main Ingredients</h5>
       <div className="main-ingredients-items-container keys-container">
+        <div className="dropdown-column"></div>
         <div className="count">Use #</div>
 
         <div className="ingredient-name">Name</div>
@@ -34,30 +66,58 @@ export default function AddedMeals({ addedMeals, mainIngredientsObj }) {
         </div>
       </div>
       {/* </div> */}
-      {Object.keys(mainIngredientsObj).map((ingredientKey) => {
+      {mainIngredientsArr.map((ingredient, index) => {
         return (
-          <div className="main-ingredients-items-container">
-            <div className="count">
-              {mainIngredientsObj[ingredientKey].count}x
-            </div>
+          <div key={index}>
+            <div className="main-ingredients-items-container">
+              <div className="dropdown-column">
+                {ingredient.count > 1 &&<button
+                  onClick={(e) =>
+                    setIsDropdown((prev) => {
+                      return { ...prev, [index]: !prev[index] };
+                    })
+                  }
+                  className="dropdown-button"
+                >
+                  <img src={dropdownIcon} />
+                </button>}
+              </div>
 
-            <div className="ingredient-name">
-              {ingredientKey.charAt(0).toUpperCase() + ingredientKey.slice(1)}
-            </div>
-            <div>
-              {Object.keys(mainIngredientsObj[ingredientKey].quantities).map(
-                (unitKey, index) => {
+              <div className="count">{ingredient.count}x</div>
+
+              <div className="ingredient-name">
+                {ingredient.name.charAt(0).toUpperCase() +
+                  ingredient.name.slice(1)}
+              </div>
+              <div>
+                {Object.keys(ingredient.quantities).map((unitKey, index) => {
                   return (
                     <div className="unit-container" key={index}>
                       <div className="quantity">
-                        {mainIngredientsObj[ingredientKey].quantities[unitKey]}
+                        {ingredient.quantities[unitKey]}
                       </div>
                       <div>{unitKey == "undefined" ? "" : unitKey}</div>
                     </div>
                   );
-                }
-              )}
+                })}
+              </div>
             </div>
+            {isDropdown[index] && (
+              <div className="meal-for-ingredient-dropdown">
+                {addedMeals.map((meal, index) => {
+                  const ingredientsForMealArray = meal.ingredients.map(
+                    (addedMealsIngredient) => {
+                      return addedMealsIngredient.name;
+                    }
+                  );
+
+                  if (ingredientsForMealArray.includes(ingredient.name)) {
+                    return <div key={index}>{meal.name}</div>;
+                  }
+                  // if(meal.name)
+                })}
+              </div>
+            )}
           </div>
         );
       })}

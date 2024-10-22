@@ -1,0 +1,8 @@
+.reccomendations-by-ingredient-item-container {
+  display: flex;
+  gap:5px;
+
+}
+  .recomended-dropdown-content{
+    margin-left: 29px;
+  }

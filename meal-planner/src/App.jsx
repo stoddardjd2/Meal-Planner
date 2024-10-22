@@ -9,16 +9,22 @@ import MealOptions from "./components/meal-options/MealOptions";
 import AddedMeals from "./components/added-meals/AddedMeals";
 import CalendarGrid from "./components/CalendarGrid";
 import ShoppingList from "./components/shopping-list/ShoppingList";
-import MealsWithSharedIngredients from "./components/mealsWithSharedIngredients";
+import MealsWithSharedIngredients from "./components/meals-with-shared-ingredients/MealsWithSharedIngredients";
 function App() {
+  // use Name as unique identifier. Prevent creating meals with duplicate names
+
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState([
     {
-      name: "test",
+      name: "Cereal",
       link: "",
       servings: undefined,
       prepTimeMin: undefined,
-      ingredients: [],
+      ingredients: [
+        { name: "soda", quantity: "1", units: undefined },
+        { name: "milk", quantity: "12", units: "fl/oz" },
+        { name: "cereal", quantity: "1", units: "cup" },
+      ],
       multiplier: 1,
       cost: undefined,
     },
@@ -28,6 +34,7 @@ function App() {
       servings: 4,
       prepTimeMin: 25,
       ingredients: [
+        { name: "soda", quantity: "1", units: undefined },
         { name: "buns", quantity: "1", units: undefined },
         { name: "tomato", quantity: "2", units: undefined },
         { name: "patty", quantity: "2", units: "lbs" },
@@ -64,6 +71,7 @@ function App() {
             (acc[name].quantities[units] || 0) + parseFloat(quantityMultiplied);
         }
       });
+
       return acc;
     }, {});
 
@@ -74,9 +82,23 @@ function App() {
         acc[name] = { count, quantities };
         return acc;
       }, {});
-    return sortedIngredients;
+
+    // Convert object into an array of objects
+    const arrayOfObjects = Object.keys(sortedIngredients).map((key) => {
+      return {
+        name: key,
+        ...sortedIngredients[key],
+      };
+    });
+
+    // Sort array by the `count` property in descending order
+    const sortedIngredientsArray = arrayOfObjects.sort(
+      (a, b) => b.count - a.count
+    );
+
+    return sortedIngredientsArray;
   };
-  const mainIngredientsObj = mainIngredients();
+  const mainIngredientsArr = mainIngredients();
 
   return (
     <div className="app-container">
@@ -91,14 +113,19 @@ function App() {
         </div>
         <div className="right-split">
           <AddedMeals
+            mealOptions={mealOptions}
             addedMeals={addedMeals}
-            mainIngredientsObj={mainIngredientsObj}
+            mainIngredientsArr={mainIngredientsArr}
           />
           <ShoppingList
             addedMeals={addedMeals}
-            mainIngredientsObj={mainIngredientsObj}
+            mainIngredientsArr={mainIngredientsArr}
           />
-          <MealsWithSharedIngredients addedMeals={addedMeals} mainIngredientsObj={mainIngredientsObj}/>
+          <MealsWithSharedIngredients
+            mealOptions={mealOptions}
+            mainIngredientsArr={mainIngredientsArr}
+            addedMeals={addedMeals}
+          />
         </div>
       </div>
 

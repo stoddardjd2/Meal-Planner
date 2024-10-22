@@ -15,10 +15,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 100px;
-
+  height: 100%;
   .split-container {
     display: flex;
     width: 100%;
+    height: 100%;
     .right-split {
       margin-left: 100px;
       display: flex;
@@ -46,6 +47,8 @@ body {
   display: flex;
   align-items: center;
   padding: 3px 5px;
+  width: 24px;
+  height: 24px;
 }
 .dropdown {
   position: absolute;
@@ -57,7 +60,7 @@ body {
   flex-direction: column;
 }
 .dropdown-button:after {
-  content: url(./assets/dropdown.svg);
+  /* content: url(./assets/dropdown.svg); */
 }
 /* DRAG COMPONENT */
 .container {
