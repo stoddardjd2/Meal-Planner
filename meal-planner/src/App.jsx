@@ -116,10 +116,18 @@ function App() {
     <div className="app-container">
       {/* <Drag /> */}
       <div className="split-container">
-        <div>
+        <div className="split-1">
           <MealOptions
             mealOptions={mealOptions}
             setMealOptions={setMealOptions}
+            draggedValueRef={draggedValueRef}
+          />
+        </div>
+        <div className="left-split">
+          <Calendar
+            addedMeals={addedMeals}
+            setAddedMeals={setAddedMeals}
+            mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
           />
         </div>
@@ -142,12 +150,6 @@ function App() {
         </div>
       </div>
 
-      <Calendar
-        addedMeals={addedMeals}
-        setAddedMeals={setAddedMeals}
-        mealOptions={mealOptions}
-        draggedValueRef={draggedValueRef}
-      />
       {/* <CalendarGrid
         mealOptions={mealOptions}
         draggedValueRef={draggedValueRef}

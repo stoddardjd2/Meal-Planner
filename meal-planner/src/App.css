@@ -1,14 +1,19 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  width: 100vh;
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  /* width: 100vh; */
   height: 93vh;
   display: flex;
   align-items: center;
+  width: 100%;;
+  justify-content: center;
+  /* overflow: hidden; */
 }
+
 body {
   height: 100%;
+  width: 100%;
+  display: flex;
 }
 
 .app-container {
@@ -20,11 +25,22 @@ body {
     display: flex;
     width: 100%;
     height: 100%;
+    .split-1{
+      width: 250px;
+    }
+    .left-split{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 700px;
+      align-items: center;
+    }
     .right-split {
       margin-left: 100px;
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 20px;
     }
   }
 }

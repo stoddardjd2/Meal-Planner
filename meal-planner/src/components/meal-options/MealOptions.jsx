@@ -6,7 +6,8 @@ import clockIcon from "../../assets/clock.svg";
 import Dropdown from "../Dropdown";
 import servingsIcon from "../../assets/meal.svg";
 import dropdownIcon from "../../assets/dropdown.svg";
-
+import plusIcon from "../../assets/plus.svg";
+import MealOptionCard from "./MealOptionCard";
 export default function MealOptions({
   draggedValueRef,
   mealOptions,
@@ -18,7 +19,7 @@ export default function MealOptions({
 
   function handleToggleIsAdding(e) {
     // e.stopPropagation()
-    if (e.target.id === "isAddingButton") {
+    if (e.currentTarget.id === "isAddingButton") {
       setIsAdding((prev) => !prev);
     }
   }
@@ -45,29 +46,63 @@ export default function MealOptions({
   }, []);
 
   return (
-    <div>
-      <h2>Options</h2>
-      <div className="actions-container">
-        <button
-          ref={buttonRef}
-          id={"isAddingButton"}
-          onClick={handleToggleIsAdding}
-        >
-          Add
-        </button>
-        {isAdding && (
-          <AddNewMealOption
-            popupRef={popupRef}
-            setMealOptions={setMealOptions}
-          />
-        )}
+    <div className="mealOptions">
+      <div className="header-container">
+        <h2>Your Meals</h2>
+
+        {/* <div className="actions-container">
+          <button
+            ref={buttonRef}
+            id={"isAddingButton"}
+            onClick={handleToggleIsAdding}
+            className="add-button"
+          >
+            Add a Meal
+          </button>
+          {isAdding && (
+            <AddNewMealOption
+              popupRef={popupRef}
+              setMealOptions={setMealOptions}
+            />
+          )}
+        </div> */}
       </div>
-      <div className="meal-options-list">
-        {mealOptions.map((meal, index) => {
+      <div className="meal-options-grid">
+      {mealOptions.map((meal, index) => {
           return (
-            <MealOption
+            <MealOptionCard
               meal={meal}
-              key={index}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}{mealOptions.map((meal, index) => {
+          return (
+            <MealOptionCard
+              meal={meal}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}{mealOptions.map((meal, index) => {
+          return (
+            <MealOptionCard
+              meal={meal}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}{mealOptions.map((meal, index) => {
+          return (
+            <MealOptionCard
+              meal={meal}
+              key={meal.name}
               index={index}
               setMealOptions={setMealOptions}
               draggedValueRef={draggedValueRef}
@@ -75,6 +110,38 @@ export default function MealOptions({
           );
         })}
       </div>
+
+      {/* <div className="meal-options-list">
+        {mealOptions.map((meal, index) => {
+          return (
+            <MealOption
+              meal={meal}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}
+
+        <div className="actions-container">
+          <button
+            ref={buttonRef}
+            id={"isAddingButton"}
+            onClick={handleToggleIsAdding}
+            // className="add-button"
+          >
+            <div>Add a Meal</div>
+            <img src={plusIcon} />
+          </button>
+          {isAdding && (
+            <AddNewMealOption
+              popupRef={popupRef}
+              setMealOptions={setMealOptions}
+            />
+          )}
+        </div>
+      </div> */}
     </div>
   );
 }
@@ -88,8 +155,8 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
   // const ingredientsBtnRef = useRef(null);
   const multiplierOptions = [0.5, 1, 2];
   const handleDragStart = (e, name) => {
-    console.log("drag start", name)
-    draggedValueRef.current = {name}; // Set the value of the dragged element when dragging starts
+    console.log("drag start", name);
+    draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
     e.target.style.cursor = "grab"; // Reset the cursor after dragging ends
@@ -108,13 +175,6 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
     ) {
       setIsDropdown(false); // Close the popup if clicked outside
     }
-    // if (
-    //   ingredientsRef.current &&
-    //   !ingredientsRef.current.contains(event.CurrentTarget) &&
-    //   !ingredientsBtnRef.current.contains(event.CurrentTarget)
-    // ) {
-    //   setIsIngredientsDropdown(false); // Close the popup if clicked outside
-    // }
   };
 
   // Add event listener to detect clicks outside of the popup
@@ -197,28 +257,6 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
                 </button>
               );
             })}
-
-            {/* {meal.ingredients && (
-                <>
-                  <div>-</div>
-                  <div>
-                    <Dropdown
-                      buttonText={`View Ingredients (${meal.ingredients.length})`}
-                      listElements={meal.ingredients.map(
-                        (ingredient, index) => {
-                          return (
-                            <div className="ingredient-list-item" key={index}>
-                              <div className="name">{ingredient.name}</div>
-                              <div className="quantity">{ingredient.quantity}</div>
-                              <div className="units">{ingredient.units}</div>
-                            </div>
-                          );
-                        }
-                      )}
-                    />
-                  </div>
-                </>
-              )} */}
           </div>
         </>
         {meal.cost && (

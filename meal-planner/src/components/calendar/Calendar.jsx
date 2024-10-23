@@ -74,13 +74,10 @@ function Day({
   const handleDrop = (e) => {
     e.preventDefault();
     const index = e.currentTarget.id;
-    console.log("dropped", draggedValueRef.current);
     const draggedName = draggedValueRef.current.name;
-    console.log("meal options", mealOptions);
     let draggedMeal = {};
     mealOptions.some((meal) => {
       // find meal that matches name and exit after finding match
-      console.log("LOWERCASE", meal.name)
       if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
         draggedMeal = meal;
         return true;

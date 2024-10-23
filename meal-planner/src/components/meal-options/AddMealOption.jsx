@@ -7,6 +7,7 @@ export default function AddNewMealOption({
   setMealOptions,
   editMeal,
   setIsDropdown,
+  styling,
 }) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
@@ -31,13 +32,15 @@ export default function AddNewMealOption({
           servings: undefined,
           prepTimeMin: undefined,
           cost: "",
-          ingredients: [{ name: "", quantity: undefined, units: undefined }],
+          ingredients: [],
           multiplier: 1,
         }
   );
+  useEffect(() => {
+    console.log("form", formInput);
+  }, [formInput]);
 
   useEffect(() => {
-    console.log("update input");
     if (editMeal) {
       setMealOptions((prev) => {
         const copy = [...prev];
@@ -104,7 +107,18 @@ export default function AddNewMealOption({
     });
   }
   return (
-    <div className="add-meal-popup" ref={popupRef}>
+    <div
+      className="add-meal-popup"
+      // style={
+      //   editMeal
+      //     ? {}
+      //     : {
+      //         translate: "-230px",
+      //       }
+      // }
+      style={styling ? { ...styling } : {}}
+      ref={popupRef}
+    >
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
@@ -113,7 +127,7 @@ export default function AddNewMealOption({
                 <h4>Ingredients</h4>
                 <div className="input-option-container">
                   <div className="ingredients-key-grid">
-                    <div className="name ">Ingredient</div>
+                    <div className="name">Name</div>
                     <div className="name">Count</div>
                     <div className="name">Units</div>
 
@@ -139,14 +153,61 @@ export default function AddNewMealOption({
                     {formInput.ingredients.map((ingredient, index) => {
                       return (
                         <>
-                          <li className="ingredient-name grid-value-item">
-                            {ingredient.name}
-                          </li>
-                          <div className="grid-value-item">
-                            {ingredient.quantity}
-                          </div>
-                          <div className="flex-grid-item grid-value-item">
-                            <div>{ingredient.units}</div>
+                          <input
+                            onChange={(e) => {
+                              setFormInput((prev) => {
+                                const copy = [...prev.ingredients];
+                                copy.splice(index, 1, {
+                                  name: e.target.value,
+                                  quantity: prev.ingredients[index].quantity,
+                                  units: prev.ingredients[index].units,
+                                });
+                                return {
+                                  ...prev,
+                                  ingredients: [...copy],
+                                };
+                              });
+                            }}
+                            value={formInput.ingredients[index].name}
+                          ></input>
+                          <input
+                            value={formInput.ingredients[index].quantity}
+                            className="quantity-input"
+                            onChange={(e) => {
+                              setFormInput((prev) => {
+                                const copy = [...prev.ingredients];
+                                copy.splice(index, 1, {
+                                  name: prev.ingredients[index].name,
+                                  quantity: e.target.value,
+                                  units: prev.ingredients[index].units,
+                                });
+                                return {
+                                  ...prev,
+                                  ingredients: [...copy],
+                                };
+                              });
+                            }}
+                          ></input>
+
+                          <div className="flex-grid-item ">
+                            <input
+                              value={formInput.ingredients[index].units}
+                              className="units-input"
+                              onChange={(e) => {
+                                setFormInput((prev) => {
+                                  const copy = [...prev.ingredients];
+                                  copy.splice(index, 1, {
+                                    name: prev.ingredients[index].name,
+                                    quantity: prev.ingredients[index].quantity,
+                                    units: e.target.value,
+                                  });
+                                  return {
+                                    ...prev,
+                                    ingredients: [...copy],
+                                  };
+                                });
+                              }}
+                            ></input>
                             <button
                               className="remove-ingredient noFocusBtn"
                               onClick={(e) => handleRemoveIngredient(e, index)}
@@ -206,11 +267,15 @@ export default function AddNewMealOption({
           }
         })}
         {editMeal ? (
-          <button onClick={handleUpdateMeal}>Update</button>
+          // <button onClick={handleUpdateMeal}>Update</button>
+          <></>
         ) : (
-          <button onClick={handleSubmitNewMeal}>Add</button>
+          <button onClick={handleSubmitNewMeal}>Add Meal</button>
         )}
       </form>
+      <button onClick={()=>setIsDropdown(false)} className="exit-button">
+        <img src={xIcon} />
+      </button>
     </div>
   );
 }
