@@ -9,7 +9,9 @@ import MealOptions from "./components/meal-options/MealOptions";
 import AddedMeals from "./components/added-meals/AddedMeals";
 import CalendarGrid from "./components/CalendarGrid";
 import ShoppingList from "./components/shopping-list/ShoppingList";
+import MealOptionCard from "./components/meal-options/MealOptionCard";
 import MealsWithSharedIngredients from "./components/meals-with-shared-ingredients/MealsWithSharedIngredients";
+import SearchInput from "./components/SearchInput";
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
 
@@ -55,6 +57,8 @@ function App() {
       cost: 14,
     },
   ]);
+
+  const [mealNamesSearch, setMealNamesSearch] = useState();
   const [addedMeals, setAddedMeals] = useState([]);
 
   const mainIngredients = () => {
@@ -112,16 +116,91 @@ function App() {
   };
   const mainIngredientsArr = mainIngredients();
 
+  // FOR RECCOMMENED COLUMN:
+  function getMealByName(name) {
+    let match = {};
+    mealOptions.map((meal) => {
+      if (meal.name == name) {
+        match = meal;
+      }
+    });
+    return match;
+  }
+
+  // filter out meals that have already been added if enabled:
+  // Function to get non-matching objects based on the `name` property
+  const getNonMatchingObjects = (arr1, arr2) => {
+    return [
+      ...arr1.filter(
+        (item1) => !arr2.some((item2) => item1.name === item2.name)
+      ),
+      ...arr2.filter(
+        (item2) => !arr1.some((item1) => item1.name === item2.name)
+      ),
+    ];
+  };
+
+  const getMealOptionsFiltered = () => {
+    return getNonMatchingObjects(mealOptions, addedMeals);
+  };
+  const getMealsWithUsedIngredients = () => {
+    // results corresponds with position of mainIngredientsArr. For each ingredient, shows all meals that use that ingredient
+    const ingredientNamesArr = mainIngredientsArr.map((ingredient) => {
+      return ingredient.name;
+    });
+    return ingredientNamesArr.map((name) => {
+      const unfilterdArray = getMealOptionsFiltered().map((meal, index) => {
+        const mealIngredientsArr = meal.ingredients.map((ingredient) => {
+          return ingredient.name;
+        });
+        if (mealIngredientsArr.includes(name)) {
+          // return { name: meal.name, index: index };
+          return meal.name;
+        }
+      });
+      const filteredArray = unfilterdArray.filter(
+        (element) => element !== undefined
+      );
+      return filteredArray;
+    });
+  };
+  const mealsWithUsedIngredients = getMealsWithUsedIngredients();
+  const reccommendedMealsArr = [...new Set(mealsWithUsedIngredients.flat())];
+  // END
   return (
     <div className="app-container">
       {/* <Drag /> */}
       <div className="split-container">
         <div className="split-1">
-          <MealOptions
-            mealOptions={mealOptions}
-            setMealOptions={setMealOptions}
-            draggedValueRef={draggedValueRef}
-          />
+          <h2>Your Meals</h2>
+          <div style={{ marginBottom: "20px" }}>
+            <SearchInput
+              mealOptions={mealOptions}
+              setMealNamesSearch={setMealNamesSearch}
+            />
+          </div>
+          <div className="meal-columns-container">
+            <MealOptions
+              mealOptions={mealOptions}
+              mealNamesSearch={mealNamesSearch}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+            <div className="meal-options-grid sticky">
+              <div className="recommended-header">Reccomended</div>
+              {reccommendedMealsArr.map((name) => {
+                return (
+                  <MealOptionCard
+                    meal={getMealByName(name)}
+                    previewEnabled={true}
+                    mealOptions={reccommendedMealsArr}
+                    setMealOptions={setMealOptions}
+                    draggedValueRef={draggedValueRef}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
         <div className="left-split">
           <Calendar

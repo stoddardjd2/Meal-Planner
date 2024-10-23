@@ -4,16 +4,15 @@
     gap: 10px;
     /* width: 600px; */
     display: flex;
-    flex-wrap: wrap;
-    overflow-y: auto;
+    /* flex-wrap: wrap; */
+
     justify-content: start;
-    scrollbar-color: #808080 transparent;
+
     max-height: 800px;
     /* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); */
     .add-meal-btn {
       width: 150px;
     }
-   
   }
   .header-container {
     display: flex;
@@ -126,22 +125,52 @@
     height: 100%;
     left: 0px;
     top: 0px;
-    z-index: 2;
+    z-index: 10;
   }
   .add-meal-popup {
     width: 350px;
-    position: absolute;
     background-color: rgb(51, 51, 51);
     border-radius: 10px;
     padding: 10px;
-    z-index: 1;
+    z-index: 5;
     cursor: default;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
+    .QuickAddAnaylzer {
+      width: 500px;
+      height: 200px;
+      background-color: rgb(51, 51, 51);
+      border-radius: 10px;
+      z-index: 1;
+      cursor: default;
+      position: fixed;
+      top: -150px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      textarea {
+        height: 100%;
+        outline: none;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        outline: 0px;
+      }
+      .anaylze-button {
+        width: 10%;
+      }
+    }
     .exit-button {
       position: absolute;
       right: 10px;
       top: 10px;
-      padding: 5px !important;
+      /* padding: 5px !important; */
     }
     input {
       height: 18px;
@@ -191,11 +220,30 @@
           }
           .flex-grid-item {
             display: flex;
-            justify-content: space-between;
             gap: 5px;
-            .remove-ingredient {
-              background-color: transparent !important;
-           
+            
+            .remove-ingredient{
+              background-color: transparent;
+            }
+            .remove-ingredient,
+            .add-ingredient-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 0px;
+              /* background-color: red !important; */
+              width: 24px;
+              height: 24px;
+              .plus-icon,
+              .x-icon {
+                padding: 5px;
+                width: 16px;
+                /* width: 12px; */
+                /* background-color: hsl(0, 0%, 100%, 40%);
+                  border: 1px grey solid;
+                  border-radius: 10px;
+            } */
+              }
             }
           }
           .grid-value-item {
@@ -226,10 +274,6 @@
           display: flex;
           align-items: center;
           gap: 5px;
-          button {
-          }
-          .add-ingredient-btn {
-          }
         }
         .ingredient-item-container {
           display: flex;
@@ -240,13 +284,12 @@
         li {
           margin-bottom: 5px;
         }
-        button {
+        /* button {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: 0px;
-          padding: 0px;
-        }
+          height: 24px;
+        } */
         .ingredients-container {
           display: flex;
           flex-direction: column;
@@ -257,14 +300,13 @@
     .add-button {
       padding: 10px;
     }
-    .plus-icon,
-    .x-icon {
-      padding: 5px;
-      width: 12px;
-      /* background-color: hsl(0, 0%, 100%, 40%);
-        border: 1px grey solid;
-        border-radius: 10px;
-  } */
-    }
+ 
+  }
+}
+
+.IngredientRow {
+  display: flex;
+  gap: 10px;
+  input {
   }
 }

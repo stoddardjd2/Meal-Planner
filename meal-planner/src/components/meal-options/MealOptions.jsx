@@ -12,6 +12,7 @@ export default function MealOptions({
   draggedValueRef,
   mealOptions,
   setMealOptions,
+  mealNamesSearch,
 }) {
   const [isDropdown, setIsDropdown] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -56,26 +57,6 @@ export default function MealOptions({
 
   return (
     <div className="mealOptions">
-      <div className="header-container">
-        <h2>Your Meals</h2>
-
-        {/* <div className="actions-container">
-          <button
-            ref={buttonRef}
-            id={"isAddingButton"}
-            onClick={handleToggleIsAdding}
-            className="add-button"
-          >
-            Add a Meal
-          </button>
-          {isAdding && (
-            <AddNewMealOption
-              popupRef={popupRef}
-              setMealOptions={setMealOptions}
-            />
-          )}
-        </div> */}
-      </div>
       <div className="meal-options-grid">
         <button
           ref={buttonRef2}
@@ -88,39 +69,35 @@ export default function MealOptions({
         >
           Add a Meal
         </button>
-        {mealOptions.map((meal, index) => {
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
-        })}
-        {mealOptions.map((meal, index) => {
 
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
-        })}
         {mealOptions.map((meal, index) => {
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
+          if (mealNamesSearch) {
+            // filter by search if search given
+            if (mealNamesSearch.includes(meal.name)) {
+              return (
+                <MealOptionCard
+                  mealOptions={mealOptions}
+                  meal={meal}
+                  key={meal.name}
+                  index={index}
+                  setMealOptions={setMealOptions}
+                  draggedValueRef={draggedValueRef}
+                />
+              );
+            }
+          } else {
+            // display all cards
+            return (
+              <MealOptionCard
+                mealOptions={mealOptions}
+                meal={meal}
+                key={meal.name}
+                index={index}
+                setMealOptions={setMealOptions}
+                draggedValueRef={draggedValueRef}
+              />
+            );
+          }
         })}
         {isDropdown && (
           <div className="popup-container">
@@ -184,7 +161,6 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
   // const ingredientsBtnRef = useRef(null);
   const multiplierOptions = [0.5, 1, 2];
   const handleDragStart = (e, name) => {
-    console.log("drag start", name);
     draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {

@@ -5,9 +5,10 @@
   height: 93vh;
   display: flex;
   align-items: center;
-  width: 100%;;
+  width: 100%;
   justify-content: center;
   /* overflow: hidden; */
+  --secondary: rgb(59, 59, 59);
 }
 
 body {
@@ -27,10 +28,46 @@ button:focus {
     display: flex;
     width: 100%;
     height: 100%;
-    .split-1{
-      width: 250px;
+
+    .split-1 {
+      width: 350px;
+      .meal-columns-container {
+        display: flex;
+        gap: 10px;
+        scrollbar-color: #808080 transparent;
+        overflow-y: auto;
+        .sticky {
+          position: sticky;
+          top: 0; /* Stick to the top of the container */
+          overflow-y: auto;
+        }
+        .meal-options-grid {
+          /* display: grid; */
+          gap: 10px;
+          /* width: 600px; */
+          display: flex;
+          flex-direction: column;
+          /* flex-wrap: wrap; */
+          align-items: end;
+          justify-content: start;
+
+          max-height: 800px;
+          /* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); */
+          .recommended-header {
+            height: 43px;
+            display: flex;
+            width: 100%;
+            align-items: end;
+            font-size: 20px;
+          }
+
+          .add-meal-btn {
+            width: 150px;
+          }
+        }
+      }
     }
-    .left-split{
+    .left-split {
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -54,7 +91,7 @@ button:focus {
   background-color: transparent;
   display: flex;
   align-items: center;
-  padding: 3px;
+  padding: 5px;
 }
 
 .dropdown-container {
@@ -158,4 +195,24 @@ button:focus {
 }
 .hidden-text {
   opacity: 0;
+}
+.searchInput {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: var(--secondary);
+  width: fit-content;
+  label{
+    display: flex;
+  }
+  input {
+    color: white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+  input::placeholder {
+    color: white;
+  }
 }

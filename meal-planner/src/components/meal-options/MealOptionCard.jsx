@@ -4,16 +4,17 @@ import clockIcon from "../../assets/clock2.svg";
 import editIcon from "../../assets/edit.svg";
 import openIcon from "../../assets/open.svg";
 import Dropdown from "../Dropdown";
-import AddNewMealOption from "./AddMealOption";
+import AddMealOption from "./AddMealOption";
 import dropdownIcon from "../../assets/dropdown.svg";
-import './MealOptionCard.css'
+import "./MealOptionCard.css";
 // import GetImage from "../GetImage";
 export default function MealOptionCard({
   meal,
   setMealOptions,
   index,
   draggedValueRef,
-  previewEnabled
+  previewEnabled,
+  mealOptions,
 }) {
   const [isDropdown, setIsDropdown] = useState(false);
   const popupRef2 = useRef(null); // Reference to the popup element
@@ -83,83 +84,83 @@ export default function MealOptionCard({
           {meal.prepTimeMin} Min
         </div>
       )}
-      {!previewEnabled && <div className="actions-container-overlay">
-        <button
-          ref={buttonRef2}
-          onClick={() =>
-            setIsDropdown((prev) => {
-              return !prev;
-            })
-          }
-        >
-          <img src={editIcon} />
-        </button>
-        {meal.link && (
-          <a href={meal.link} target="_blank">
-            <button>
-              <img src={openIcon} />
-            </button>
-          </a>
-        )}
-
-        {isDropdown && !previewEnabled &&(
-          <div className="popup-container">
-            <AddNewMealOption
-              popupRef={popupRef2}
-              setMealOptions={setMealOptions}
-              editMeal={{ index: index, meal: meal }}
-              setIsDropdown={setIsDropdown}
-              styling={{
-                position: "fixed",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-            />
-          </div>
-        )}
-      </div>}
-
-      {!previewEnabled && <div className="multiplier-fixed">
-        <div className="serving-size-multiplier-containerV2">
-          {multiplierOptions.map((option, multiplierIndex) => {
-            return (
-              <button
-                className={`multiplier-${multiplierIndex + 1}`}
-                key={multiplierIndex}
-                onClick={(e) => {
-                  setMealOptions((prev) => {
-                    const copy = [...prev];
-                    copy.splice(index, 1, {
-                      ...prev[index],
-                      multiplier: option,
-                    });
-                    return copy;
-                  });
-                  setServingSizeMultiplier(option);
-                }}
-                style={
-                  servingSizeMultiplier === option
-                    ? {
-                        translate: `0px -${10 * multiplierIndex}px`,
-                        opacity: 1,
-                        zIndex: 3,
-                        // boxShadow:"0px 0px 10px 0px rgb(0, 0, 0)"
-
-                      }
-                    : {
-                        // opacity: "60%",
-                        translate: `0px -${10 * multiplierIndex}px`,
-                        // zIndex: 10,
-                      }
-                }
-              >
-                {`${option == 0.5 ? ".5" : option}x`}
+      {!previewEnabled && (
+        <div className="actions-container-overlay">
+          <button
+            className="action-button"
+            ref={buttonRef2}
+            onClick={() =>
+              setIsDropdown((prev) => {
+                return !prev;
+              })
+            }
+          >
+            <img src={editIcon} />
+          </button>
+          {meal.link && (
+            <a href={meal.link} target="_blank">
+              <button className="action-button">
+                <img src={openIcon} />
               </button>
-            );
-          })}
+            </a>
+          )}
+
+          {isDropdown && !previewEnabled && (
+            <div className="popup-container">
+              <AddMealOption
+                popupRef={popupRef2}
+                setMealOptions={setMealOptions}
+                // editMeal={{ index: index, meal: meal }}
+                editMeal={meal}
+                setIsDropdown={setIsDropdown}
+                mealOptions={mealOptions}
+              />
+            </div>
+          )}
         </div>
-      </div>}
+      )}
+
+      {!previewEnabled && (
+        <div className="multiplier-fixed">
+          <div className="serving-size-multiplier-containerV2">
+            {multiplierOptions.map((option, multiplierIndex) => {
+              return (
+                <button
+                  className={`multiplier-${multiplierIndex + 1}`}
+                  key={multiplierIndex}
+                  onClick={(e) => {
+                    setMealOptions((prev) => {
+                      const copy = [...prev];
+                      copy.splice(index, 1, {
+                        ...prev[index],
+                        multiplier: option,
+                      });
+                      return copy;
+                    });
+                    setServingSizeMultiplier(option);
+                  }}
+                  style={
+                    servingSizeMultiplier === option
+                      ? {
+                          translate: `0px -${10 * multiplierIndex}px`,
+                          opacity: 1,
+                          zIndex: 3,
+                          // boxShadow:"0px 0px 10px 0px rgb(0, 0, 0)"
+                        }
+                      : {
+                          // opacity: "60%",
+                          translate: `0px -${10 * multiplierIndex}px`,
+                          // zIndex: 10,
+                        }
+                  }
+                >
+                  {`${option == 0.5 ? ".5" : option}x`}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

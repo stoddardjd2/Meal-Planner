@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import plusIcon from "../../assets/plus.svg";
 import xIcon from "../../assets/x.svg";
 import MealOptions from "./MealOptions";
-export default function AddNewMealOption({
+import QuickAddAnalyzer from "./QuickAddAnalyzer";
+export default function AddMealOption({
   popupRef,
   setMealOptions,
   editMeal,
   setIsDropdown,
   styling,
+  mealOptions,
 }) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
@@ -18,13 +20,13 @@ export default function AddNewMealOption({
     // if editing, loadValues
     editMeal
       ? {
-          name: editMeal.meal.name,
-          link: editMeal.meal.link,
-          servings: editMeal.meal.servings,
-          prepTimeMin: editMeal.meal.prepTimeMin,
-          cost: editMeal.meal.cost,
-          ingredients: [...editMeal.meal.ingredients],
-          multiplier: editMeal.meal.multiplier,
+          name: editMeal.name,
+          link: editMeal.link,
+          servings: editMeal.servings,
+          prepTimeMin: editMeal.prepTimeMin,
+          cost: editMeal.cost,
+          ingredients: [...editMeal.ingredients],
+          multiplier: editMeal.multiplier,
         }
       : {
           name: "",
@@ -36,17 +38,24 @@ export default function AddNewMealOption({
           multiplier: 1,
         }
   );
-  useEffect(() => {
-    console.log("form", formInput);
-  }, [formInput]);
 
   useEffect(() => {
+    let index = -1; // Default to -1 if no match is found
+
     if (editMeal) {
-      setMealOptions((prev) => {
-        const copy = [...prev];
-        copy.splice(editMeal.index, 1, formInput);
-        return [...copy];
-      });
+      for (let i = 0; i < mealOptions.length; i++) {
+        if (mealOptions[i].name === editMeal.name) {
+          index = i;
+          break; // Exit the loop once a match is found
+        }
+      }
+      if (!(index == -1)) {
+        setMealOptions((prev) => {
+          const copy = [...prev];
+          copy.splice(index, 1, formInput);
+          return [...copy];
+        });
+      }
     }
     //  else {
     //   setMealOptions((prev) => {
@@ -119,6 +128,8 @@ export default function AddNewMealOption({
       style={styling ? { ...styling } : {}}
       ref={popupRef}
     >
+      <QuickAddAnalyzer setFormInput={setFormInput} />
+
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
@@ -261,6 +272,8 @@ export default function AddNewMealOption({
                 </label>
                 {/* capitilize first letter of string */}
                 <input
+                  disabled={editMeal && inputField == "name" ? true : false}
+                  // disable input if editing and if name input field
                   id={inputField}
                   onChange={(e) => {
                     setFormInput((prev) => {

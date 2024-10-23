@@ -58,7 +58,6 @@ export default function MealsWithSharedIngredients({
   // flatten data and remove duplicates
 
   const handleDragStart = (e, name) => {
-    console.log("drag start", name);
     draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
@@ -68,13 +67,10 @@ export default function MealsWithSharedIngredients({
   function getMealByName(name) {
     let match = {};
     mealOptions.map((meal) => {
-      console.log("MAPPING", meal);
       if (meal.name == name) {
-        console.log("mealSomeMatch", meal);
         match = meal;
       }
     });
-    console.log("match for name", name, match);
     return match;
   }
 

@@ -32,7 +32,6 @@ export default function AddedMeals({
   //         return ingredient.name;
   //       });
   //       if (mealIngredientsArr.includes(name)) {
-  //         console.log("matched!", name);
   //         return { name: meal.name, index: index };
   //       }
   //     });
@@ -41,8 +40,6 @@ export default function AddedMeals({
   //     );
   //     return filteredArray;
   //   });
-  //   console.log("mainIngredientsArr", mainIngredientsArr);
-  //   console.log("MATCHES", matches);
   // };
   // const mealsWithUsedIngredients = getMealsWithUsedIngredients();
 
