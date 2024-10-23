@@ -13,9 +13,12 @@ export default function MealOptions({
   mealOptions,
   setMealOptions,
 }) {
+  const [isDropdown, setIsDropdown] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const popupRef = useRef(null); // Reference to the popup element
   const buttonRef = useRef(null);
+  const popupRef2 = useRef(null); // Reference to the popup element
+  const buttonRef2 = useRef(null);
 
   function handleToggleIsAdding(e) {
     // e.stopPropagation()
@@ -32,6 +35,12 @@ export default function MealOptions({
       !buttonRef.current.contains(event.target)
     ) {
       setIsAdding(false); // Close the popup if clicked outside
+    } else if (
+      popupRef2.current &&
+      !popupRef2.current.contains(event.target) &&
+      !buttonRef2.current.contains(event.target)
+    ) {
+      setIsDropdown(false); // Close the popup if clicked outside
     }
   };
 
@@ -68,37 +77,18 @@ export default function MealOptions({
         </div> */}
       </div>
       <div className="meal-options-grid">
-      {mealOptions.map((meal, index) => {
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
-        })}{mealOptions.map((meal, index) => {
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
-        })}{mealOptions.map((meal, index) => {
-          return (
-            <MealOptionCard
-              meal={meal}
-              key={meal.name}
-              index={index}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-          );
-        })}{mealOptions.map((meal, index) => {
+        <button
+          ref={buttonRef2}
+          onClick={() =>
+            setIsDropdown((prev) => {
+              return !prev;
+            })
+          }
+          className="add-meal-btn"
+        >
+          Add a Meal
+        </button>
+        {mealOptions.map((meal, index) => {
           return (
             <MealOptionCard
               meal={meal}
@@ -109,6 +99,45 @@ export default function MealOptions({
             />
           );
         })}
+        {mealOptions.map((meal, index) => {
+
+          return (
+            <MealOptionCard
+              meal={meal}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}
+        {mealOptions.map((meal, index) => {
+          return (
+            <MealOptionCard
+              meal={meal}
+              key={meal.name}
+              index={index}
+              setMealOptions={setMealOptions}
+              draggedValueRef={draggedValueRef}
+            />
+          );
+        })}
+        {isDropdown && (
+          <div className="popup-container">
+            <AddNewMealOption
+              popupRef={popupRef2}
+              setMealOptions={setMealOptions}
+              // editMeal={{ index: index, meal: meal }}
+              setIsDropdown={setIsDropdown}
+              styling={{
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* <div className="meal-options-list">

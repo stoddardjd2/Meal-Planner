@@ -2,6 +2,14 @@
   display: flex;
   gap: 5px;
 }
+
+.draggable-item-container{
+  position: relative;
+  .meal-preview {
+    position: absolute;
+    width: 100px;
+  }
+}
 .list-item-container {
   display: flex;
   .list-item {
@@ -14,16 +22,16 @@
     cursor: grab;
   }
 }
-.recomendation-by-ingredient-container{
-    width: 250px;
+.recomendation-by-ingredient-container {
+  width: 250px;
 }
-.dropdown-recommendation-container{
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-    /* background-color: rgb(112, 112, 112)  */
+.dropdown-recommendation-container {
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* background-color: rgb(112, 112, 112)  */
 }
 .recomended-dropdown-content {
   margin-left: 29px;

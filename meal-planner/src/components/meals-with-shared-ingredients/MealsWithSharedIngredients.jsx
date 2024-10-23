@@ -1,6 +1,8 @@
 import { useState } from "react";
 import dropdownIcon from "../../assets/dropdown.svg";
 import "./MealsWithSharedIngredients.css";
+import MealOptionCard from "../meal-options/MealOptionCard";
+import DraggableMeal from "../draggable-meal/DraggableMeal";
 export default function MealsWithSharedIngredients({
   mealOptions,
   mainIngredientsArr,
@@ -9,6 +11,8 @@ export default function MealsWithSharedIngredients({
 }) {
   const [isHidingAddedMeals, setIsHidingAddedMeals] = useState(true);
   const [isDropdown, setIsDropdown] = useState({});
+  const [isHovering, setIsHovering] = useState({});
+
   // Function to get non-matching objects based on the `name` property
   const getNonMatchingObjects = (arr1, arr2) => {
     return [
@@ -61,6 +65,19 @@ export default function MealsWithSharedIngredients({
     e.target.style.cursor = "grab"; // Reset the cursor after dragging ends
   };
 
+  function getMealByName(name) {
+    let match = {};
+    mealOptions.map((meal) => {
+      console.log("MAPPING", meal);
+      if (meal.name == name) {
+        console.log("mealSomeMatch", meal);
+        match = meal;
+      }
+    });
+    console.log("match for name", name, match);
+    return match;
+  }
+
   return (
     <div>
       <h2>Recommened Meals</h2>
@@ -77,27 +94,26 @@ export default function MealsWithSharedIngredients({
         (Found {reccommendedMealsArr.length} Meals that use the same
         ingredients)
       </div> */}
-      {/* <br></br> */}
+      <h4>All Recommended</h4>
+
       <div className="recommended-meals-container">
         {/* <div className="recommended-grid-container"> */}
 
         {reccommendedMealsArr.map((meal, index) => {
           return (
-            <div
-              draggable
-              onDragStart={(e) => handleDragStart(e, meal)}
-              onDragEnd={handleDragEnd}
-              className="list-item-container recommended-grid-item"
-              key={index}
-            >
-              <div className="list-item">{meal}</div>
-            </div>
+            <DraggableMeal
+              meal={meal}
+              key={meal.name}
+              mealOptions={mealOptions}
+              draggedValueRef={draggedValueRef}
+              index={index}
+            />
           );
         })}
         {/* </div> */}
       </div>
       <div className="recomendation-by-ingredient-container">
-        <h4>Recomendations by Ingredient</h4>
+        <h4>By Reuseable Ingredients</h4>
         {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
           if (!(mealsForIngredientArr.length == 0)) {
             // only display ingredients that have a meal matched that has not been added
@@ -131,15 +147,13 @@ export default function MealsWithSharedIngredients({
                   <div className="recomended-dropdown-content">
                     {mealsForIngredientArr.map((meal, index) => {
                       return (
-                        <div
-                          draggable
-                          onDragStart={(e) => handleDragStart(e, meal)}
-                          onDragEnd={handleDragEnd}
-                          className="list-item-container"
-                          key={index}
-                        >
-                          <div className="list-item">{meal}</div>
-                        </div>
+                        <DraggableMeal
+                          meal={meal}
+                          key={meal.name}
+                          mealOptions={mealOptions}
+                          draggedValueRef={draggedValueRef}
+                          index={index}
+                        />
                       );
                     })}
                   </div>

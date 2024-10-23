@@ -6,12 +6,14 @@ import openIcon from "../../assets/open.svg";
 import Dropdown from "../Dropdown";
 import AddNewMealOption from "./AddMealOption";
 import dropdownIcon from "../../assets/dropdown.svg";
-
+import './MealOptionCard.css'
+// import GetImage from "../GetImage";
 export default function MealOptionCard({
   meal,
   setMealOptions,
   index,
   draggedValueRef,
+  previewEnabled
 }) {
   const [isDropdown, setIsDropdown] = useState(false);
   const popupRef2 = useRef(null); // Reference to the popup element
@@ -47,20 +49,20 @@ export default function MealOptionCard({
   };
 
   const handleDragStart = (e, name) => {
-    console.log("drag start", name);
     draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
 
-  console.log("MEAL", meal);
   return (
     <div
-      draggable
+      draggable={!isDropdown}
+      //   disable draggable feature if editing meal
       onDragStart={(e) => handleDragStart(e, meal.name)}
       onDragEnd={handleDragEnd}
       className="meal-option-card"
     >
       <div className="food-container">
         <img src={foodIcon} />
+        {/* <GetImage/> */}
       </div>
       <div className="bottom-card-container">
         <div className="left-side">
@@ -74,40 +76,14 @@ export default function MealOptionCard({
             <div>${+meal.cost / meal.servings} / serving</div>
           )}
         </div>
-        <div className="right-side">
-          <div className="serving-size-multiplier-containerV2">
-            {multiplierOptions.map((option, multiplierIndex) => {
-              return (
-                <button
-                  key={multiplierIndex}
-                  onClick={(e) => {
-                    setMealOptions((prev) => {
-                      const copy = [...prev];
-                      copy.splice(index, 1, {
-                        ...prev[index],
-                        multiplier: option,
-                      });
-                      return copy;
-                    });
-                    setServingSizeMultiplier(option);
-                  }}
-                  style={
-                    servingSizeMultiplier === option ? {} : { opacity: "60%" }
-                  }
-                >
-                  {`${option == 0.5 ? ".5" : option}x`}
-                </button>
-              );
-            })}
-          </div>
+      </div>
+      {meal.prepTimeMin && (
+        <div className="time-overlay">
+          <img src={clockIcon} />
+          {meal.prepTimeMin} Min
         </div>
-      </div>
-      <div className="time-overlay">
-        <img src={clockIcon} />
-        {console.log("MEAL", meal)}
-        {meal.prepTimeMin} Min
-      </div>
-      <div className="actions-container-overlay">
+      )}
+      {!previewEnabled && <div className="actions-container-overlay">
         <button
           ref={buttonRef2}
           onClick={() =>
@@ -126,7 +102,7 @@ export default function MealOptionCard({
           </a>
         )}
 
-        {isDropdown && (
+        {isDropdown && !previewEnabled &&(
           <div className="popup-container">
             <AddNewMealOption
               popupRef={popupRef2}
@@ -142,7 +118,48 @@ export default function MealOptionCard({
             />
           </div>
         )}
-      </div>
+      </div>}
+
+      {!previewEnabled && <div className="multiplier-fixed">
+        <div className="serving-size-multiplier-containerV2">
+          {multiplierOptions.map((option, multiplierIndex) => {
+            return (
+              <button
+                className={`multiplier-${multiplierIndex + 1}`}
+                key={multiplierIndex}
+                onClick={(e) => {
+                  setMealOptions((prev) => {
+                    const copy = [...prev];
+                    copy.splice(index, 1, {
+                      ...prev[index],
+                      multiplier: option,
+                    });
+                    return copy;
+                  });
+                  setServingSizeMultiplier(option);
+                }}
+                style={
+                  servingSizeMultiplier === option
+                    ? {
+                        translate: `0px -${10 * multiplierIndex}px`,
+                        opacity: 1,
+                        zIndex: 3,
+                        // boxShadow:"0px 0px 10px 0px rgb(0, 0, 0)"
+
+                      }
+                    : {
+                        // opacity: "60%",
+                        translate: `0px -${10 * multiplierIndex}px`,
+                        // zIndex: 10,
+                      }
+                }
+              >
+                {`${option == 0.5 ? ".5" : option}x`}
+              </button>
+            );
+          })}
+        </div>
+      </div>}
     </div>
   );
 }

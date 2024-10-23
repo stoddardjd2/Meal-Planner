@@ -127,18 +127,26 @@ export default function AddNewMealOption({
                 <h4>Ingredients</h4>
                 <div className="input-option-container">
                   <div className="ingredients-key-grid">
-                    <div className="name">Name</div>
-                    <div className="name">Count</div>
-                    <div className="name">Units</div>
+                    <label htmlFor="Name" className="name">
+                      Name
+                    </label>
+                    <label htmlFor="Count" className="name">
+                      Count
+                    </label>
+                    <label htmlFor="Units" className="name">
+                      Units
+                    </label>
 
-                    <input ref={inputRef}></input>
+                    <input id="Name" ref={inputRef}></input>
                     <input
+                      id="Count"
                       className="quantity-input"
                       ref={inputQuantityRef}
                     ></input>
 
                     <div className="flex-grid-item">
                       <input
+                        id="Units"
                         className="units-input"
                         ref={inputUnitsRef}
                       ></input>
@@ -246,13 +254,14 @@ export default function AddNewMealOption({
           } else {
             return (
               <div className="input-option-container" key={index}>
-                <div className="name">
+                <label htmlFor={inputField} className="name">
                   {inputField == "prepTimeMin"
                     ? "Total Time (Minutes)"
                     : inputField.charAt(0).toUpperCase() + inputField.slice(1)}
-                </div>
+                </label>
                 {/* capitilize first letter of string */}
                 <input
+                  id={inputField}
                   onChange={(e) => {
                     setFormInput((prev) => {
                       // const copy = [...prev];
@@ -273,7 +282,7 @@ export default function AddNewMealOption({
           <button onClick={handleSubmitNewMeal}>Add Meal</button>
         )}
       </form>
-      <button onClick={()=>setIsDropdown(false)} className="exit-button">
+      <button onClick={() => setIsDropdown(false)} className="exit-button">
         <img src={xIcon} />
       </button>
     </div>

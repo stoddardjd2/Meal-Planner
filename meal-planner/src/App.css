@@ -15,7 +15,9 @@ body {
   width: 100%;
   display: flex;
 }
-
+button:focus {
+  outline: none !important;
+}
 .app-container {
   display: flex;
   flex-direction: column;

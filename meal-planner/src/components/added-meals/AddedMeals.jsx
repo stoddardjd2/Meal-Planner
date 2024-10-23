@@ -51,7 +51,7 @@ export default function AddedMeals({
       <h2>This Week</h2>
 
       {/* <div className="analysis-container"> */}
-      <div>Total: ${totalCost()}</div>
+      <div>Total Cost: ${totalCost()}</div>
       <h5 className="main-ingredients-header ">Main Ingredients</h5>
       <div className="main-ingredients-items-container keys-container">
         <div className="dropdown-column"></div>
