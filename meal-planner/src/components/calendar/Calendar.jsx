@@ -1,5 +1,6 @@
 import "./Calendar.css";
 import { useState, useRef } from "react";
+import DraggableMeal from "../draggable-meal/DraggableMeal.jsx";
 import xIcon from "../../assets/x.svg";
 export default function Calendar({
   mealOptions,
@@ -78,6 +79,7 @@ function Day({
     let draggedMeal = {};
     mealOptions.some((meal) => {
       // find meal that matches name and exit after finding match
+      console.log("LOWERCASE", meal.name);
       if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
         draggedMeal = meal;
         return true;
@@ -151,18 +153,26 @@ function Day({
                 dayIndex < +assignment + +meal.servings * meal.multiplier)
             ) {
               return (
-                <div
-                  style={{
-                    backgroundColor: `${getColor(index)}`,
-                  }}
-                  key={index}
-                  className="meal-item-container"
-                >
-                  <div>{meal.name}</div>
-                  <button id={index} onClick={handleRemoveMeal}>
-                    <img src={xIcon} />
-                  </button>
+                <div>
+                  <DraggableMeal
+                    draggedValueRef={draggedValueRef}
+                    meal={meal.name}
+                    mealOptions={mealOptions}
+                    elementStyle={{ width: "100%" }}
+                  />
                 </div>
+                // <div
+                //   style={{
+                //     backgroundColor: `${getColor(index)}`,
+                //   }}
+                //   key={index}
+                //   className="meal-item-container"
+                // >
+                //   <div>{meal.name}</div>
+                //   <button id={index} onClick={handleRemoveMeal}>
+                //     <img src={xIcon} />
+                //   </button>
+                // </div>
               );
             } else {
               return <div className="hidden-text">hidden</div>;

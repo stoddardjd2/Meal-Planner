@@ -3,6 +3,8 @@ import plusIcon from "../../assets/plus.svg";
 import xIcon from "../../assets/x.svg";
 import MealOptions from "./MealOptions";
 import QuickAddAnalyzer from "./QuickAddAnalyzer";
+import Dropdown from "../Dropdown";
+import StandardizedNamesBtn from "./StandardizedNamesBtn";
 export default function AddMealOption({
   popupRef,
   setMealOptions,
@@ -125,6 +127,7 @@ export default function AddMealOption({
   }
   function handleRemoveIngredient(e, index) {
     e.preventDefault();
+    setChangesTracker([]);
     setFormInput((prev) => {
       const ingredientsCopy = [...prev.ingredients];
       ingredientsCopy.splice(index, 1);
@@ -327,6 +330,7 @@ export default function AddMealOption({
       <button onClick={() => setIsDropdown(false)} className="exit-button">
         <img src={xIcon} />
       </button>
+      <StandardizedNamesBtn formInput={formInput} setFormInput={setFormInput} />
     </div>
   );
 }

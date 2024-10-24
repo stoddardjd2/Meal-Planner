@@ -76,7 +76,8 @@ button:focus {
       align-items: center;
     }
     .right-split {
-      margin-left: 100px;
+      margin-left: 40px;
+      width: 360px;
       display: flex;
       flex-direction: column;
       gap: 20px;

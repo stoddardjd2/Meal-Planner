@@ -187,7 +187,7 @@ function App() {
               draggedValueRef={draggedValueRef}
             />
             <div className="meal-options-grid sticky">
-              <div className="recommended-header">Reccomended</div>
+              <div className="recommended-header">Recommended</div>
               {reccommendedMealsArr.map((name) => {
                 return (
                   <MealOptionCard

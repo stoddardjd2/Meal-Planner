@@ -1,23 +1,25 @@
 import MealOptionCard from "../meal-options/MealOptionCard";
 import { useState } from "react";
-export default function DraggableMeal({ draggedValueRef, meal,mealOptions }) {
+export default function DraggableMeal({
+  draggedValueRef,
+  meal,
+  mealOptions,
+  elementStyle,
+}) {
   const [isHovering, setIsHovering] = useState();
+  console.log("MEAL", meal);
 
   function getMealByName(name) {
     let match = {};
     mealOptions.map((meal) => {
-      console.log("MAPPING", meal);
       if (meal.name == name) {
-        console.log("mealSomeMatch", meal);
         match = meal;
       }
     });
-    console.log("match for name", name, match);
     return match;
   }
 
   const handleDragStart = (e, name) => {
-    console.log("drag start", name);
     draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
@@ -38,7 +40,10 @@ export default function DraggableMeal({ draggedValueRef, meal,mealOptions }) {
           setIsHovering();
         }}
       >
-        <div className="list-item">{meal}</div>
+        {console.log("STYLE", elementStyle)}
+        <div style={elementStyle ? elementStyle : {}} className="list-item">
+          {meal}
+        </div>
       </div>
       {isHovering && (
         <div className="meal-preview">

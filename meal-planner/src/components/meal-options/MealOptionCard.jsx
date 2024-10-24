@@ -23,7 +23,6 @@ export default function MealOptionCard({
     meal.multiplier
   );
   const multiplierOptions = [0.5, 1, 2];
-
   // Handle clicks outside the popup
   const handleClickOutside2 = (event) => {
     if (
