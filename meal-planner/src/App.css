@@ -22,7 +22,8 @@ button:focus {
 .app-container {
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  /* gap: 100px; */
+  width: 100%;
   height: 100%;
   .split-container {
     display: flex;
@@ -31,6 +32,11 @@ button:focus {
 
     .split-1 {
       width: 350px;
+      display: flex;
+      /* justify-content: center; */
+      align-items: start;
+      flex-direction: column;
+      padding: 0px 10px;
       .meal-columns-container {
         display: flex;
         gap: 10px;
@@ -72,12 +78,14 @@ button:focus {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 700px;
+      margin: 10px;
+      /* width: 700px; */
       align-items: center;
     }
     .right-split {
-      margin-left: 40px;
-      width: 360px;
+      /* margin-left: 40px; */
+      padding: 0px 10px;
+      /* width: 360px; */
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -204,7 +212,7 @@ button:focus {
   border-radius: 30px;
   background-color: var(--secondary);
   width: fit-content;
-  label{
+  label {
     display: flex;
   }
   input {
@@ -215,5 +223,44 @@ button:focus {
   }
   input::placeholder {
     color: white;
+  }
+}
+/* DraggableMeal css: */
+.draggable-item-container {
+  position: relative;
+  .meal-preview {
+    z-index: 5;
+    border: 3px white solid;
+    border-radius: 10px;
+    display: flex;
+    position: absolute;
+    top: 40px;
+    height: 145px;
+    /* width: 100px; */
+  }
+  .list-item-container {
+    display: flex;
+    .list-item {
+      /* background-color: rgb(105, 105, 105); */
+      height: 25px;
+      background-color: var(--secondary);
+      display: flex;
+      justify-content: space-between;
+      /* color:black; */
+      border-radius: 5px;
+      width: fit-content;
+      padding: 2px 5px;
+      cursor: grab;
+      button {
+        padding:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        img {
+          width: 9px;
+        }
+      }
+    }
   }
 }

@@ -143,6 +143,11 @@
     transform: translate(-50%, -50%);
     height: 735px;
     /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
+    .add-meal-button{
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+    }
     .popup-button-container:hover{
       opacity: 1;
     }
@@ -268,7 +273,7 @@
           margin-bottom: 5px;
         }
         .ingredients-key-grid {
-          height: 200px;
+          height: 110px;
           display: flex;
           flex-direction: column;
           /* row-gap: 10px;  */
@@ -356,6 +361,12 @@
         transition: linear 0.15s all;
       }
       .ingredients-main-container {
+        .quick-add{
+          margin-left: 5px;
+        }
+        .ingredients-headers{
+          margin-bottom: 10px;
+        }
         .ingredients-action-container {
           display: flex;
           align-items: center;

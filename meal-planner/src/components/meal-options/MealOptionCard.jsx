@@ -73,7 +73,7 @@ export default function MealOptionCard({
             {meal.cost && <div>${meal.cost}</div>}
           </div>
           {meal.cost && meal.servings && (
-            <div>${+meal.cost / meal.servings} / serving</div>
+            <div className="cost-per-serving">${+parseFloat((meal.cost / meal.servings).toFixed(2))}/Serving</div>
           )}
         </div>
       </div>

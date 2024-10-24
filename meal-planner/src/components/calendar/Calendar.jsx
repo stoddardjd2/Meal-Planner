@@ -153,12 +153,16 @@ function Day({
                 dayIndex < +assignment + +meal.servings * meal.multiplier)
             ) {
               return (
-                <div>
+                <div
+                  style={{
+                    backgroundColor: `${getColor(index)}`,
+                  }}
+                >
                   <DraggableMeal
                     draggedValueRef={draggedValueRef}
                     meal={meal.name}
                     mealOptions={mealOptions}
-                    elementStyle={{ width: "100%" }}
+                    elementStyle={{ width: "100%", backgroundColor:"transparent" }}
                   />
                 </div>
                 // <div

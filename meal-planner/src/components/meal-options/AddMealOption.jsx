@@ -152,12 +152,14 @@ export default function AddMealOption({
           if (inputField === "ingredients") {
             return (
               <div key={index} className="ingredients-main-container">
-                <h4>Ingredients</h4>
+                <h2>Ingredients</h2>
+                <h4 className="quick-add ingredients-headers">Quick Add</h4>
                 <QuickAddAnalyzer
                   setChangesTracker={setChangesTracker}
                   changesTracker={changesTracker}
                   setFormInput={setFormInput}
                 />
+                <h4 className="quick-add ingredients-headers">Manual Add</h4>
                 <div className="input-option-container">
                   <div className="ingredients-key-grid">
                     <div className="ingredients-key-container">
@@ -320,13 +322,15 @@ export default function AddMealOption({
             );
           }
         })}
-        {editMeal ? (
-          // <button onClick={handleUpdateMeal}>Update</button>
-          <></>
-        ) : (
-          <button onClick={handleSubmitNewMeal}>Add Meal</button>
-        )}
       </form>
+      {editMeal ? (
+        // <button onClick={handleUpdateMeal}>Update</button>
+        <></>
+      ) : (
+        <button className="add-meal-button" onClick={handleSubmitNewMeal}>
+          Add Meal
+        </button>
+      )}
       <button onClick={() => setIsDropdown(false)} className="exit-button">
         <img src={xIcon} />
       </button>

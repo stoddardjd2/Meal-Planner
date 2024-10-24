@@ -1,0 +1,48 @@
+.CalendarV2 {
+  display: flex;
+  flex-direction: column;
+  /* gap: 10px; */
+  .calendarv2--row-value{
+    margin-bottom: 10px;
+  }
+  .calendarv2--row {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    .calendarv2--column-key {
+      display: flex;
+      align-items: end;
+      height: fit-content;
+      height: 20px;
+      width: 100px;
+      border: 3px transparent dashed;
+    }
+    .calendarv2--extra-meals{
+        width: 30px;
+        display: flex;
+        align-items: center;
+    }
+    .calendarv2--row-key {
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      /* height: 100px; */
+      border: 3px transparent dashed;
+    }
+ 
+    .calendarv2--item-value {
+      width: 100px;
+      height: fit-content;
+      /* height: 100px; */
+      border: 3px black dashed;
+      display: flex;
+      flex-direction: column;
+      .slot-item{
+        height: 29px;
+        margin: 5px;
+      }
+    }
+  }
+}

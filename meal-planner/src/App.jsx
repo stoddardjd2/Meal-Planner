@@ -12,6 +12,7 @@ import ShoppingList from "./components/shopping-list/ShoppingList";
 import MealOptionCard from "./components/meal-options/MealOptionCard";
 import MealsWithSharedIngredients from "./components/meals-with-shared-ingredients/MealsWithSharedIngredients";
 import SearchInput from "./components/SearchInput";
+import CalendarV2 from "./components/calendar/CalendarV2";
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
 
@@ -203,7 +204,13 @@ function App() {
           </div>
         </div>
         <div className="left-split">
-          <Calendar
+          {/* <Calendar
+            addedMeals={addedMeals}
+            setAddedMeals={setAddedMeals}
+            mealOptions={mealOptions}
+            draggedValueRef={draggedValueRef}
+          /> */}
+          <CalendarV2
             addedMeals={addedMeals}
             setAddedMeals={setAddedMeals}
             mealOptions={mealOptions}
