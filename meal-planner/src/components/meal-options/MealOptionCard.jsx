@@ -70,7 +70,7 @@ export default function MealOptionCard({
             <div className="card-name">
               {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
             </div>
-            {meal.cost && <div>${meal.cost}</div>}
+            {meal.cost && <div>${meal.cost * meal.multiplier}</div>}
           </div>
           {meal.cost && meal.servings && (
             <div className="cost-per-serving">${+parseFloat((meal.cost / meal.servings).toFixed(2))}/Serving</div>

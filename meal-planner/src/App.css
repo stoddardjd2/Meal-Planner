@@ -240,27 +240,46 @@ button:focus {
   }
   .list-item-container {
     display: flex;
+    position: relative;
+    .meal-front {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 92%;
+      height: 100%;
+      margin: 0px 5px;
+    }
+    .meal-name {
+    }
+    button {
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+      img {
+        width: 9px;
+      }
+    }
     .list-item {
+      /* background: linear-gradient(
+        to right,
+        rgba(255, 0, 0, 1) 0%,
+        rgba(255, 0, 0, 0) 30%
+      ); */
+      justify-content: space-between;
+      position: relative;
+      /* background-color: red; */
       /* background-color: rgb(105, 105, 105); */
       height: 25px;
       background-color: var(--secondary);
       display: flex;
-      justify-content: space-between;
       /* color:black; */
       border-radius: 5px;
-      width: fit-content;
+      width: 100%;
       padding: 2px 5px;
       cursor: grab;
-      button {
-        padding:5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: transparent;
-        img {
-          width: 9px;
-        }
-      }
     }
   }
 }

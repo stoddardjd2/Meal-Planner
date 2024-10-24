@@ -2,9 +2,19 @@
   display: flex;
   flex-direction: column;
   /* gap: 10px; */
-  .calendarv2--row-value{
+  .calendarv2--row-value {
     margin-bottom: 10px;
   }
+  #empty {
+    border: 3px var(--secondary) dashed;
+    box-sizing: border-box;
+    margin: 6px;
+  }
+  #taken {
+    /* border: 3px transparent dashed; */
+    /* box-sizing: border-box; */
+  }
+
   .calendarv2--row {
     display: flex;
     gap: 10px;
@@ -17,10 +27,10 @@
       width: 100px;
       border: 3px transparent dashed;
     }
-    .calendarv2--extra-meals{
-        width: 30px;
-        display: flex;
-        align-items: center;
+    .calendarv2--extra-meals {
+      width: 30px;
+      display: flex;
+      align-items: center;
     }
     .calendarv2--row-key {
       background-color: transparent;
@@ -29,19 +39,18 @@
       align-items: center;
       width: 100px;
       /* height: 100px; */
-      border: 3px transparent dashed;
     }
- 
+
     .calendarv2--item-value {
       width: 100px;
       height: fit-content;
       /* height: 100px; */
-      border: 3px black dashed;
+      /* border: 3px black dashed; */
       display: flex;
       flex-direction: column;
-      .slot-item{
+      .slot-item {
         height: 29px;
-        margin: 5px;
+        /* margin: 5px; */
       }
     }
   }

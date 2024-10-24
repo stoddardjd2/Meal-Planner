@@ -7,8 +7,11 @@ export default function DraggableMeal({
   mealOptions,
   elementStyle,
   calendarLocation,
+  // Only Requre if on calendar:
   addedMealIndex,
   showDeleteBtn,
+  setAddedMeals,
+  hideName,
 }) {
   const [isHovering, setIsHovering] = useState();
 
@@ -40,18 +43,26 @@ export default function DraggableMeal({
         onDragEnd={handleDragEnd}
         className="list-item-container"
         onMouseOver={() => {
-          console.log("MOUSE OVER!");
           setIsHovering(true);
         }}
         onMouseLeave={() => {
-          console.log("MOUSE LEAVE!");
           setIsHovering();
         }}
       >
         <div style={elementStyle ? elementStyle : {}} className="list-item">
-          <div>{meal}</div>
+          <div>{hideName ? "" : meal}</div>
+          {/* hide name if set */}
           {showDeleteBtn && (
-            <button className="delete-btn">
+            <button
+              onClick={() => {
+                setAddedMeals((prev) => {
+                  const copy = [...prev];
+                  copy.splice(addedMealIndex, 1);
+                  return copy;
+                });
+              }}
+              className="delete-btn"
+            >
               <img src={xIcon} />
             </button>
           )}
