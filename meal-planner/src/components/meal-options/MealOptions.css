@@ -11,7 +11,9 @@
     max-height: 800px;
     /* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); */
     .add-meal-btn {
-      width: 150px;
+      position: sticky;
+      top: 0px;
+      z-index: 4;
     }
   }
   .header-container {
@@ -128,7 +130,7 @@
     z-index: 10;
   }
   .add-meal-popup {
-    width: 350px;
+    width: 380px;
     background-color: rgb(51, 51, 51);
     border-radius: 10px;
     padding: 10px;
@@ -138,32 +140,59 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    height: 735px;
     /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
+
     .QuickAddAnaylzer {
-      width: 500px;
-      height: 200px;
+      /* width: 500px; */
+      /* height: 200px; */
+      border: 1px rgb(209, 209, 209) solid;
       background-color: rgb(51, 51, 51);
       border-radius: 10px;
       z-index: 1;
       cursor: default;
-      position: fixed;
-      top: -150px;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      /* position: fixed;
+      top: 20%;
+      left: 180%;
+      transform: translate(-50%, -50%); */
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      /* align-items: center; */
+      padding: 5px;
+      position: relative;
+      margin-bottom: 10px;
       textarea {
-        height: 100%;
+        height: 100px;
         outline: none;
         width: 100%;
         padding: 0px;
         margin: 0px;
         outline: 0px;
+        resize: none;
+        border: none;
+        background-color: transparent;
+      }
+      .quickAdd-btn {
+        width: 60px;
+        font-size: 12px;
+        opacity: 70%;
+        display: flex;
+        justify-content: center;
+        padding: 5px;
+        position: absolute;
+        align-items: center;
+      }
+      .quickAdd-btn:hover {
+        opacity: 1;
       }
       .anaylze-button {
-        width: 10%;
+        top: 5px;
+        right: 5px;
+      }
+      .undo {
+        bottom: 5px;
+        right: 5px;
       }
     }
     .exit-button {
@@ -178,12 +207,18 @@
       width: 180px;
     }
     form {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       .input-option-container {
         display: flex;
         flex-direction: column;
+        gap: 1px;
+        .input-row-container {
+          display: flex;
+          gap: 10px;
+        }
         .name {
           position: relative;
           font-size: 14px;
@@ -195,7 +230,7 @@
           width: fit-content;
           z-index: 2;
           line-height: 16px;
-          height: 16px;
+          height: 17px;
         }
         input {
           background-color: rgb(51, 51, 51);
@@ -207,10 +242,30 @@
           margin-bottom: 5px;
         }
         .ingredients-key-grid {
-          display: grid;
-          grid-template-columns: 0.5fr 0.1fr 0.1fr; /* 2 columns with equal width */
-          grid-template-rows: 1fr; /* 1 row */
+          height: 200px;
+          display: flex;
+          flex-direction: column;
           /* row-gap: 10px;  */
+          overflow-y: scroll;
+          .ingredient-container {
+            margin-top: 5px;
+            display: flex;
+          }
+          .ingredients-key-container {
+            display: flex;
+            /* gap: 20px; */
+            .name-key {
+              /* width: 180px; */
+              margin-right: 134px;
+            }
+            .quantity-key {
+              /* width: 40px; */
+              margin-right: 12px;
+            }
+            .units-key {
+              /* width: 50px; */
+            }
+          }
           input {
             margin-right: 5px;
           }
@@ -221,8 +276,8 @@
           .flex-grid-item {
             display: flex;
             gap: 5px;
-            
-            .remove-ingredient{
+            justify-content: space-between;
+            .remove-ingredient {
               background-color: transparent;
             }
             .remove-ingredient,
@@ -230,14 +285,16 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              padding: 0px;
+              padding: 12px;
               /* background-color: red !important; */
               width: 24px;
               height: 24px;
+              margin: 0px;
               .plus-icon,
               .x-icon {
-                padding: 5px;
-                width: 16px;
+                padding: 0px;
+                margin: 0px;
+                width: 14px;
                 /* width: 12px; */
                 /* background-color: hsl(0, 0%, 100%, 40%);
                   border: 1px grey solid;
@@ -259,9 +316,12 @@
           }
           div {
           }
-          .quantity-input,
-          .units-input {
+          .quantity-input {
             width: 45px;
+          }
+          .units-input {
+            margin-right: 0px;
+            width: 85px;
           }
         }
       }
@@ -300,7 +360,6 @@
     .add-button {
       padding: 10px;
     }
- 
   }
 }
 

@@ -102,6 +102,7 @@ export default function MealOptions({
         {isDropdown && (
           <div className="popup-container">
             <AddNewMealOption
+              mealOptions={mealOptions}
               popupRef={popupRef2}
               setMealOptions={setMealOptions}
               // editMeal={{ index: index, meal: meal }}
@@ -284,6 +285,7 @@ function MealOption({ meal, index, setMealOptions, draggedValueRef }) {
           setMealOptions={setMealOptions}
           editMeal={{ index: index, meal: meal }}
           setIsDropdown={setIsDropdown}
+          mealOptions={mealOptions}
         />
         // </div>
       )}

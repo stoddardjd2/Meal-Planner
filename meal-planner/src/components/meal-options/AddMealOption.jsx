@@ -15,7 +15,8 @@ export default function AddMealOption({
   const inputRef = useRef(null);
   const inputQuantityRef = useRef(null);
   const inputUnitsRef = useRef(null);
-
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [changesTracker, setChangesTracker] = useState([]);
   const [formInput, setFormInput] = useState(
     // if editing, loadValues
     editMeal
@@ -78,11 +79,23 @@ export default function AddMealOption({
 
   function handleSubmitNewMeal(e) {
     e.preventDefault();
-    setMealOptions((prev) => {
-      const copy = [...prev];
-      copy.unshift(formInput);
-      return [...copy];
-    });
+    console.log("before some", mealOptions);
+    if (
+      !mealOptions.some((meal) => {
+        return meal.name == formInput.name;
+      })
+    ) {
+      setIsNameValid(true);
+
+      setMealOptions((prev) => {
+        const copy = [...prev];
+        copy.unshift(formInput);
+        return [...copy];
+      });
+    } else {
+      console.log("error, name taken");
+      setIsNameValid(false);
+    }
   }
 
   function handleSubmitIngredient(e) {
@@ -105,6 +118,9 @@ export default function AddMealOption({
         });
         return { ...prev, ingredients: [...ingredientsCopy] };
       });
+      setChangesTracker([]);
+      // clear array for undoing Quick Add Feature since will change index and not function preoperly-
+      // add ids to fix
     }
   }
   function handleRemoveIngredient(e, index) {
@@ -128,50 +144,57 @@ export default function AddMealOption({
       style={styling ? { ...styling } : {}}
       ref={popupRef}
     >
-      <QuickAddAnalyzer setFormInput={setFormInput} />
-
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
             return (
               <div key={index} className="ingredients-main-container">
                 <h4>Ingredients</h4>
+                <QuickAddAnalyzer
+                  setChangesTracker={setChangesTracker}
+                  changesTracker={changesTracker}
+                  setFormInput={setFormInput}
+                />
                 <div className="input-option-container">
                   <div className="ingredients-key-grid">
-                    <label htmlFor="Name" className="name">
-                      Name
-                    </label>
-                    <label htmlFor="Count" className="name">
-                      Count
-                    </label>
-                    <label htmlFor="Units" className="name">
-                      Units
-                    </label>
+                    <div className="ingredients-key-container">
+                      <label htmlFor="Name" className="name name-key">
+                        Name
+                      </label>
+                      <label htmlFor="Count" className="name quantity-key">
+                        Count
+                      </label>
+                      <label htmlFor="Units" className="name units-key">
+                        Units
+                      </label>
+                    </div>
+                    <div className="ingredients-key-container">
+                      <input className="" id="Name" ref={inputRef}></input>
 
-                    <input id="Name" ref={inputRef}></input>
-                    <input
-                      id="Count"
-                      className="quantity-input"
-                      ref={inputQuantityRef}
-                    ></input>
-
-                    <div className="flex-grid-item">
                       <input
-                        id="Units"
-                        className="units-input"
-                        ref={inputUnitsRef}
+                        id="Count"
+                        className="quantity-input"
+                        ref={inputQuantityRef}
                       ></input>
-                      <button
-                        className="add-ingredient-btn noFocusBtn"
-                        onClick={handleSubmitIngredient}
-                      >
-                        <img className="plus-icon" src={plusIcon} />
-                      </button>
+
+                      <div className="flex-grid-item">
+                        <input
+                          id="Units"
+                          className="units-input"
+                          ref={inputUnitsRef}
+                        ></input>
+                        <button
+                          className="add-ingredient-btn noFocusBtn"
+                          onClick={handleSubmitIngredient}
+                        >
+                          <img className="plus-icon" src={plusIcon} />
+                        </button>
+                      </div>
                     </div>
 
                     {formInput.ingredients.map((ingredient, index) => {
                       return (
-                        <>
+                        <div className="ingredient-container" key={index}>
                           <input
                             onChange={(e) => {
                               setFormInput((prev) => {
@@ -234,7 +257,7 @@ export default function AddMealOption({
                               <img className="x-icon" src={xIcon} />
                             </button>
                           </div>
-                        </>
+                        </div>
                       );
                     })}
                   </div>
@@ -271,19 +294,25 @@ export default function AddMealOption({
                     : inputField.charAt(0).toUpperCase() + inputField.slice(1)}
                 </label>
                 {/* capitilize first letter of string */}
-                <input
-                  disabled={editMeal && inputField == "name" ? true : false}
-                  // disable input if editing and if name input field
-                  id={inputField}
-                  onChange={(e) => {
-                    setFormInput((prev) => {
-                      // const copy = [...prev];
-                      // copy.splice(index, 1, e.target.value);
-                      return { ...prev, [inputField]: e.target.value };
-                    });
-                  }}
-                  value={formInput[inputField]}
-                ></input>
+
+                <div className="input-row-container">
+                  <input
+                    disabled={editMeal && inputField == "name" ? true : false}
+                    // disable input if editing and if name input field
+                    id={inputField}
+                    onChange={(e) => {
+                      setFormInput((prev) => {
+                        // const copy = [...prev];
+                        // copy.splice(index, 1, e.target.value);
+                        return { ...prev, [inputField]: e.target.value };
+                      });
+                    }}
+                    value={formInput[inputField]}
+                  ></input>
+                  {!isNameValid && inputField == "name" && (
+                    <div>Error, name is taken</div>
+                  )}
+                </div>
               </div>
             );
           }

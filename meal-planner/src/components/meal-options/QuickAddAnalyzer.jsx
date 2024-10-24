@@ -1,27 +1,34 @@
 import { useEffect, useState } from "react";
 
-export default function QuickAddAnalyzer({ setFormInput }) {
-  const [textareaValue, setTextareaValue] = useState("313");
-  const [rows, setRows] = useState();
-  const [ingredientsInfo, setIngredientsInfo] = useState([]);
+export default function QuickAddAnalyzer({
+  changesTracker,
+  setChangesTracker,
+  setFormInput,
+}) {
+  const [textareaValue, setTextareaValue] = useState("");
+  function handleUndo(e) {
+    e.preventDefault();
 
-  function handleSubmit() {
+    setFormInput((prev) => {
+      const copy = [...prev.ingredients];
+      copy.splice(0, changesTracker[0]);
+      return {
+        ...prev,
+        ingredients: copy,
+      };
+    });
+    setChangesTracker((prev) => {
+      const copy = [...prev];
+      copy.shift();
+      return copy;
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
     // Split the text by newline characters and filter out empty lines
     const rows = textareaValue.split("\n").filter((line) => line.trim() !== "");
-
-    // setIngredientsInfo((prev) => {
-    //     return {
-    //       ...prev,
-    //       [index]: {
-    //         ...prev[index],
-    //         name: "FETCH NAME",
-    //         image: "FETCH IMG",
-    //       },
-    //     };
-    //   });
-
-    // Count the number of rows
-    // const rowCount = rows.length;
+    console.log("ROWS", rows);
     rows.map((row, index) => {
       if (row) {
         const quantity = getQuantity(row);
@@ -29,21 +36,25 @@ export default function QuickAddAnalyzer({ setFormInput }) {
         const name = getName(row);
         setFormInput((prev) => {
           const copy = [...prev.ingredients];
-          copy.splice(index, 1, {
+          copy.unshift({
             name,
             quantity,
             units,
           });
           return {
             ...prev,
-            ingredients: [...copy],
+            ingredients: copy,
           };
         });
-
-        console.log("name", name);
-        console.log(quantity, units, name);
       }
     });
+    if (!(rows.length == 0)) {
+      setChangesTracker((prev) => {
+        const copy = [...prev];
+        copy.unshift(rows.length);
+        return copy;
+      });
+    }
   }
 
   function handleTextareaChange(e) {
@@ -147,54 +158,23 @@ export default function QuickAddAnalyzer({ setFormInput }) {
   return (
     <div className="QuickAddAnaylzer">
       <textarea
+        placeholder="Copy and paste ingredients here"
         value={textareaValue}
         onChange={handleTextareaChange}
       ></textarea>
-      <button onClick={handleSubmit}>Submit</button>
-      {/* 
-      <div style={{ backgroundColor: "grey" }}>
-        <div className="IngredientRow">
-          <input disabled={true} placeholder="Name"></input>
-          <input disabled={true} placeholder="Quantity"></input>
-          <input disabled={true} placeholder="Units"></input>
-        </div>
-        {ingredientsInfo.map((ingredient, index) => {
-          {
-            console.log("ingredientsInfo", ingredientsInfo);
-          }
-          return (
-            <IngredientRow
-              key={index}
-              ingredient={ingredient}
-              setIngredientsInfo={setIngredientsInfo}
-            />
-          );
-        })}
-      </div> */}
+      <button
+        style={textareaValue ? { opacity: "1" } : {}}
+        className="anaylze-button quickAdd-btn"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+      {console.log("changes tracker", changesTracker)}
+      {!(changesTracker.length == 0) && (
+        <button className="undo quickAdd-btn" onClick={handleUndo}>
+          Undo
+        </button>
+      )}
     </div>
   );
 }
-
-// function IngredientRow({ ingredient, setIngredientsInfo }) {
-//   function handleIngredientsInputChange() {
-//     setIngredientsInfo((prev) => {
-//       return prev;
-//     });
-//   }
-//   return (
-//     <div className="IngredientRow">
-//       <input
-//         value={ingredient.name}
-//         onChange={() => handleIngredientsInputChange()}
-//       ></input>
-//       <input
-//         value={ingredient.quantity}
-//         onChange={() => handleIngredientsInputChange()}
-//       ></input>
-//       <input
-//         value={ingredient.units}
-//         onChange={() => handleIngredientsInputChange()}
-//       ></input>
-//     </div>
-//   );
-// }
