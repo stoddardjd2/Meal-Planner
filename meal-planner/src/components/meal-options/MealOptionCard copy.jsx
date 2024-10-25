@@ -4,7 +4,6 @@ import clockIcon from "../../assets/clock2.svg";
 import editIcon from "../../assets/edit.svg";
 import openIcon from "../../assets/open.svg";
 import Dropdown from "../Dropdown";
-import mealIcon from "../../assets/meal.svg";
 import AddMealOption from "./AddMealOption";
 import dropdownIcon from "../../assets/dropdown.svg";
 import "./MealOptionCard.css";
@@ -55,10 +54,6 @@ export default function MealOptionCard({
     draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
   };
 
-  const costPerServingFormatted = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format((meal.cost / meal.servings));
   return (
     <div className="meal-option-card-container">
       <div
@@ -69,9 +64,10 @@ export default function MealOptionCard({
         className="meal-option-card"
         style={styling ? styling : {}}
       >
-        {/* <div className="food-container">
-          <img className="food-img" src={foodIcon} />
-        </div> */}
+        <div className="food-container">
+          <img src={foodIcon} />
+          {/* <GetImage/> */}
+        </div>
         <div className="bottom-card-container">
           <div className="left-side">
             <div className="top-container">
@@ -82,28 +78,15 @@ export default function MealOptionCard({
             </div>
             {meal.cost && meal.servings && (
               <div className="cost-per-serving">
-                ${costPerServingFormatted} a serving
+                ${+parseFloat((meal.cost / meal.servings).toFixed(2))}/Serving
               </div>
             )}
           </div>
         </div>
-        {(meal.prepTimeMin || meal.servings) && (
+        {meal.prepTimeMin && (
           <div className="time-overlay">
-            <div className="time-overlay-center">
-              {meal.prepTimeMin && (
-                <div className="time-container">
-                  <img className="clock-img" src={clockIcon} />
-                  {meal.prepTimeMin} Min
-                </div>
-              )}
-
-              {meal.servings && (
-                <div className="servings-popup">
-                  <img src={mealIcon} />
-                  {parseFloat((meal.servings * meal.multiplier).toFixed(2))}
-                </div>
-              )}
-            </div>
+            <img src={clockIcon} />
+            {meal.prepTimeMin} Min
           </div>
         )}
         {!previewEnabled && (
@@ -141,7 +124,6 @@ export default function MealOptionCard({
             )}
           </div>
         )}
-        {/* servings */}
 
         {!previewEnabled && (
           <div className="multiplier-fixed">
@@ -149,9 +131,7 @@ export default function MealOptionCard({
               {multiplierOptions.map((option, multiplierIndex) => {
                 return (
                   <button
-                    className={`multiplier-${
-                      multiplierIndex + 1
-                    } multiplier-btn`}
+                    className={`multiplier-${multiplierIndex + 1}`}
                     key={multiplierIndex}
                     onClick={(e) => {
                       setMealOptions((prev) => {

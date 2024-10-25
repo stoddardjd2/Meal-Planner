@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DraggableMeal from "../draggable-meal/DraggableMeal";
 import "./CalendarV2.css";
 import { useRef } from "react";
@@ -7,6 +7,7 @@ export default function CalendarV2({
   mealOptions,
   addedMeals,
   setAddedMeals,
+  assignments,
 }) {
   const [isCompactMode, setIsCompactMode] = useState(true);
   const targetRef = useRef(null); // Ref to directly manipulate the DOM content
@@ -20,24 +21,30 @@ export default function CalendarV2({
     "Saturday",
     "Sunday",
   ];
+  // useEffect(() => {
+  //   fetch("https://api.iconify.design/axe/", {
+  //     method: "GET", // Use "POST", "PUT", or "DELETE" as needed
+  //     headers: {
+  //       "Content-Type": "application/json", // Adjust as needed, e.g., for JSON or form data
+  //     },
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       return response.json(); // Parse JSON data (use response.text() for plain text)
+  //     })
+  //     .then((data) => {
+  //       console.log("Data received:", data);
+  //       // Process and display the data as needed
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);vv
   //   let overFlowCount = { 0: 0, 1: 0, 2: 2 };
   //   const [overflowCount, setOverFlowCount] = useState({ 0: 0, 1: 0, 2: 2 });
   //   morning, afternoon, evening
-  const colorOptions = [
-    "#264653", // Deep Blue Teal
-    "#2A9D8F", // Dark Aqua
-    "#E76F51", // Warm Terracotta
-    "#F4A261", // Soft Amber
-    "#E9C46A", // Golden Yellow
-    "#1D3557", // Midnight Blue
-    "#457B9D", // Slate Blue
-    "#8D99AE", // Gentle Slate
-    "#6A4C93", // Rich Purple
-    "#FF6F61", // Vibrant Coral
-    "#D62828", // Fiery Red
-    "#264653", // Deep Blue Green
-  ];
-
 
   function getOverflowForRow(rowIndex) {
     console.log("addedMeals", addedMeals);
@@ -154,7 +161,7 @@ export default function CalendarV2({
 
         //if any non-first slot in meal length has another slot within it, then skip to next empty slot
         // NOT ADDED YET!
-    });
+      });
       //   for occupied slot:
       if (!(Object.keys(mealForSlot).length == 0)) {
         daySlotsElements.push(
@@ -172,18 +179,23 @@ export default function CalendarV2({
               hideName={!isFirstOccupiedSlot}
               mealOptions={mealOptions}
               percentage={percentage}
-              elementStyle={
+              assignments={assignments}
+              styling={
                 isLastOccupiedSlot && !(percentage == 0)
                   ? {
+                      backgroundColor: `${assignments[mealForSlot.name].color}`,
                       width: "100%",
                       height: "60px",
                       //   border: "2px red solid",
-                      background: `linear-gradient(to right, ${colorOptions[addedMealIndex]} 0%, rgba(255, 0, 0, 0) ${percentage}%)`,
+                      // background: `linear-gradient(to right, ${colorOptions[addedMealIndex]} 0%, rgba(255, 0, 0, 0) ${percentage}%)`,
                     }
                   : {
+                      backgroundColor: `${assignments[mealForSlot.name].color}`,
                       height: "60px",
                       width: "100%",
-                      backgroundColor: `${colorOptions[addedMealIndex]}`,
+
+
+                      // backgroundColor: `${colorOptions[addedMealIndex]}`,
                     }
               }
               calendarLocation={{ ...locationXY, slot: i }}
@@ -217,6 +229,8 @@ export default function CalendarV2({
 
   return (
     <div className="CalendarV2">
+      {/* <img src="https://api.iconify.design/akar-icons/camera.svg?color=%23ba3329" /> */}
+
       {
         <div
           className="calendarv2--row"

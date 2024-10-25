@@ -8,6 +8,7 @@ export default function MealsWithSharedIngredients({
   mainIngredientsArr,
   addedMeals,
   draggedValueRef,
+  assignments,
 }) {
   const [isHidingAddedMeals, setIsHidingAddedMeals] = useState(true);
   const [isDropdown, setIsDropdown] = useState({});
@@ -103,6 +104,10 @@ export default function MealsWithSharedIngredients({
               mealOptions={mealOptions}
               draggedValueRef={draggedValueRef}
               index={index}
+              styling={{
+                backgroundColor: `${assignments[meal].color}`,
+                // border: "4px red solid",
+              }}
             />
           );
         })}
@@ -142,13 +147,18 @@ export default function MealsWithSharedIngredients({
                 {isDropdown[index] && (
                   <div className="recomended-dropdown-content">
                     {mealsForIngredientArr.map((meal, index) => {
+                      console.log("for ing", meal);
                       return (
                         <DraggableMeal
                           meal={meal}
-                          key={meal.name}
+                          key={"draggable-ing-" + meal}
                           mealOptions={mealOptions}
                           draggedValueRef={draggedValueRef}
                           index={index}
+                          styling={{
+                            backgroundColor: `${assignments[meal].color}`,
+                            // border: "4px red solid",
+                          }}
                         />
                       );
                     })}

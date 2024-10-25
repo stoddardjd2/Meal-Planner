@@ -15,8 +15,23 @@ import SearchInput from "./components/SearchInput";
 import CalendarV2 from "./components/calendar/CalendarV2";
 import CalendarV3 from "./components/calendar/CalendarV3";
 import CalendarV4 from "./components/calendar/CalendarV4";
+import AddMealBtn from "./components/AddMealBtn";
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
+  const colorOptions = [
+    "#264653", // Deep Blue Teal
+    "#2A9D8F", // Dark Aqua
+    "#E76F51", // Warm Terracotta
+    "#F4A261", // Soft Amber
+    "#E9C46A", // Golden Yellow
+    "#1D3557", // Midnight Blue
+    "#457B9D", // Slate Blue
+    "#8D99AE", // Gentle Slate
+    "#6A4C93", // Rich Purple
+    "#FF6F61", // Vibrant Coral
+    "#D62828", // Fiery Red
+    "#264653", // Deep Blue Green
+  ];
 
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState([
@@ -63,6 +78,21 @@ function App() {
 
   const [mealNamesSearch, setMealNamesSearch] = useState();
   const [addedMeals, setAddedMeals] = useState([]);
+
+  const getAssignments = () => {
+    const assignmentsArr = mealOptions.map((meal, index) => {
+      console.log("adding to arr", meal.name, colorOptions[index]);
+      return { [meal.name]: colorOptions[index] };
+    });
+    console.log("assignmentsArr", assignmentsArr);
+    const result = assignmentsArr.reduce((acc, item) => {
+      const key = Object.keys(item)[0]; // Get the single key in each object
+      acc[key] = { color: item[key] }; // Create a nested object with "color" as the key
+      return acc;
+    }, {});
+    return result;
+  };
+  const assignments = getAssignments();
 
   const mainIngredients = () => {
     const ingredientCount = addedMeals.reduce((acc, recipe) => {
@@ -176,29 +206,50 @@ function App() {
       <div className="split-container">
         <div className="split-1">
           <h2>Your Meals</h2>
-          <div style={{ marginBottom: "20px" }}>
+
+          <div className="meals-action-container">
             <SearchInput
               mealOptions={mealOptions}
               setMealNamesSearch={setMealNamesSearch}
             />
           </div>
+          <div className="meal-columns-header-container">
+            <div className="meal-header-container">
+              <h2 className="sticky">Meals</h2>
+              
+            </div>
+            <h2 className="recommended-header">Recommended</h2>
+          </div>
+
           <div className="meal-columns-container">
-            <MealOptions
-              mealOptions={mealOptions}
-              mealNamesSearch={mealNamesSearch}
-              setMealOptions={setMealOptions}
-              draggedValueRef={draggedValueRef}
-            />
-            <div className="meal-options-grid sticky">
-              <div className="recommended-header">Recommended</div>
-              {reccommendedMealsArr.map((name) => {
+            <div className="left-meals-column">
+            <div className="sticky" style={{ marginRight: "3px", zIndex:"5" }}>
+                <AddMealBtn
+                  mealOptions={mealOptions}
+                  setMealOptions={setMealOptions}
+                />
+              </div>
+              <MealOptions
+                mealOptions={mealOptions}
+                mealNamesSearch={mealNamesSearch}
+                setMealOptions={setMealOptions}
+                draggedValueRef={draggedValueRef}
+                assignments={assignments}
+              />
+            </div>
+
+            <div className="meal-option-cards-grid sticky">
+              {reccommendedMealsArr.map((name, index) => {
                 return (
                   <MealOptionCard
+                    key={"recommended-" + index}
                     meal={getMealByName(name)}
                     previewEnabled={true}
                     mealOptions={reccommendedMealsArr}
                     setMealOptions={setMealOptions}
                     draggedValueRef={draggedValueRef}
+                    // assignments={assignments}
+                    styling={{ backgroundColor: `${assignments[name].color}` }}
                   />
                 );
               })}
@@ -212,18 +263,19 @@ function App() {
             mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
           /> */}
-          {/* <CalendarV2
+          <CalendarV2
             addedMeals={addedMeals}
             setAddedMeals={setAddedMeals}
             mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
-          /> */}
-          <CalendarV3
-            draggedValueRef={draggedValueRef}
-            addedMeals={addedMeals}
-            setAddedMeals={setAddedMeals}
-            mealOptions={mealOptions}
+            assignments={assignments}
           />
+          {/* <CalendarV3
+            draggedValueRef={draggedValueRef}
+            addedMeals={addedMeals}
+            setAddedMeals={setAddedMeals}
+            mealOptions={mealOptions}
+          /> */}
           {/* <CalendarV4 /> */}
         </div>
         <div className="right-split">
@@ -241,6 +293,7 @@ function App() {
             mainIngredientsArr={mainIngredientsArr}
             addedMeals={addedMeals}
             draggedValueRef={draggedValueRef}
+            assignments={assignments}
           />
         </div>
       </div>

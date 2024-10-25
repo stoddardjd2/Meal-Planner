@@ -5,7 +5,7 @@ export default function DraggableMeal({
   draggedValueRef,
   meal,
   mealOptions,
-  elementStyle,
+  // elementStyle,
   calendarLocation,
   // Only Requre if on calendar:
   addedMealIndex,
@@ -13,6 +13,8 @@ export default function DraggableMeal({
   setAddedMeals,
   hideName,
   mainElement,
+  styling,
+  assignments
 }) {
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringBtn, setIsHoveringBtn] = useState(false);
@@ -35,11 +37,9 @@ export default function DraggableMeal({
   const handleDragEnd = (e) => {
     // e.target.style.cursor = "grab"; // Reset the cursor after dragging ends
   };
-
   return (
     <div
       onMouseOver={() => {
-        console.log("HVOERING CONTRAINER")
         setIsHovering(true);
       }}
       onMouseLeave={() => {
@@ -53,7 +53,7 @@ export default function DraggableMeal({
         onDragStart={(e) => handleDragStart(e, meal)}
         onDragEnd={handleDragEnd}
       >
-        <div style={elementStyle ? elementStyle : {}} className="list-item">
+        <div style={styling ? styling : {}} className="list-item">
           {hideName ? <div></div> : mainElement ? mainElement : meal}
           {/* hide name if set */}
         </div>
@@ -79,8 +79,17 @@ export default function DraggableMeal({
         )}
       </div>
       {isHovering && !isHoveringBtn && (
-        <div className="meal-preview">
-          <MealOptionCard meal={getMealByName(meal)} previewEnabled={true} />
+        <div className= {calendarLocation ? "meal-preview-calendar" : "meal-preview-generic"}>
+           <MealOptionCard
+                    meal={getMealByName(meal)}
+                    previewEnabled={true}
+                    // mealOptions={reccommendedMealsArr}
+                    // setMealOptions={setMealOptions}
+
+                    draggedValueRef={draggedValueRef}
+                    // assignments={assignments}
+                    styling={{ backgroundColor: `grey`}}
+                  />
         </div>
       )}
     </div>

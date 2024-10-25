@@ -79,7 +79,6 @@ function Day({
     let draggedMeal = {};
     mealOptions.some((meal) => {
       // find meal that matches name and exit after finding match
-      console.log("LOWERCASE", meal.name);
       if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
         draggedMeal = meal;
         return true;
@@ -119,14 +118,6 @@ function Day({
       });
     }
   };
-  function handleRemoveMeal(e) {
-    const index = e.currentTarget.id;
-    setAddedMeals((prev) => {
-      const copy = [...prev];
-      copy.splice(index, 1);
-      return copy;
-    });
-  }
   function getColor(index) {
     return colorOptions[+index];
   }
