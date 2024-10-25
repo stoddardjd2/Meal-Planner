@@ -1,0 +1,133 @@
+.CalendarV3 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .drop-area-container {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    position: relative;
+
+    .add-meal-drop-area {
+      position: relative;
+      width: 89.5px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      /* border-left: 3px var(--secondary) dashed; */
+      border: 3px var(--secondary) dashed;
+      justify-content: center;
+      box-sizing: border-box;
+      z-index: 1;
+      .tooltip:hover {
+        opacity: 1;
+      }
+      .tooltip {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        text-wrap: nowrap;
+        background-color: var(--secondary);
+        border-radius: 10px;
+        padding: 10px;
+        opacity: 0.5;
+      }
+      img {
+        width: 10px;
+        opacity: 0.5;
+      }
+    }
+  }
+  .lines-overlay {
+    position: absolute;
+    top: 50px;
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    border-top: 3px var(--secondary) dashed;
+    justify-content: center;
+    opacity: 0.5;
+    .overlay-column:not(:first-child) {
+      /* padding-left: 8px; */
+      /* border-left: 3px var(--secondary) dashed; */
+    }
+    .overlay-column {
+      width: 89.5px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      border-left: 3px var(--secondary) dashed;
+      border-right: 3px var(--secondary) dashed;
+      justify-content: center;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+  }
+  .layout {
+    /* background-color: red; */
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 800px;
+    min-height: 370px;
+    max-height: 370px;
+
+    .calendarv3-item-preview {
+      top: 50px;
+      left: 0;
+      position: fixed;
+      z-index: 10;
+    }
+    .react-resizable-handle {
+      display: none;
+    }
+    .day-item {
+      background-color: transparent;
+      width: 89.99px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .main-meal-item-container {
+      position: relative;
+      z-index: 5;
+    }
+    .meal-item {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* background-color: transparent; */
+      background-color: var(--secondary);
+      border-radius: 5px;
+      position: relative;
+      z-index: 1;
+      cursor: grab;
+      padding: 0px 10px;
+      /* opacity: 0.8; */
+      .delete-btn:hover{
+        opacity: 1;
+      }
+      .delete-btn {
+        /* position: absolute; */
+        background-color: transparent;
+        opacity: .7;
+        top:12.5px;
+        right: 10px;
+        padding: 4px 7px;
+      }
+      .inner-grid-item {
+        background-color: grey;
+        flex: 1;
+        margin: 10px;
+      }
+    }
+    .rowSection-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .react-grid-item {
+    /* background-color: grey; */
+  }
+}

@@ -38,9 +38,6 @@ export default function CalendarV2({
     "#264653", // Deep Blue Green
   ];
 
-  const handleDragOver = (e) => {
-    e.preventDefault(); // Necessary to allow dropping
-  };
 
   function getOverflowForRow(rowIndex) {
     console.log("addedMeals", addedMeals);
@@ -54,6 +51,9 @@ export default function CalendarV2({
       return overflowCount;
     }
   }
+  const handleDragOver = (e) => {
+    e.preventDefault(); // Necessary to allow dropping
+  };
 
   const handleDrop = (e, location) => {
     e.preventDefault();
@@ -61,8 +61,8 @@ export default function CalendarV2({
     const draggedName = draggedValueRef.current.name;
     const draggedLocation = draggedValueRef.current.location;
     const draggedAddedMealIndex = draggedValueRef.current.addedMealIndex;
-    let draggedMeal = {};
     let rowOverflowLength = 0;
+    let draggedMeal = {};
     mealOptions.some((meal) => {
       // find meal that matches name and exit after finding match
       if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
@@ -149,19 +149,12 @@ export default function CalendarV2({
               ? true
               : false;
           isFirstOccupiedSlot = min == locationXY.column ? true : false;
-
-          // check if occupied slot is also occupied by other meal:
-
-        //   console.log("MEAL COLUMN", meal.location.column, locationXY.column);
-
-        //   const inRangeExcludeFirst = value > min && value <= max;
-
-        //   if (!inRangeExcludeFirst) {
-        //     console.log("OVERLAP!", meal.location);
-        //   }
         } else {
         }
-      });
+
+        //if any non-first slot in meal length has another slot within it, then skip to next empty slot
+        // NOT ADDED YET!
+    });
       //   for occupied slot:
       if (!(Object.keys(mealForSlot).length == 0)) {
         daySlotsElements.push(
@@ -183,10 +176,12 @@ export default function CalendarV2({
                 isLastOccupiedSlot && !(percentage == 0)
                   ? {
                       width: "100%",
+                      height: "60px",
                       //   border: "2px red solid",
                       background: `linear-gradient(to right, ${colorOptions[addedMealIndex]} 0%, rgba(255, 0, 0, 0) ${percentage}%)`,
                     }
                   : {
+                      height: "60px",
                       width: "100%",
                       backgroundColor: `${colorOptions[addedMealIndex]}`,
                     }
@@ -195,6 +190,11 @@ export default function CalendarV2({
               addedMealIndex={addedMealIndex}
               showDeleteBtn={isLastOccupiedSlot}
               setAddedMeals={setAddedMeals}
+              mainElement={
+                <div className="calendar-draggable-variant">
+                  {mealForSlot.name}
+                </div>
+              }
             />
           </div>
         );

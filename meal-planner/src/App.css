@@ -164,6 +164,9 @@ button:focus {
   grid-template-rows: repeat(2, 1fr); /* 2 rows */
   gap: 0px; /* Space between grid items */
 }
+.react-grid-item{
+  z-index: 1 !important;
+}
 .grid-item-key-container {
   display: flex;
   width: 100%;
@@ -226,18 +229,25 @@ button:focus {
   }
 }
 /* DraggableMeal css: */
+.meal-preview:hover{
+  opacity: 1;
+}
+.meal-preview {
+  /* border: 3px white solid; */
+  border-radius: 10px;
+  display: flex;
+  position: absolute;
+  top: 64px;
+  height: 145px;
+  /* opacity: .4; */
+  z-index: 10
+
+  /* width: 100px; */
+}
 .draggable-item-container {
   position: relative;
-  .meal-preview {
-    z-index: 5;
-    border: 3px white solid;
-    border-radius: 10px;
-    display: flex;
-    position: absolute;
-    top: 40px;
-    height: 145px;
-    /* width: 100px; */
-  }
+  height: 100%;
+
   .list-item-container {
     display: flex;
     position: relative;
@@ -252,12 +262,20 @@ button:focus {
     }
     .meal-name {
     }
-    button {
+    .delete-btn:hover {
+      opacity: 1;
+    }
+    .delete-btn {
+      position: absolute;
       padding: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: transparent;
+      /* background-color: transparent; */
+      top: -10px;
+      right: -10px;
+      z-index: 6;
+      opacity: 0.7;
       img {
         width: 9px;
       }

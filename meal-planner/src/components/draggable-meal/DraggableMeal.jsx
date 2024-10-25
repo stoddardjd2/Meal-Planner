@@ -12,9 +12,10 @@ export default function DraggableMeal({
   showDeleteBtn,
   setAddedMeals,
   hideName,
+  mainElement,
 }) {
-  const [isHovering, setIsHovering] = useState();
-
+  const [isHovering, setIsHovering] = useState(false);
+  const [isHoveringBtn, setIsHoveringBtn] = useState(false);
   function getMealByName(name) {
     let match = {};
     mealOptions.map((meal) => {
@@ -36,39 +37,48 @@ export default function DraggableMeal({
   };
 
   return (
-    <div className="draggable-item-container">
+    <div
+      onMouseOver={() => {
+        console.log("HVOERING CONTRAINER")
+        setIsHovering(true);
+      }}
+      onMouseLeave={() => {
+        setIsHovering(false);
+      }}
+      className="draggable-item-container"
+    >
       <div
+        className="list-item-container"
         draggable
         onDragStart={(e) => handleDragStart(e, meal)}
         onDragEnd={handleDragEnd}
-        className="list-item-container"
-        onMouseOver={() => {
-          setIsHovering(true);
-        }}
-        onMouseLeave={() => {
-          setIsHovering();
-        }}
       >
         <div style={elementStyle ? elementStyle : {}} className="list-item">
-          <div>{hideName ? "" : meal}</div>
+          {hideName ? <div></div> : mainElement ? mainElement : meal}
           {/* hide name if set */}
-          {showDeleteBtn && (
-            <button
-              onClick={() => {
-                setAddedMeals((prev) => {
-                  const copy = [...prev];
-                  copy.splice(addedMealIndex, 1);
-                  return copy;
-                });
-              }}
-              className="delete-btn"
-            >
-              <img src={xIcon} />
-            </button>
-          )}
         </div>
+        {showDeleteBtn && (
+          <button
+            onMouseOver={() => {
+              setIsHoveringBtn(true);
+            }}
+            onMouseLeave={() => {
+              setIsHoveringBtn(false);
+            }}
+            onClick={() => {
+              setAddedMeals((prev) => {
+                const copy = [...prev];
+                copy.splice(addedMealIndex, 1);
+                return copy;
+              });
+            }}
+            className="delete-btn"
+          >
+            <img src={xIcon} />
+          </button>
+        )}
       </div>
-      {isHovering && (
+      {isHovering && !isHoveringBtn && (
         <div className="meal-preview">
           <MealOptionCard meal={getMealByName(meal)} previewEnabled={true} />
         </div>

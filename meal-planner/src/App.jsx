@@ -13,6 +13,8 @@ import MealOptionCard from "./components/meal-options/MealOptionCard";
 import MealsWithSharedIngredients from "./components/meals-with-shared-ingredients/MealsWithSharedIngredients";
 import SearchInput from "./components/SearchInput";
 import CalendarV2 from "./components/calendar/CalendarV2";
+import CalendarV3 from "./components/calendar/CalendarV3";
+import CalendarV4 from "./components/calendar/CalendarV4";
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
 
@@ -210,12 +212,19 @@ function App() {
             mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
           /> */}
-          <CalendarV2
+          {/* <CalendarV2
             addedMeals={addedMeals}
             setAddedMeals={setAddedMeals}
             mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
+          /> */}
+          <CalendarV3
+            draggedValueRef={draggedValueRef}
+            addedMeals={addedMeals}
+            setAddedMeals={setAddedMeals}
+            mealOptions={mealOptions}
           />
+          {/* <CalendarV4 /> */}
         </div>
         <div className="right-split">
           <AddedMeals

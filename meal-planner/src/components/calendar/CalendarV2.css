@@ -17,14 +17,18 @@
 
   .calendarv2--row {
     display: flex;
-    gap: 10px;
+    gap: 5px !important;
     justify-content: end;
+    font-size: 12px;
     .calendarv2--column-key {
       display: flex;
-      align-items: end;
+      align-items: center;
+      justify-content: center;
       height: fit-content;
       height: 20px;
-      width: 100px;
+      width: 60px;
+      box-sizing: border-box;
+
       border: 3px transparent dashed;
     }
     .calendarv2--extra-meals {
@@ -42,16 +46,23 @@
     }
 
     .calendarv2--item-value {
-      width: 100px;
+      width: 60px;
       height: fit-content;
       /* height: 100px; */
       /* border: 3px black dashed; */
       display: flex;
       flex-direction: column;
       .slot-item {
-        height: 29px;
+        height: 60px;
         /* margin: 5px; */
-      }
+    .calendar-draggable-variant{
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }  
+    }
     }
   }
 }
