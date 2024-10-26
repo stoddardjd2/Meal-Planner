@@ -93,6 +93,7 @@ button:focus {
           padding-top: 20px;
           position: sticky;
           top: 0;
+          /* overflow-y: scroll; */
         }
         .left-meals-column {
           display: flex;

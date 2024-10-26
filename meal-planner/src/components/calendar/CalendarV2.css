@@ -55,7 +55,22 @@
       .slot-item {
         height: 60px;
         /* margin: 5px; */
-
+        position: relative;
+        .subtract-servings {
+          position: absolute;
+          filter: brightness(100%);
+          z-index: 5;
+          padding: 20px;
+          top:15px;
+          left:15px;
+          width: 10px;
+          height: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 15px 14px;
+          background-color: transparent;
+        }
         .calendar-draggable-variant {
           font-size: 12px;
           font-weight: 600;
@@ -80,7 +95,6 @@
           border-bottom-right-radius: 10px;
           border-bottom-color: rgb(92, 92, 92);
           border-right-color: rgb(92, 92, 92);
-          
         }
       }
     }

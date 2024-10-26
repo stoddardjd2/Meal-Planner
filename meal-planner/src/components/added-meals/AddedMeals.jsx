@@ -10,7 +10,6 @@ export default function AddedMeals({
   const [isDropdown, setIsDropdown] = useState({});
   const totalCost = () => {
     const mealCosts = addedMeals.map((addedMeal) => {
-      console.log("COST CHECK", addedMeal.cost)
       if (addedMeal.cost) {
         return parseFloat((addedMeal.cost * addedMeal.multiplier).toFixed(2));
       } else {

@@ -147,7 +147,6 @@ export default function MealsWithSharedIngredients({
                   {isDropdown[index] && (
                     <div className="recomended-dropdown-content">
                       {mealsForIngredientArr.map((meal, index) => {
-                        console.log("for ing", meal);
                         return (
                           <DraggableMeal
                             meal={meal}

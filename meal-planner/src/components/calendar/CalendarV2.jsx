@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DraggableMeal from "../draggable-meal/DraggableMeal";
 import "./CalendarV2.css";
 import { useRef } from "react";
+import subtractIcon from "../../assets/subtract.svg";
 export default function CalendarV2({
   draggedValueRef,
   mealOptions,
@@ -43,7 +44,6 @@ export default function CalendarV2({
   //   let overFlowCount = { 0: 0, 1: 0, 2: 2 };
   //   const [overflowCount, setOverFlowCount] = useState({ 0: 0, 1: 0, 2: 2 });
   //   morning, afternoon, evening
-  console.log("addedMeals!", addedMeals);
 
   function getOverflowForRow(rowIndex) {
     if (!(addedMeals.length == 0)) {
@@ -65,28 +65,35 @@ export default function CalendarV2({
     // const location = e.currentTarget.id;
     // const draggedName = draggedValueRef.current.name;
     const draggedLocation = draggedValueRef.current.location;
-    console.log("LOCATIUON", draggedLocation);
     const draggedAddedMealIndex = draggedValueRef.current.addedMealIndex;
-    console.log("draggedValueRef.current", draggedValueRef.current);
     const draggedIsFirst = draggedValueRef.current.isFirst;
+    const draggedIsOnCalendar = draggedValueRef.current.isOnCalendar;
+    const draggedIsLast = draggedValueRef.current.isLast;
     const draggedMeal = draggedValueRef.current.meal;
-
+    const draggedMealLength = Math.ceil(
+      draggedMeal.servings * draggedMeal?.multiplier
+    );
     let rowOverflowLength = 0;
+    const value = location.column + 1;
+    const min = draggedLocation?.column + 1;
+    const max = draggedLocation?.column + draggedMealLength;
+    const inColumnRange = value >= min && value <= max;
+
+    const hasSameSlotIndex = draggedLocation?.slot == location.slot;
+    const hasSameRowIndex = draggedLocation?.row == location.row;
+    const targetIsOnSelf =
+      inColumnRange && hasSameSlotIndex & hasSameRowIndex ? true : false;
 
     // if target slot occupied, do not add
     const targetSlot = e.currentTarget.id;
     if (targetSlot == "empty") {
-      // update overflow length for row if overflows
-      const wholeLength = Math.ceil(
-        draggedMeal.servings * draggedMeal?.multiplier
-      );
-
-      if (location.column + wholeLength > 7) {
-        rowOverflowLength = location.column + wholeLength - days.length;
+      if (location.column + draggedMealLength > 7) {
+        // update overflow length for row if overflows
+        rowOverflowLength = location.column + draggedMealLength - days.length;
       }
       // const isFirstOccupiedSlot = min == location.column ? true : false;
-      // if dragging first slot of meal, move entire group
-      if (draggedLocation) {
+      // if dragging first slot of meal, move entire group }
+      if (draggedIsOnCalendar) {
         // if dragging an element on calendar
         if (!draggedIsFirst) {
           // if not first item and dragged, remove dragged and place to dragged spot.
@@ -143,6 +150,18 @@ export default function CalendarV2({
           ];
         });
       }
+    } else if (!(targetSlot == "first") && targetIsOnSelf) {
+      // if target slot is not first and within length, move meal location to target
+      console.log("TARGETSELF?", targetIsOnSelf);
+      setAddedMeals((prev) => {
+        const copy = [...prev];
+        copy.splice(draggedAddedMealIndex, 1, {
+          ...prev[draggedAddedMealIndex],
+          location,
+          overflow: { [location.row]: rowOverflowLength },
+        });
+        return copy;
+      });
     }
   };
 
@@ -193,7 +212,6 @@ export default function CalendarV2({
 
       if (!(Object.keys(mealForSlot).length == 0)) {
         //   for any occupied slot:
-        console.log("OCCUPIED");
         daySlotsElements.push(
           <div
             ref={targetRef} // Attach the ref to the drop target div
@@ -204,16 +222,17 @@ export default function CalendarV2({
                 slot: i,
               })
             }
-            id={"taken"}
+            id={isFirstOccupiedSlot ? "first" : "taken"}
             className="slot-item"
             style={isCompactMode ? { margin: "5px 0px" } : {}}
           >
             <DraggableMeal
               draggedValueRef={draggedValueRef}
-              meal={mealForSlot.name}
+              meal={mealForSlot}
               hideName={!isFirstOccupiedSlot}
               mealOptions={mealOptions}
               percentage={percentage}
+              // addedMeals={addedMeals}
               assignments={assignments}
               styling={
                 isLastOccupiedSlot && !(percentage == 0)
@@ -235,10 +254,12 @@ export default function CalendarV2({
               // SET REF VALUE:
 
               refInfo={{
-                ...locationXY,
-                slot: i,
+                location: mealForSlot.location,
                 isFirst: isFirstOccupiedSlot,
+                isLast: isLastOccupiedSlot,
                 meal: mealForSlot,
+                test: "test!",
+                isOnCalendar: true,
               }}
               addedMealIndex={addedMealIndex}
               showDeleteBtn={isLastOccupiedSlot}
@@ -249,6 +270,30 @@ export default function CalendarV2({
                 </div>
               }
             />
+            {isLastOccupiedSlot && !isFirstOccupiedSlot && (
+              // to remove 1 serving if on last part of meal and not first
+              <button
+                onClick={() => {
+                  setAddedMeals((prev) => {
+                    // update original meal to be 1 less
+                    const originalCostUpdated = +(
+                      (+(+mealForSlot.servings - 1) / +mealForSlot.servings) *
+                      +mealForSlot.cost
+                    ).toFixed(2);
+                    const copy = [...prev];
+                    copy.splice(addedMealIndex, 1, {
+                      ...mealForSlot,
+                      servings: mealForSlot.servings - 1,
+                      cost: originalCostUpdated,
+                    });
+                    return [...copy];
+                  });
+                }}
+                className="subtract-servings"
+              >
+                <img src={subtractIcon} />
+              </button>
+            )}
           </div>
         );
       } else {

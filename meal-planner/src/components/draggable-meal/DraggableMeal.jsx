@@ -18,20 +18,21 @@ export default function DraggableMeal({
 }) {
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringBtn, setIsHoveringBtn] = useState(false);
-  function getMealByName(name) {
-    let match = {};
-    mealOptions.map((meal) => {
-      if (meal.name == name) {
-        match = meal;
-      }
-    });
-    return match;
-  }
+  // function getMealByName(name) {
+  //   let match = {};
+  //   mealOptions.map((meal) => {
+  //     if (meal.name == name) {
+  //       match = meal;
+  //     }
+  //   });
+  //   return match;
+  // }
+  // const mealObj = getMealByName(meal);
 
   const handleDragStart = (e, name) => {
     setIsHovering(false);
     draggedValueRef.current = refInfo
-      ? { name, ...refInfo, addedMealIndex, location: {} }
+      ? { name, ...refInfo, addedMealIndex, location: meal.location }
       : { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
@@ -50,11 +51,11 @@ export default function DraggableMeal({
       <div
         className="list-item-container"
         draggable
-        onDragStart={(e) => handleDragStart(e, meal)}
+        onDragStart={(e) => handleDragStart(e, meal.name)}
         onDragEnd={handleDragEnd}
       >
         <div style={styling ? styling : {}} className="list-item">
-          {hideName ? <div></div> : mainElement ? mainElement : meal}
+          {hideName ? <div></div> : mainElement ? mainElement : meal.name}
           {/* hide name if set */}
         </div>
         {showDeleteBtn && (
@@ -84,7 +85,7 @@ export default function DraggableMeal({
           // if on calendar, change styling for position of preview
         >
           <MealOptionCard
-            meal={getMealByName(meal)}
+            meal={meal}
             previewEnabled={true}
             // mealOptions={reccommendedMealsArr}
             // setMealOptions={setMealOptions}

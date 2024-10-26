@@ -180,7 +180,6 @@ function App() {
 
           <div className="meal-columns-container">
             <div className="left-meals-column">
-            
               <MealOptions
                 mealOptions={mealOptions}
                 mealNamesSearch={mealNamesSearch}
@@ -192,27 +191,33 @@ function App() {
 
             <div className="meal-option-cards-grid sticky recommended-grid">
               {reccommendedMealsArr.map((name, index) => {
-                const getIndexInMealOptions = () => {
-                  // slow, should change if becomes problem and have index calculate when setting reccomenedArr
-                  const indexInMealOptions = mealOptions.findIndex(
-                    (meal) => meal.name == name
-                  );
-                  return indexInMealOptions;
-                };
-                const indexInMealOptions = getIndexInMealOptions();
+                // Lime amount of reccomened option to display
+                const limitResults = 4;
+                if (index < limitResults) {
+                  const getIndexInMealOptions = () => {
+                    // slow, should change if becomes problem and have index calculate when setting reccomenedArr
+                    const indexInMealOptions = mealOptions.findIndex(
+                      (meal) => meal.name == name
+                    );
+                    return indexInMealOptions;
+                  };
+                  const indexInMealOptions = getIndexInMealOptions();
 
-                return (
-                  <MealOptionCard
-                    key={"recommended-" + index}
-                    meal={getMealByName(name)}
-                    // previewEnabled={true}
-                    index={indexInMealOptions}
-                    mealOptions={reccommendedMealsArr}
-                    setMealOptions={setMealOptions}
-                    draggedValueRef={draggedValueRef}
-                    styling={{ backgroundColor: `${assignments[name].color}` }}
-                  />
-                );
+                  return (
+                    <MealOptionCard
+                      key={"recommended-" + index}
+                      meal={getMealByName(name)}
+                      // previewEnabled={true}
+                      index={indexInMealOptions}
+                      mealOptions={reccommendedMealsArr}
+                      setMealOptions={setMealOptions}
+                      draggedValueRef={draggedValueRef}
+                      styling={{
+                        backgroundColor: `${assignments[name].color}`,
+                      }}
+                    />
+                  );
+                }
               })}
             </div>
           </div>
