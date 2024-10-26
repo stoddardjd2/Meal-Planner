@@ -12,6 +12,13 @@ export default function MealOptions({
   return (
     <div className="mealOptions">
       <div className="meal-option-cards-grid">
+        
+        <div className="sticky" style={{ marginRight: "3px", zIndex: "5" }}>
+          <AddMealBtn
+            mealOptions={mealOptions}
+            setMealOptions={setMealOptions}
+          />
+        </div>
         {mealOptions.map((meal, index) => {
           if (mealNamesSearch) {
             // filter by search if search given

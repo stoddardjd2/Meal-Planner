@@ -7,6 +7,7 @@ import Dropdown from "../Dropdown";
 import mealIcon from "../../assets/meal.svg";
 import AddMealOption from "./AddMealOption";
 import dropdownIcon from "../../assets/dropdown.svg";
+import bannerIcon from "../../assets/banner.svg";
 import "./MealOptionCard.css";
 // import GetImage from "../GetImage";
 export default function MealOptionCard({
@@ -18,6 +19,7 @@ export default function MealOptionCard({
   mealOptions,
   styling,
 }) {
+  const [isHoveringOverName, setIsHoveringOverName] = useState(false);
   const [isDropdown, setIsDropdown] = useState(false);
   const popupRef2 = useRef(null); // Reference to the popup element
   const buttonRef2 = useRef(null);
@@ -58,7 +60,8 @@ export default function MealOptionCard({
   const costPerServingFormatted = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format((meal.cost / meal.servings));
+  }).format(meal.cost / meal.servings);
+
   return (
     <div className="meal-option-card-container">
       <div
@@ -69,24 +72,35 @@ export default function MealOptionCard({
         className="meal-option-card"
         style={styling ? styling : {}}
       >
-        {/* <div className="food-container">
+        <div className="food-container">
           <img className="food-img" src={foodIcon} />
-        </div> */}
+        </div>
         <div className="bottom-card-container">
           <div className="left-side">
             <div className="top-container">
               <div className="card-name">
                 {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
               </div>
-              {meal.cost && <div>${meal.cost * meal.multiplier}</div>}
             </div>
-            {meal.cost && meal.servings && (
-              <div className="cost-per-serving">
-                ${costPerServingFormatted} a serving
-              </div>
-            )}
           </div>
+          {isHoveringOverName && meal.cost && meal.servings && (
+            <div className="cost-per-serving">
+              ${costPerServingFormatted} a serving
+            </div>
+          )}
         </div>
+
+        {meal.cost && (
+          <div
+            onMouseOver={() => setIsHoveringOverName(true)}
+            onMouseLeave={() => setIsHoveringOverName(false)}
+            className="meal-cost"
+          >
+            ${parseFloat((meal.cost * meal.multiplier).toFixed(2))}
+          </div>
+        )}
+      
+
         {(meal.prepTimeMin || meal.servings) && (
           <div className="time-overlay">
             <div className="time-overlay-center">
@@ -100,7 +114,7 @@ export default function MealOptionCard({
               {meal.servings && (
                 <div className="servings-popup">
                   <img src={mealIcon} />
-                  {parseFloat((meal.servings * meal.multiplier).toFixed(2))}
+                  {parseFloat((meal.servings * meal.multiplier).toFixed(1))}
                 </div>
               )}
             </div>

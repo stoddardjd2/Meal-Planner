@@ -35,11 +35,9 @@ export default function CalendarV2({
   //       return response.json(); // Parse JSON data (use response.text() for plain text)
   //     })
   //     .then((data) => {
-  //       console.log("Data received:", data);
   //       // Process and display the data as needed
   //     })
   //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
   //     });
   // }, []);vv
   //   let overFlowCount = { 0: 0, 1: 0, 2: 2 };
@@ -47,7 +45,6 @@ export default function CalendarV2({
   //   morning, afternoon, evening
 
   function getOverflowForRow(rowIndex) {
-    console.log("addedMeals", addedMeals);
     if (!(addedMeals.length == 0)) {
       let overflowCount = 0;
       addedMeals.map((meal, index) => {
@@ -88,7 +85,7 @@ export default function CalendarV2({
       );
 
       if (location.column + wholeLength > 7) {
-        rowOverflowLength = location.column + 1 - wholeLength;
+        rowOverflowLength = location.column + wholeLength - days.length;
       }
 
       if (draggedLocation) {
@@ -185,15 +182,14 @@ export default function CalendarV2({
                   ? {
                       backgroundColor: `${assignments[mealForSlot.name].color}`,
                       width: "100%",
-                      height: "60px",
+                      height: "57px",
                       //   border: "2px red solid",
                       // background: `linear-gradient(to right, ${colorOptions[addedMealIndex]} 0%, rgba(255, 0, 0, 0) ${percentage}%)`,
                     }
                   : {
                       backgroundColor: `${assignments[mealForSlot.name].color}`,
-                      height: "60px",
+                      height: "57px",
                       width: "100%",
-
 
                       // backgroundColor: `${colorOptions[addedMealIndex]}`,
                     }

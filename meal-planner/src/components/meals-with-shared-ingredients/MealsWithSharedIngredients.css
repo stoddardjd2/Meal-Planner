@@ -1,3 +1,11 @@
+.recommened-meals-scroll{
+  /* height: 480px; */
+  margin-bottom: 155px;
+  .sticky-recommened{
+    position: sticky;
+    top:0;
+  }
+}
 .reccomendations-by-ingredient-item-container {
   display: flex;
   gap: 5px;

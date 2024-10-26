@@ -14,7 +14,7 @@ export default function DraggableMeal({
   hideName,
   mainElement,
   styling,
-  assignments
+  assignments,
 }) {
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringBtn, setIsHoveringBtn] = useState(false);
@@ -79,17 +79,22 @@ export default function DraggableMeal({
         )}
       </div>
       {isHovering && !isHoveringBtn && (
-        <div className= {calendarLocation ? "meal-preview-calendar" : "meal-preview-generic"}>
-           <MealOptionCard
-                    meal={getMealByName(meal)}
-                    previewEnabled={true}
-                    // mealOptions={reccommendedMealsArr}
-                    // setMealOptions={setMealOptions}
+        <div
+          className={
+            calendarLocation ? "meal-preview-calendar" : "meal-preview-generic"
+          }
+          // if on calendar, change styling for position of preview
+        >
+          <MealOptionCard
+            meal={getMealByName(meal)}
+            previewEnabled={true}
+            // mealOptions={reccommendedMealsArr}
+            // setMealOptions={setMealOptions}
 
-                    draggedValueRef={draggedValueRef}
-                    // assignments={assignments}
-                    styling={{ backgroundColor: `grey`}}
-                  />
+            draggedValueRef={draggedValueRef}
+            // assignments={assignments}
+            styling={{ backgroundColor: `grey` }}
+          />
         </div>
       )}
     </div>

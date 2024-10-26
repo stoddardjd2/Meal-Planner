@@ -81,7 +81,6 @@ export default function AddMealOption({
 
   function handleSubmitNewMeal(e) {
     e.preventDefault();
-    console.log("before some", mealOptions);
     if (
       !mealOptions.some((meal) => {
         return meal.name == formInput.name;
@@ -95,7 +94,6 @@ export default function AddMealOption({
         return [...copy];
       });
     } else {
-      console.log("error, name taken");
       setIsNameValid(false);
     }
   }

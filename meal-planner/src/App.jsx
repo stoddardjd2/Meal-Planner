@@ -16,6 +16,7 @@ import CalendarV2 from "./components/calendar/CalendarV2";
 import CalendarV3 from "./components/calendar/CalendarV3";
 import CalendarV4 from "./components/calendar/CalendarV4";
 import AddMealBtn from "./components/AddMealBtn";
+import { simulateData } from "./simulateData";
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
   const colorOptions = [
@@ -32,59 +33,16 @@ function App() {
     "#D62828", // Fiery Red
     "#264653", // Deep Blue Green
   ];
-
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
-  const [mealOptions, setMealOptions] = useState([
-    {
-      name: "Cereal",
-      link: "",
-      servings: undefined,
-      prepTimeMin: undefined,
-      ingredients: [
-        { name: "soda", quantity: "1", units: undefined },
-        { name: "milk", quantity: "12", units: "fl/oz" },
-        { name: "cereal", quantity: "1", units: "cup" },
-      ],
-      multiplier: 1,
-      cost: undefined,
-    },
-    {
-      name: "Biscuit",
-      link: "",
-      servings: undefined,
-      prepTimeMin: undefined,
-      ingredients: [
-        { name: "soda", quantity: "1", units: undefined },
-        { name: "buns", quantity: "2", units: undefined },
-      ],
-      multiplier: 1,
-      cost: undefined,
-    },
-    {
-      name: "Burger",
-      link: "",
-      servings: 4,
-      prepTimeMin: 25,
-      ingredients: [
-        { name: "soda", quantity: "1", units: undefined },
-        { name: "buns", quantity: "1", units: undefined },
-        { name: "tomato", quantity: "2", units: undefined },
-        { name: "patty", quantity: "2", units: "lbs" },
-      ],
-      multiplier: 1,
-      cost: 14,
-    },
-  ]);
+  const [mealOptions, setMealOptions] = useState(simulateData);
 
   const [mealNamesSearch, setMealNamesSearch] = useState();
   const [addedMeals, setAddedMeals] = useState([]);
 
   const getAssignments = () => {
     const assignmentsArr = mealOptions.map((meal, index) => {
-      console.log("adding to arr", meal.name, colorOptions[index]);
       return { [meal.name]: colorOptions[index] };
     });
-    console.log("assignmentsArr", assignmentsArr);
     const result = assignmentsArr.reduce((acc, item) => {
       const key = Object.keys(item)[0]; // Get the single key in each object
       acc[key] = { color: item[key] }; // Create a nested object with "color" as the key
@@ -216,19 +174,13 @@ function App() {
           <div className="meal-columns-header-container">
             <div className="meal-header-container">
               <h2 className="sticky">Meals</h2>
-              
             </div>
             <h2 className="recommended-header">Recommended</h2>
           </div>
 
           <div className="meal-columns-container">
             <div className="left-meals-column">
-            <div className="sticky" style={{ marginRight: "3px", zIndex:"5" }}>
-                <AddMealBtn
-                  mealOptions={mealOptions}
-                  setMealOptions={setMealOptions}
-                />
-              </div>
+            
               <MealOptions
                 mealOptions={mealOptions}
                 mealNamesSearch={mealNamesSearch}
@@ -238,17 +190,27 @@ function App() {
               />
             </div>
 
-            <div className="meal-option-cards-grid sticky">
+            <div className="meal-option-cards-grid sticky recommended-grid">
               {reccommendedMealsArr.map((name, index) => {
+                const getIndexInMealOptions = () => {
+                  // slow, should change if becomes problem and have index calculate when setting reccomenedArr
+                  const indexInMealOptions = mealOptions.findIndex(
+                    (meal) => meal.name == name
+                  );
+                  console.log("indexInMealOptions", indexInMealOptions);
+                  return indexInMealOptions;
+                };
+                const indexInMealOptions = getIndexInMealOptions();
+
                 return (
                   <MealOptionCard
                     key={"recommended-" + index}
                     meal={getMealByName(name)}
-                    previewEnabled={true}
+                    // previewEnabled={true}
+                    index={indexInMealOptions}
                     mealOptions={reccommendedMealsArr}
                     setMealOptions={setMealOptions}
                     draggedValueRef={draggedValueRef}
-                    // assignments={assignments}
                     styling={{ backgroundColor: `${assignments[name].color}` }}
                   />
                 );

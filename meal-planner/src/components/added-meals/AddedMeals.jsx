@@ -6,11 +6,12 @@ export default function AddedMeals({
   mainIngredientsArr,
   mealOptions,
 }) {
+ 
   const [isDropdown, setIsDropdown] = useState({});
   const totalCost = () => {
     const mealCosts = addedMeals.map((addedMeal) => {
       if (addedMeal.cost) {
-        return addedMeal.cost;
+        return parseFloat((addedMeal.cost * addedMeal.multiplier).toFixed(2));
       } else {
         return 0;
       }
@@ -19,7 +20,12 @@ export default function AddedMeals({
       (accumulator, currentValue) => +accumulator + +currentValue,
       0
     );
-    return sum;
+    const costPerServingFormatted = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(sum);
+    
+    return costPerServingFormatted;
   };
   // const getMealsWithUsedIngredients = () => {
   //   // results corresponds with position of mainIngredientsArr. For each ingredient, shows all meals that use that ingredient
@@ -68,16 +74,18 @@ export default function AddedMeals({
           <div key={index}>
             <div className="main-ingredients-items-container">
               <div className="dropdown-column">
-                {ingredient.count > 1 &&<button
-                  onClick={(e) =>
-                    setIsDropdown((prev) => {
-                      return { ...prev, [index]: !prev[index] };
-                    })
-                  }
-                  className="dropdown-button"
-                >
-                  <img src={dropdownIcon} />
-                </button>}
+                {ingredient.count > 1 && (
+                  <button
+                    onClick={(e) =>
+                      setIsDropdown((prev) => {
+                        return { ...prev, [index]: !prev[index] };
+                      })
+                    }
+                    className="dropdown-button"
+                  >
+                    <img src={dropdownIcon} />
+                  </button>
+                )}
               </div>
 
               <div className="count">{ingredient.count}x</div>

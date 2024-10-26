@@ -87,88 +87,89 @@ export default function MealsWithSharedIngredients({
           onChange={() => setIsHidingAddedMeals((prev) => !prev)}
         ></input>
       </div>
-      {/* <div>
+      <div className="recommened-meals-scroll">
+        {/* <div>
         (Found {reccommendedMealsArr.length} Meals that use the same
         ingredients)
       </div> */}
-      <h4>All Recommended</h4>
+        <h4>All Recommended</h4>
+        <div className="recommended-meals-container">
+          {/* <div className="recommended-grid-container"> */}
 
-      <div className="recommended-meals-container">
-        {/* <div className="recommended-grid-container"> */}
-
-        {reccommendedMealsArr.map((meal, index) => {
-          return (
-            <DraggableMeal
-              meal={meal}
-              key={meal.name}
-              mealOptions={mealOptions}
-              draggedValueRef={draggedValueRef}
-              index={index}
-              styling={{
-                backgroundColor: `${assignments[meal].color}`,
-                // border: "4px red solid",
-              }}
-            />
-          );
-        })}
-        {/* </div> */}
-      </div>
-      <div className="recomendation-by-ingredient-container">
-        <h4>By Reuseable Ingredients</h4>
-        {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
-          if (!(mealsForIngredientArr.length == 0)) {
-            // only display ingredients that have a meal matched that has not been added
+          {reccommendedMealsArr.map((meal, index) => {
             return (
-              <div
-                className="dropdown-recommendation-container"
-                style={
-                  (index + 1) % 2 === 0
-                    ? { backgroundColor: "rgb(65, 65, 65)" }
-                    : {}
-                }
-                key={index}
-              >
-                <div className="reccomendations-by-ingredient-item-container">
-                  <button
-                    onClick={(e) =>
-                      setIsDropdown((prev) => {
-                        return { ...prev, [index]: !prev[index] };
-                      })
-                    }
-                    className="dropdown-button"
-                  >
-                    <img src={dropdownIcon} />
-                  </button>
-                  <div>
-                    {mainIngredientsArr[index].name.charAt(0).toUpperCase() +
-                      mainIngredientsArr[index].name.slice(1)}
-                  </div>
-                </div>
-                {isDropdown[index] && (
-                  <div className="recomended-dropdown-content">
-                    {mealsForIngredientArr.map((meal, index) => {
-                      console.log("for ing", meal);
-                      return (
-                        <DraggableMeal
-                          meal={meal}
-                          key={"draggable-ing-" + meal}
-                          mealOptions={mealOptions}
-                          draggedValueRef={draggedValueRef}
-                          index={index}
-                          styling={{
-                            backgroundColor: `${assignments[meal].color}`,
-                            // border: "4px red solid",
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <DraggableMeal
+                meal={meal}
+                key={meal.name}
+                mealOptions={mealOptions}
+                draggedValueRef={draggedValueRef}
+                index={index}
+                styling={{
+                  backgroundColor: `${assignments[meal].color}`,
+                  // border: "4px red solid",
+                }}
+              />
             );
-          }
-        })}
-        <div></div>
+          })}
+          {/* </div> */}
+        </div>
+        <div className="recomendation-by-ingredient-container">
+          <h4>By Reuseable Ingredients</h4>
+          {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
+            if (!(mealsForIngredientArr.length == 0)) {
+              // only display ingredients that have a meal matched that has not been added
+              return (
+                <div
+                  className="dropdown-recommendation-container"
+                  style={
+                    (index + 1) % 2 === 0
+                      ? { backgroundColor: "rgb(65, 65, 65)" }
+                      : {}
+                  }
+                  key={index}
+                >
+                  <div className="reccomendations-by-ingredient-item-container">
+                    <button
+                      onClick={(e) =>
+                        setIsDropdown((prev) => {
+                          return { ...prev, [index]: !prev[index] };
+                        })
+                      }
+                      className="dropdown-button"
+                    >
+                      <img src={dropdownIcon} />
+                    </button>
+                    <div>
+                      {mainIngredientsArr[index].name.charAt(0).toUpperCase() +
+                        mainIngredientsArr[index].name.slice(1)}
+                    </div>
+                  </div>
+                  {isDropdown[index] && (
+                    <div className="recomended-dropdown-content">
+                      {mealsForIngredientArr.map((meal, index) => {
+                        console.log("for ing", meal);
+                        return (
+                          <DraggableMeal
+                            meal={meal}
+                            key={"draggable-ing-" + meal}
+                            mealOptions={mealOptions}
+                            draggedValueRef={draggedValueRef}
+                            index={index}
+                            styling={{
+                              backgroundColor: `${assignments[meal].color}`,
+                              // border: "4px red solid",
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          })}
+          <div></div>
+        </div>
       </div>
     </div>
   );
