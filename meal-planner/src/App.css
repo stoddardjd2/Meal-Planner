@@ -333,7 +333,6 @@ button:focus {
       display: flex;
       justify-content: center;
       align-items: center;
-      /* background-color: transparent; */
       top: -10px;
       right: -10px;
       /* z-index: 4; */

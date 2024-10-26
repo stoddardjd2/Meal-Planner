@@ -54,7 +54,7 @@ export default function MealOptionCard({
   };
 
   const handleDragStart = (e, name) => {
-    draggedValueRef.current = { name }; // Set the value of the dragged element when dragging starts
+    draggedValueRef.current = { name, meal }; // Set the value of the dragged element when dragging starts
   };
 
   const costPerServingFormatted = new Intl.NumberFormat("en-US", {
@@ -85,7 +85,7 @@ export default function MealOptionCard({
           </div>
           {isHoveringOverName && meal.cost && meal.servings && (
             <div className="cost-per-serving">
-              ${costPerServingFormatted} a serving
+              ${costPerServingFormatted}/serving
             </div>
           )}
         </div>
@@ -94,32 +94,26 @@ export default function MealOptionCard({
           <div
             onMouseOver={() => setIsHoveringOverName(true)}
             onMouseLeave={() => setIsHoveringOverName(false)}
-            className="meal-cost"
+            className="meal-cost card-info-overlay"
           >
             ${parseFloat((meal.cost * meal.multiplier).toFixed(2))}
           </div>
         )}
-      
 
-        {(meal.prepTimeMin || meal.servings) && (
-          <div className="time-overlay">
-            <div className="time-overlay-center">
-              {meal.prepTimeMin && (
-                <div className="time-container">
-                  <img className="clock-img" src={clockIcon} />
-                  {meal.prepTimeMin} Min
-                </div>
-              )}
-
-              {meal.servings && (
-                <div className="servings-popup">
-                  <img src={mealIcon} />
-                  {parseFloat((meal.servings * meal.multiplier).toFixed(1))}
-                </div>
-              )}
-            </div>
+        {meal.prepTimeMin && (
+          <div className="time-container card-info-overlay">
+            <img className="clock-img" src={clockIcon} />
+            {meal.prepTimeMin} Min
           </div>
         )}
+
+        {meal.servings && (
+          <div className="servings-popup card-info-overlay">
+            <img src={mealIcon} />
+            {parseFloat((meal.servings * meal.multiplier).toFixed(1))}
+          </div>
+        )}
+
         {!previewEnabled && (
           <div className="actions-container-overlay">
             <button

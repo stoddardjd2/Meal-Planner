@@ -197,7 +197,6 @@ function App() {
                   const indexInMealOptions = mealOptions.findIndex(
                     (meal) => meal.name == name
                   );
-                  console.log("indexInMealOptions", indexInMealOptions);
                   return indexInMealOptions;
                 };
                 const indexInMealOptions = getIndexInMealOptions();

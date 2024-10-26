@@ -6,7 +6,7 @@ export default function DraggableMeal({
   meal,
   mealOptions,
   // elementStyle,
-  calendarLocation,
+  refInfo,
   // Only Requre if on calendar:
   addedMealIndex,
   showDeleteBtn,
@@ -30,8 +30,8 @@ export default function DraggableMeal({
 
   const handleDragStart = (e, name) => {
     setIsHovering(false);
-    draggedValueRef.current = calendarLocation
-      ? { name, location: calendarLocation, addedMealIndex }
+    draggedValueRef.current = refInfo
+      ? { name, ...refInfo, addedMealIndex, location: {} }
       : { name }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
@@ -80,9 +80,7 @@ export default function DraggableMeal({
       </div>
       {isHovering && !isHoveringBtn && (
         <div
-          className={
-            calendarLocation ? "meal-preview-calendar" : "meal-preview-generic"
-          }
+          className={refInfo ? "meal-preview-calendar" : "meal-preview-generic"}
           // if on calendar, change styling for position of preview
         >
           <MealOptionCard

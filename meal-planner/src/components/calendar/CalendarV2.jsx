@@ -43,6 +43,7 @@ export default function CalendarV2({
   //   let overFlowCount = { 0: 0, 1: 0, 2: 2 };
   //   const [overflowCount, setOverFlowCount] = useState({ 0: 0, 1: 0, 2: 2 });
   //   morning, afternoon, evening
+  console.log("addedMeals!", addedMeals);
 
   function getOverflowForRow(rowIndex) {
     if (!(addedMeals.length == 0)) {
@@ -62,43 +63,73 @@ export default function CalendarV2({
   const handleDrop = (e, location) => {
     e.preventDefault();
     // const location = e.currentTarget.id;
-    const draggedName = draggedValueRef.current.name;
+    // const draggedName = draggedValueRef.current.name;
     const draggedLocation = draggedValueRef.current.location;
+    console.log("LOCATIUON", draggedLocation);
     const draggedAddedMealIndex = draggedValueRef.current.addedMealIndex;
+    console.log("draggedValueRef.current", draggedValueRef.current);
+    const draggedIsFirst = draggedValueRef.current.isFirst;
+    const draggedMeal = draggedValueRef.current.meal;
+
     let rowOverflowLength = 0;
-    let draggedMeal = {};
-    mealOptions.some((meal) => {
-      // find meal that matches name and exit after finding match
-      if (meal.name.toLowerCase() == draggedName.toLowerCase()) {
-        draggedMeal = meal;
-        return true;
-      }
-      return false;
-    });
 
     // if target slot occupied, do not add
     const targetSlot = e.currentTarget.id;
     if (targetSlot == "empty") {
       // update overflow length for row if overflows
       const wholeLength = Math.ceil(
-        draggedMeal.servings * draggedMeal.multiplier
+        draggedMeal.servings * draggedMeal?.multiplier
       );
 
       if (location.column + wholeLength > 7) {
         rowOverflowLength = location.column + wholeLength - days.length;
       }
-
+      // const isFirstOccupiedSlot = min == location.column ? true : false;
+      // if dragging first slot of meal, move entire group
       if (draggedLocation) {
-        // if dragging an element on calendar, remove old position and then add new
-        setAddedMeals((prev) => {
-          const copy = [...prev];
-          copy.splice(draggedAddedMealIndex, 1, {
-            ...draggedMeal,
-            location,
-            overflow: { [location.row]: rowOverflowLength },
+        // if dragging an element on calendar
+        if (!draggedIsFirst) {
+          // if not first item and dragged, remove dragged and place to dragged spot.
+          //update data with new positions to compensate for break
+          setAddedMeals((prev) => {
+            // update original meal to be 1 less
+            const originalCostUpdated = +(
+              (+(+draggedMeal.servings - 1) / +draggedMeal.servings) *
+              +draggedMeal.cost
+            ).toFixed(2);
+            const newCost = +(
+              (1 / +draggedMeal.servings) *
+              +draggedMeal.cost
+            ).toFixed(2);
+            const copy = [...prev];
+            copy.splice(draggedAddedMealIndex, 1, {
+              ...draggedMeal,
+              servings: draggedMeal.servings - 1,
+              cost: originalCostUpdated,
+            });
+            return [
+              ...copy,
+              {
+                ...draggedMeal,
+                servings: 1,
+                overflow: 0,
+                location,
+                cost: newCost,
+              },
+            ];
           });
-          return copy;
-        });
+        } else {
+          // if  dragging first element on calendar, remove old position and then add new
+          setAddedMeals((prev) => {
+            const copy = [...prev];
+            copy.splice(draggedAddedMealIndex, 1, {
+              ...draggedMeal,
+              location,
+              overflow: { [location.row]: rowOverflowLength },
+            });
+            return copy;
+          });
+        }
       } else {
         setAddedMeals((prev) => {
           // if (prev[dayIndex]) {
@@ -159,13 +190,20 @@ export default function CalendarV2({
         //if any non-first slot in meal length has another slot within it, then skip to next empty slot
         // NOT ADDED YET!
       });
-      //   for occupied slot:
+
       if (!(Object.keys(mealForSlot).length == 0)) {
+        //   for any occupied slot:
+        console.log("OCCUPIED");
         daySlotsElements.push(
           <div
             ref={targetRef} // Attach the ref to the drop target div
             onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, { ...locationXY, slot: i })}
+            onDrop={(e) =>
+              handleDrop(e, {
+                ...locationXY,
+                slot: i,
+              })
+            }
             id={"taken"}
             className="slot-item"
             style={isCompactMode ? { margin: "5px 0px" } : {}}
@@ -194,7 +232,14 @@ export default function CalendarV2({
                       // backgroundColor: `${colorOptions[addedMealIndex]}`,
                     }
               }
-              calendarLocation={{ ...locationXY, slot: i }}
+              // SET REF VALUE:
+
+              refInfo={{
+                ...locationXY,
+                slot: i,
+                isFirst: isFirstOccupiedSlot,
+                meal: mealForSlot,
+              }}
               addedMealIndex={addedMealIndex}
               showDeleteBtn={isLastOccupiedSlot}
               setAddedMeals={setAddedMeals}
