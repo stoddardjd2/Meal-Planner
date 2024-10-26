@@ -84,8 +84,21 @@ export default function CalendarV2({
     const targetIsOnSelf =
       inColumnRange && hasSameSlotIndex & hasSameRowIndex ? true : false;
 
-    // if target slot occupied, do not add
     const targetSlot = e.currentTarget.id;
+
+    // let overlapDetection = [];
+    // addedMeals.map((meal, index) => {
+    //   for (let i = 0; i < draggedMealLength; i++) {
+    //     overlapDetection.push(
+    //       location.column + i == meal.location.column &&
+    //         location.row == meal.location.row &&
+    //         location.slot == meal.location.slot
+    //     );
+    //   }
+    // });
+    // const isTargetOverlapping = overlapDetection.includes(true);
+    // const isTargetOverlappingOnOtherLocation = isTargetOverlapping;
+
     if (targetSlot == "empty") {
       if (location.column + draggedMealLength > 7) {
         // update overflow length for row if overflows
@@ -100,33 +113,43 @@ export default function CalendarV2({
           //update data with new positions to compensate for break
           setAddedMeals((prev) => {
             // update original meal to be 1 less
-            const originalCostUpdated = +(
-              (+(+draggedMeal.servings - 1) / +draggedMeal.servings) *
-              +draggedMeal.cost
-            ).toFixed(2);
-            const newCost = +(
-              (1 / +draggedMeal.servings) *
-              +draggedMeal.cost
-            ).toFixed(2);
+            // const originalCostUpdated = +(
+            //   (+(+draggedMeal.servings - 1) / +draggedMeal.servings) *
+            //   +draggedMeal.cost
+            // ).toFixed(2);
+            // const newCost = +(
+            //   (1 / +draggedMeal.servings) *
+            //   +draggedMeal.cost
+            // ).toFixed(2);
             const copy = [...prev];
+            const updatedOriginalMultiplier =
+              (+draggedMeal.servings * +draggedMeal.multiplier - 1) /
+              +draggedMeal.servings;
             copy.splice(draggedAddedMealIndex, 1, {
               ...draggedMeal,
-              servings: draggedMeal.servings - 1,
-              cost: originalCostUpdated,
+              // servings: draggedMeal.servings - 1,
+              multiplier: updatedOriginalMultiplier,
+              // cost: originalCostUpdated,
             });
+            const updatedNewMultiplier = 1 / draggedMeal.servings;
             return [
               ...copy,
               {
                 ...draggedMeal,
-                servings: 1,
+                // servings: 1,
                 overflow: 0,
                 location,
-                cost: newCost,
+                multiplier: updatedNewMultiplier
+                // cost: newCost,
               },
             ];
           });
-        } else {
-          // if  dragging first element on calendar, remove old position and then add new
+        } else if (true) {
+          // !isTargetOverlappingOnOtherLocation
+
+          // if dragging first element on calendar, remove old position  -
+          // and add new position IF dropped location calculated length DOES -
+          //  NOT overlap with other taken slots
           setAddedMeals((prev) => {
             const copy = [...prev];
             copy.splice(draggedAddedMealIndex, 1, {
@@ -146,13 +169,14 @@ export default function CalendarV2({
               ...draggedMeal,
               location,
               overflow: { [location.row]: rowOverflowLength },
+              originalServings: draggedMeal.servings,
+              originalMultiplier: draggedMeal.multiplier,
             },
           ];
         });
       }
     } else if (!(targetSlot == "first") && targetIsOnSelf) {
       // if target slot is not first and within length, move meal location to target
-      console.log("TARGETSELF?", targetIsOnSelf);
       setAddedMeals((prev) => {
         const copy = [...prev];
         copy.splice(draggedAddedMealIndex, 1, {
@@ -175,7 +199,7 @@ export default function CalendarV2({
       let isLastOccupiedSlot = false;
       let isFirstOccupiedSlot = false;
       let percentage;
-      let isOverlapping = false;
+      // let isOverlapping = false;
       addedMeals.map((meal, mealIndex) => {
         //check if slot in range, calculated by dropped slot and serving size
         let value = locationXY.column;
@@ -276,15 +300,44 @@ export default function CalendarV2({
                 onClick={() => {
                   setAddedMeals((prev) => {
                     // update original meal to be 1 less
+                    const originalServings = mealForSlot.originalServings;
+                    const originalMultiplier = mealForSlot.originalMultiplier;
+
                     const originalCostUpdated = +(
                       (+(+mealForSlot.servings - 1) / +mealForSlot.servings) *
                       +mealForSlot.cost
                     ).toFixed(2);
+
+                    // FIX BUG, IF USING MULTIPLIER AND SUBTRACT ITEM, DOES NOT UPDATE SERVING SIZE CORRECTLY
+                    // MEAL INGREDIENTS QUANTITY NOT UPDATING PROPERLY. USES MULTIPLIER TO CALCULATE.
+
+                    // const servingRatio =
+                    //   (mealForSlot.servings - 1) / originalServings;
+                    // const ingredientsMultiplier = (
+                    //   originalMultiplier * servingRatio
+                    // ).toFixed(2);
+
+                    // console.log("SERVING RATIO", servingRatio);
+
+                    // console.log("NEW MULTIPLIER", ingredientsMultiplier);
+
                     const copy = [...prev];
+                    // console.log(
+                    //   "SERVINGS BLOCKS",
+
+                    //   (mealForSlot.servings - 1) * mealForSlot.multiplier
+                    //   // (mealForSlot.servings - 1) * mealForSlot.multiplier
+                    // );
+                    const updatedMultiplier =
+                      (+mealForSlot.servings * +mealForSlot.multiplier - 1) /
+                      +mealForSlot.servings;
+
                     copy.splice(addedMealIndex, 1, {
                       ...mealForSlot,
-                      servings: mealForSlot.servings - 1,
-                      cost: originalCostUpdated,
+                      // servings: mealForSlot.servings - 1,
+                      multiplier: updatedMultiplier,
+                      // cost: originalCostUpdated,
+                      // ingredientsMultiplier: ingredientsMultiplier,
                     });
                     return [...copy];
                   });

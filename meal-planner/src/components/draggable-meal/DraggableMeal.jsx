@@ -33,7 +33,13 @@ export default function DraggableMeal({
     setIsHovering(false);
     draggedValueRef.current = refInfo
       ? { name, ...refInfo, addedMealIndex, location: meal.location }
-      : { name }; // Set the value of the dragged element when dragging starts
+      : {
+          name,
+          ...refInfo,
+          // addedMealIndex,
+          // location: meal.location,
+          meal: meal,
+        }; // Set the value of the dragged element when dragging starts
   };
   const handleDragEnd = (e) => {
     // e.target.style.cursor = "grab"; // Reset the cursor after dragging ends

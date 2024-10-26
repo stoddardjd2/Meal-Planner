@@ -99,8 +99,8 @@ export default function MealsWithSharedIngredients({
           {reccommendedMealsArr.map((meal, index) => {
             return (
               <DraggableMeal
-                meal={meal}
-                key={meal.name}
+                meal={getMealByName(meal)}
+                key={meal}
                 mealOptions={mealOptions}
                 draggedValueRef={draggedValueRef}
                 index={index}
@@ -149,7 +149,7 @@ export default function MealsWithSharedIngredients({
                       {mealsForIngredientArr.map((meal, index) => {
                         return (
                           <DraggableMeal
-                            meal={meal}
+                            meal={getMealByName(meal)}
                             key={"draggable-ing-" + meal}
                             mealOptions={mealOptions}
                             draggedValueRef={draggedValueRef}

@@ -157,6 +157,7 @@ function App() {
   };
   const mealsWithUsedIngredients = getMealsWithUsedIngredients();
   const reccommendedMealsArr = [...new Set(mealsWithUsedIngredients.flat())];
+
   // END
   return (
     <div className="app-container">
@@ -166,11 +167,17 @@ function App() {
           <h2>Your Meals</h2>
 
           <div className="meals-action-container">
+            
             <SearchInput
               mealOptions={mealOptions}
               setMealNamesSearch={setMealNamesSearch}
             />
+              {/* <AddMealBtn
+            mealOptions={mealOptions}
+            setMealOptions={setMealOptions}
+          /> */}
           </div>
+        
           <div className="meal-columns-header-container">
             <div className="meal-header-container">
               <h2 className="sticky">Meals</h2>
@@ -192,7 +199,7 @@ function App() {
             <div className="meal-option-cards-grid sticky recommended-grid">
               {reccommendedMealsArr.map((name, index) => {
                 // Lime amount of reccomened option to display
-                const limitResults = 4;
+                const limitResults = 5;
                 if (index < limitResults) {
                   const getIndexInMealOptions = () => {
                     // slow, should change if becomes problem and have index calculate when setting reccomenedArr

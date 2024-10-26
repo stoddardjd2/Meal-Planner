@@ -56,7 +56,8 @@ button:focus {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
+        width: 88.5%;
+        margin-left: 20px;
       }
       .meal-header-container {
         display: flex;
@@ -90,9 +91,10 @@ button:focus {
         /* overflow-x: visible; */
         /* width: 390px; */
         .recommended-grid {
-          padding-top: 20px;
-          position: sticky;
+          /* padding-top: 20px; */
           top: 0;
+          position: sticky;
+          /* padding-top: 60px; */
           /* overflow-y: scroll; */
         }
         .left-meals-column {
@@ -220,6 +222,7 @@ button:focus {
   /* width: 600px; */
   display: flex;
   margin-left: 20px;
+  padding-top: 20px;
   flex-direction: column;
   /* flex-wrap: wrap; */
   /* margin: 0px 10px; */
@@ -367,10 +370,12 @@ button:focus {
 }
 .AddMealBtn {
   /* width: 100%; */
+  display: flex;
   .add-meal-btn {
-    width: 100%;
     width: 140px;
-    height: 30px;
+    height: 37px;
+    /* width: 140px; */
+    /* height: 30px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,8 +383,6 @@ button:focus {
     background-color: white;
     padding: 5px;
     /* margin-left: 20px; */
-    margin-bottom: 5px;
-
     img {
       width: 14px;
       filter: brightness(0);

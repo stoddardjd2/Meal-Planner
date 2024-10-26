@@ -61,8 +61,8 @@
           filter: brightness(100%);
           z-index: 5;
           padding: 20px;
-          top:15px;
-          left:15px;
+          top: 15px;
+          left: 15px;
           width: 10px;
           height: 10px;
           display: flex;
@@ -78,7 +78,6 @@
           justify-content: start;
           align-items: center;
           max-width: 53px;
-
           position: absolute;
           top: 0;
           left: -10px;
