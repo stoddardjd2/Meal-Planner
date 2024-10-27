@@ -101,6 +101,9 @@ export default function MealsWithSharedIngredients({
               <DraggableMeal
                 meal={getMealByName(meal)}
                 key={meal}
+                mainElement={
+                  <div className="draggable-meal-inner-container">{meal}</div>
+                }
                 mealOptions={mealOptions}
                 draggedValueRef={draggedValueRef}
                 index={index}
@@ -154,6 +157,11 @@ export default function MealsWithSharedIngredients({
                             mealOptions={mealOptions}
                             draggedValueRef={draggedValueRef}
                             index={index}
+                            mainElement={
+                              <div className="draggable-meal-inner-container">
+                                {meal}
+                              </div>
+                            }
                             styling={{
                               backgroundColor: `${assignments[meal].color}`,
                               // border: "4px red solid",

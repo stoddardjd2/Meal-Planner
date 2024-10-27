@@ -325,6 +325,12 @@ button:focus {
   .list-item-container {
     display: flex;
     position: relative;
+    .draggable-meal-inner-container {
+      background-color: var(--secondaryOpacity);
+      border-radius: 5px;
+      padding: 4px;
+      margin: 2px 0px;
+    }
     .meal-front {
       position: absolute;
       display: flex;
@@ -425,7 +431,7 @@ button:focus {
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: spin 1s ease-in-out infinite 
+      animation: spin 1s ease-in-out infinite;
     }
     .error-popup {
       position: absolute;

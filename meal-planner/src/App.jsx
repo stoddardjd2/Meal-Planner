@@ -199,7 +199,7 @@ function App() {
             <div className="meal-option-cards-grid sticky recommended-grid">
               {reccommendedMealsArr.map((name, index) => {
                 // Lime amount of reccomened option to display
-                const limitResults = 5;
+                const limitResults = 4;
                 if (index < limitResults) {
                   const getIndexInMealOptions = () => {
                     // slow, should change if becomes problem and have index calculate when setting reccomenedArr
