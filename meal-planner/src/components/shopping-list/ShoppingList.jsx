@@ -69,7 +69,7 @@ export default function ShoppingList({ addedMeals, mainIngredientsArr }) {
                         return (
                           <div className="unit-container" key={index}>
                             <div className="quantity">
-                              {ingredient.quantities[unitKey]}
+                              { Number(ingredient.quantities[unitKey].toFixed(2))}
                             </div>
                             <div>{unitKey == "undefined" ? "" : unitKey}</div>
                           </div>

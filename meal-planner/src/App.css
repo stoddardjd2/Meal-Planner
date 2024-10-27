@@ -13,6 +13,26 @@
   scrollbar-color: #808080 transparent;
   overflow: hidden;
 }
+@keyframes growY {
+  from {
+    height: 0px;
+    background-color: red;
+  }
+  to {
+    height: 100px;
+    background-color: green;
+  }
+}@keyframes shrinkY {
+  from {
+    height: 100px;
+    background-color: red;
+  }
+  to {
+    height: 0px;
+    background-color: green;
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg); /* Starting position */
@@ -20,6 +40,29 @@
   100% {
     transform: rotate(360deg); /* Ending position */
   }
+}
+@keyframes outlineColorChange {
+  0% {
+    outline-color: #ff7e5f;
+  }
+  25% {
+    outline-color: #feb47b;
+  }
+  50% {
+    outline-color: #1171cb;
+  }
+  75% {
+    outline-color: #2575fc;
+  }
+  100% {
+    outline-color: #ff7e5f;
+  }
+}
+.gradual-outline-change {
+  outline: 3px solid; /* Set initial outline size */
+  animation: outlineColorChange 2s linear infinite;
+  padding: 16px; /* Optional padding for better visibility */
+  border-radius: 8px; /* Optional for rounded corners */
 }
 img {
   user-select: none; /* Standard syntax */
@@ -133,6 +176,7 @@ button:focus {
     .right-split {
       /* margin-left: 40px; */
       padding: 0px 10px;
+      padding-right: 20px;
       width: 400px;
       padding-left: 30px;
       display: flex;

@@ -3,7 +3,7 @@ import AddMealOption from "./meal-options/AddMealOption";
 import plusIcon from "../assets/plus.svg";
 import xIcon from "../assets/x.svg";
 import removeUnitsAndNumbers from "../helpers/removeUnitsAndNumbers.js";
-import loadingIcon from '../assets/loading.svg'
+import loadingIcon from "../assets/loading.svg";
 export default function AddMealBtn({ mealOptions, setMealOptions }) {
   const popupRef2 = useRef(null); // Reference to the popup element
   const buttonRef2 = useRef(null);
@@ -44,7 +44,7 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
 
   function handleSearchByUrl(url) {
     console.log("SERACH!");
-    setIsRecipeLoading(true)
+    setIsRecipeLoading(true);
     if (url) {
       fetch(
         `https://api.spoonacular.com/recipes/extract?apiKey=${"2f0681fc22e5432fb1120dde6513b6d8"}&url=${encodeURIComponent(
@@ -74,30 +74,36 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
               }
             );
             setIsError();
-            setIsDropdown(false)
-            setIsRecipeLoading(false)
-            console.log("recipeData",recipeData)
+            setIsDropdown(false);
+            setIsRecipeLoading(false);
+            console.log("recipeData", recipeData);
+            const prepTimeMin =
+              recipeData.readyInMinutes == null ||
+              recipeData.readyInMinutes == -1 ||
+              recipeData.readyInMinutes == false
+                ? undefined
+                : recipeData.readyInMinutes;
             setMealOptions((prev) => {
               const newMeal = {
                 name: cleanName,
                 link: recipeData.sourceUrl,
                 servings: recipeData.servings,
-                prepTimeMin: recipeData.readyInMinutes,
+                prepTimeMin: prepTimeMin,
                 cost: undefined,
                 ingredients: [...formattedIngredients],
                 multiplier: 1,
-                instructions: recipeData.instructions
+                instructions: recipeData.instructions,
               };
               return [...prev, newMeal];
             });
           } else {
             setIsError("Meal with name is already added!");
-            setIsRecipeLoading(false)
+            setIsRecipeLoading(false);
             console.log("NAME TAKEN");
           }
         })
         .catch((err) => {
-          setIsRecipeLoading(false)
+          setIsRecipeLoading(false);
           setIsError("Failed to get recipe!");
           console.error("Failed to fetch recipe:", err);
         });
@@ -107,9 +113,22 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
   return (
     <div className="AddMealBtn">
       <button
+        style={
+          !(mealOptions.length == 0)
+            ? {}
+            : {
+                // backgroundColor:"#15b1bc",
+                outline: "5px #15b1bc solid",
+              }
+        }
+        // className="gradual-color-change"
         ref={buttonRef2}
         onClick={() => setIsDropdown(true)}
-        className="add-meal-btn"
+        className={`add-meal-btn ${
+          mealOptions.length == 0 && "gradual-outline-change"
+        }`}
+
+        // "add-meal-btn gradual-color-change"
       >
         <img src={plusIcon} />
       </button>
@@ -137,7 +156,7 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
                 placeholder="Copy and Paste Recipe URL"
               ></input>
             ) : (
-              <img className="input-loading-placeholder" src={loadingIcon}/>
+              <img className="input-loading-placeholder" src={loadingIcon} />
             )}
             OR
             <button onClick={() => setAddMethod("manual")}>Add Manually</button>
@@ -149,7 +168,8 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
             </button>
             {isError && (
               <div className="error-popup">
-                <strong>Error: </strong>{isError}
+                <strong>Error: </strong>
+                {isError}
               </div>
             )}
           </div>

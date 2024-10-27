@@ -139,7 +139,7 @@ export default function CalendarV2({
                 // servings: 1,
                 overflow: 0,
                 location,
-                multiplier: updatedNewMultiplier
+                multiplier: updatedNewMultiplier,
                 // cost: newCost,
               },
             ];
@@ -367,7 +367,7 @@ export default function CalendarV2({
   }
 
   return (
-    <div className="CalendarV2">
+    <div  className="CalendarV2">
       {/* <img src="https://api.iconify.design/akar-icons/camera.svg?color=%23ba3329" /> */}
 
       {
@@ -397,9 +397,9 @@ export default function CalendarV2({
             {days.map((day, columnIndex) => {
               return (
                 <div
+                  key={columnIndex}
                   style={isCompactMode ? {} : {}}
                   className="calendarv2--item-value"
-                  key={columnIndex}
                 >
                   {getDaySlots({ row: rowIndex, column: columnIndex })}
                 </div>

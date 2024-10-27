@@ -13,6 +13,13 @@
 .reccomendations-by-ingredient-item-container {
   display: flex;
   gap: 5px;
+  position: relative;
+  .dropdown-button{
+    /* position: absolute;
+    z-index: 10;
+    top:1px;
+    left:-30px; */
+  }
 }
 
 
@@ -28,20 +35,26 @@ h2{
     left:-30px;
   }
 }
+.dropdown-recommendation-container:nth-child(odd){
+  background-color: var(--secondary);
+}
 .dropdown-recommendation-container {
   padding: 10px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: 2s ease-in-out all;
   /* background-color: rgb(112, 112, 112)  */
 }
 .recomended-dropdown-content {
-  margin-left: 29px;
   display: flex;
   gap: 5px;
   flex-wrap: wrap; /* Allows items to wrap to the next line when overflowing */
-  width: 200px;
+  /* width: 200px; */
+  /* animation: shrinkY 1s ease forwards; */
+  /* overflow: hidden; */
+
   .meal-recommeneded-item {
   }
 }

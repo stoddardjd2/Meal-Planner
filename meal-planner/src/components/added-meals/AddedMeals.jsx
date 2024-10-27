@@ -99,7 +99,7 @@ export default function AddedMeals({
                     <div className="ingredient-container-child" key={index}>
                       <div className="main-ingredients-items-container">
                         <div className="dropdown-column">
-                          {ingredient.count > 1 && (
+                          {/* {ingredient.count > 1 && (
                             <button
                               onClick={(e) =>
                                 setIsDropdown((prev) => {
@@ -110,7 +110,7 @@ export default function AddedMeals({
                             >
                               <img src={dropdownIcon} />
                             </button>
-                          )}
+                          )} */}
                         </div>
 
                         <div className="count">{ingredient.count}x</div>
@@ -125,7 +125,8 @@ export default function AddedMeals({
                               return (
                                 <div className="unit-container" key={index}>
                                   <div className="quantity">
-                                    {ingredient.quantities[unitKey]}
+
+                                    { Number(ingredient.quantities[unitKey].toFixed(2))}
                                   </div>
                                   <div>
                                     {unitKey == "undefined" ? "" : unitKey}

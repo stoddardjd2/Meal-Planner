@@ -89,7 +89,7 @@ export default function MealsWithSharedIngredients({
         </button>
       </h2>
 
-      {!isHeaderDropdown &&
+      {!isHeaderDropdown && (
         <>
           <div className="hide-added-meals-container">
             <label htmlFor="hide-added">Show added meals</label>
@@ -106,7 +106,10 @@ export default function MealsWithSharedIngredients({
         ingredients)
       </div> */}
             <h4>All Recommended</h4>
-            <div className="recommended-meals-container">
+            <div
+              className="recommended-meals-container"
+             
+            >
               {/* <div className="recommended-grid-container"> */}
 
               {reccommendedMealsArr.map((meal, index) => {
@@ -133,70 +136,73 @@ export default function MealsWithSharedIngredients({
             </div>
             <div className="recomendation-by-ingredient-container">
               <h4>By Reuseable Ingredients</h4>
-              {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
-                if (!(mealsForIngredientArr.length == 0)) {
-                  // only display ingredients that have a meal matched that has not been added
-                  return (
-                    <div
-                      className="dropdown-recommendation-container"
-                      style={
-                        (index + 1) % 2 === 0
-                          ? { backgroundColor: "rgb(65, 65, 65)" }
-                          : {}
-                      }
-                      key={index}
-                    >
-                      <div className="reccomendations-by-ingredient-item-container">
-                        <button
-                          onClick={(e) =>
-                            setIsDropdown((prev) => {
-                              return { ...prev, [index]: !prev[index] };
-                            })
-                          }
-                          className="dropdown-button"
+              <div className="parent-container">
+                {mealsWithUsedIngredients.map(
+                  (mealsForIngredientArr, index) => {
+                    if (!(mealsForIngredientArr.length == 0)) {
+                      // only display ingredients that have a meal matched that has not been added
+                      return (
+                        <div
+                          className="dropdown-recommendation-container"
+                          // style={
+                          //   (index + 1) % 2 === 0
+                          //     ? { backgroundColor: "rgb(65, 65, 65)" }
+                          //     : {}
+                          // }
+                          key={index}
                         >
-                          <img src={dropdownIcon} />
-                        </button>
-                        <div>
-                          {mainIngredientsArr[index].name
-                            .charAt(0)
-                            .toUpperCase() +
-                            mainIngredientsArr[index].name.slice(1)}
+                          <div className="reccomendations-by-ingredient-item-container">
+                            <button
+                              onClick={(e) =>
+                                setIsDropdown((prev) => {
+                                  return { ...prev, [index]: !prev[index] };
+                                })
+                              }
+                              className="dropdown-button"
+                            >
+                              <img src={dropdownIcon} />
+                            </button>
+                            <div>
+                              {mainIngredientsArr[index].name
+                                .charAt(0)
+                                .toUpperCase() +
+                                mainIngredientsArr[index].name.slice(1)}
+                            </div>
+                          </div>
+                          {isDropdown[index] && (
+                            <div className="recomended-dropdown-content">
+                              {mealsForIngredientArr.map((meal, index) => {
+                                return (
+                                  <DraggableMeal
+                                    meal={getMealByName(meal)}
+                                    key={"draggable-ing-" + meal}
+                                    mealOptions={mealOptions}
+                                    draggedValueRef={draggedValueRef}
+                                    index={index}
+                                    mainElement={
+                                      <div className="draggable-meal-inner-container">
+                                        {meal}
+                                      </div>
+                                    }
+                                    styling={{
+                                      backgroundColor: `${assignments[meal].color}`,
+                                      // border: "4px red solid",
+                                    }}
+                                  />
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      {isDropdown[index] && (
-                        <div className="recomended-dropdown-content">
-                          {mealsForIngredientArr.map((meal, index) => {
-                            return (
-                              <DraggableMeal
-                                meal={getMealByName(meal)}
-                                key={"draggable-ing-" + meal}
-                                mealOptions={mealOptions}
-                                draggedValueRef={draggedValueRef}
-                                index={index}
-                                mainElement={
-                                  <div className="draggable-meal-inner-container">
-                                    {meal}
-                                  </div>
-                                }
-                                styling={{
-                                  backgroundColor: `${assignments[meal].color}`,
-                                  // border: "4px red solid",
-                                }}
-                              />
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-              })}
-              <div></div>
+                      );
+                    }
+                  }
+                )}
+              </div>
             </div>
           </div>
         </>
-      }
+      )}
     </div>
   );
 }

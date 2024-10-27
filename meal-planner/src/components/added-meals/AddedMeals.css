@@ -26,6 +26,7 @@
   .main-ingredients-items-container {
     display: flex;
     gap: 5px;
+    align-items: center;
     .dropdown-column {
       width: 20px;
       display: flex;
