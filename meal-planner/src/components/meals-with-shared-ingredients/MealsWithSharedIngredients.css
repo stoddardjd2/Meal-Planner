@@ -1,3 +1,7 @@
+.MealsWithSharedIngredients{
+  position: relative;
+
+}
 .recommened-meals-scroll{
   /* height: 480px; */
   margin-bottom: 155px;
@@ -14,6 +18,15 @@
 
 .recomendation-by-ingredient-container {
   width: 250px;
+}
+h2{
+  position: relative;
+  .dropdown-button-recommended{
+    position: absolute;
+    z-index: 10;
+    top:8px;
+    left:-30px;
+  }
 }
 .dropdown-recommendation-container {
   padding: 10px;

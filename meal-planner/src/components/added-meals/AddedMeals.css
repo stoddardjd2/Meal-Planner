@@ -2,9 +2,23 @@
   display: flex;
   flex-direction: column;
   /* width: 100px; */
+  position: relative;
+  .dropdown-button{
+    position: absolute;
+    z-index: 10;
+    top:10px;
+    left:-30px;
+  }
   .keys-container {
     /* background-color: grey; */
     color: rgb(112, 112, 112);
+  }
+  .main-ingredients-main-container{
+    display: flex;
+    flex-direction: column;
+  }
+  .ingredient-container-child:nth-child(odd){
+    background-color: var(--secondary);
   }
   .meal-for-ingredient-dropdown{
     margin-left: 25px;
@@ -20,7 +34,7 @@
       width: 50px;
     }
     .ingredient-name {
-      width: 80px;
+      width: 150px;
     }
     .unit-container {
       display: flex;
@@ -33,6 +47,13 @@
   }
   .main-ingredients-header {
     margin-bottom: 10px;
+      position: relative;
+      .dropdown-button{
+        position: absolute;
+        z-index: 10;
+        top:0px;
+        left:-30px;
+      }
   }
 
   .analysis-container {

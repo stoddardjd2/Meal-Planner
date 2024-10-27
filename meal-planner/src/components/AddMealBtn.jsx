@@ -73,10 +73,10 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
                 };
               }
             );
-            console.log("formattedIngredients", formattedIngredients);
             setIsError();
             setIsDropdown(false)
             setIsRecipeLoading(false)
+            console.log("recipeData",recipeData)
             setMealOptions((prev) => {
               const newMeal = {
                 name: cleanName,
@@ -86,8 +86,8 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
                 cost: undefined,
                 ingredients: [...formattedIngredients],
                 multiplier: 1,
+                instructions: recipeData.instructions
               };
-              console.log("ADDING MEAL", newMeal);
               return [...prev, newMeal];
             });
           } else {

@@ -114,6 +114,7 @@ button:focus {
           display: flex;
           justify-content: start;
           align-items: start;
+          z-index: 1;
           /* top:0 */
           /* position: sticky; */
           /* overflow-y: auto; */
@@ -133,6 +134,7 @@ button:focus {
       /* margin-left: 40px; */
       padding: 0px 10px;
       width: 400px;
+      padding-left: 30px;
       display: flex;
       flex-direction: column;
       overflow-y: scroll;
@@ -396,6 +398,7 @@ button:focus {
     /* width: 100%; */
     background-color: white;
     padding: 5px;
+ 
     /* margin-left: 20px; */
     img {
       width: 14px;
@@ -415,6 +418,7 @@ button:focus {
   z-index: 10;
   justify-content: center;
   align-items: center;
+
   .add-meal-method {
     align-items: center;
     display: flex;
@@ -425,6 +429,7 @@ button:focus {
     width: 400px;
     height: 300px;
     position: relative;
+    z-index: 10;
     .input-loading-placeholder {
       height: 108px;
       width: 108px;
@@ -473,20 +478,21 @@ button:focus {
   }
 }
 .add-meal-popup {
-  width: 380px;
+  width: 400px;
   background-color: rgb(51, 51, 51);
   border-radius: 10px;
   padding: 10px;
-  z-index: 6;
-  position: relative;
+  z-index: 10;
   cursor: default;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 735px;
+  height:860px;
   /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
   .add-meal-button {
+    /* bottom: 10px;
+    position: absolute; */
   }
   .popup-standardize-container:hover {
     opacity: 1;
@@ -577,19 +583,18 @@ button:focus {
     padding: 3px;
     width: 180px;
   }
+
   form {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
     .input-option-container {
       display: flex;
       flex-direction: column;
       gap: 1px;
-      .input-row-container {
-        display: flex;
-        gap: 10px;
-      }
+      
       .name {
         position: relative;
         font-size: 14px;
@@ -603,18 +608,80 @@ button:focus {
         line-height: 16px;
         height: 17px;
       }
-      input {
-        background-color: rgb(51, 51, 51);
-        outline: none;
-        border-radius: 5px;
-        border: 1px rgb(161, 161, 161) solid;
+      .flex-grid-item {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        .remove-ingredient {
+          background-color: transparent;
+        }
+        .remove-ingredient,
+        .add-ingredient-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          /* background-color: red !important; */
+          width: 24px;
+          height: 24px;
+          margin: 0px;
+          .plus-icon,
+          .x-icon {
+            padding: 0px;
+            margin: 0px;
+            width: 14px;
+            /* width: 12px; */
+            /* background-color: hsl(0, 0%, 100%, 40%);
+              border: 1px grey solid;
+              border-radius: 10px;
+        } */
+          }
+        }
       }
-      .name-input {
-        width: 160px;
-      }
+
       .ingredients-key-grid > :not(:nth-child(-n + 3)) {
         margin-bottom: 5px;
       }
+      .keys1{
+        margin-left: 5px;
+        translate: -2px 9px;
+        label{
+          background-color: #333333;
+        }
+      }
+      .ingredients-key-container {
+        display: flex;
+        margin-bottom: 10px;
+        .name-input{
+          /* width: fit-content; */
+          margin-left: 5px;
+          width: 175px;
+
+        }
+        /* gap: 20px; */
+        .name-key {
+          width: 180px;
+          margin-right: 0px;
+        }
+        .quantity-key {
+          /* width: 40px; */
+          margin-right: 12px;
+        }
+        .units-key {
+          /* width: 50px; */
+        }
+      }
+      input {
+        margin-right: 5px;
+      }
+      .quantity-input {
+        width: 45px;
+      }
+      .units-input {
+        margin-right: 0px;
+        width: 85px;
+      }
+     
       .ingredients-key-grid {
         height: 105px;
         margin-bottom: 10px;
@@ -630,59 +697,12 @@ button:focus {
           margin-top: 5px;
           display: flex;
         }
-        .ingredients-key-container {
-          display: flex;
-          margin-bottom: 1px;
-          /* gap: 20px; */
-          .name-key {
-            /* width: 180px; */
-            margin-right: 124px;
-          }
-          .quantity-key {
-            /* width: 40px; */
-            margin-right: 12px;
-          }
-          .units-key {
-            /* width: 50px; */
-          }
-        }
-        input {
-          margin-right: 5px;
-        }
+
         .ingredient-name {
           /* margin-left: 5px; */
           margin-bottom: 0px;
         }
-        .flex-grid-item {
-          display: flex;
-          gap: 5px;
-          justify-content: space-between;
-          .remove-ingredient {
-            background-color: transparent;
-          }
-          .remove-ingredient,
-          .add-ingredient-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            /* background-color: red !important; */
-            width: 24px;
-            height: 24px;
-            margin: 0px;
-            .plus-icon,
-            .x-icon {
-              padding: 0px;
-              margin: 0px;
-              width: 14px;
-              /* width: 12px; */
-              /* background-color: hsl(0, 0%, 100%, 40%);
-                border: 1px grey solid;
-                border-radius: 10px;
-          } */
-            }
-          }
-        }
+
         .grid-value-item {
           border-bottom: 1px white solid;
           padding-bottom: 5px;
@@ -696,14 +716,11 @@ button:focus {
         }
         div {
         }
-        .quantity-input {
-          width: 45px;
-        }
-        .units-input {
-          margin-right: 0px;
-          width: 85px;
-        }
       }
+    }
+    .cont-1:focus-within .name{
+      transform: translateY(0px) !important;/* Move the .name element down by 20px */
+      transition: linear 0.15s all;
     }
     .input-option-container:focus-within .name {
       transform: translateY(4px); /* Move the .name element down by 20px */

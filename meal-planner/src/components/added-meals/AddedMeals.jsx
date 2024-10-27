@@ -1,12 +1,15 @@
 import "../added-meals/AddedMeals.css";
 import dropdownIcon from "../../assets/dropdown.svg";
 import { useState } from "react";
+
 export default function AddedMeals({
   addedMeals,
   mainIngredientsArr,
   mealOptions,
 }) {
- 
+  const [isHeaderDropdown, setIsHeaderDropdown] = useState(false);
+  const [isMainIngredientsDropdown, setIsMainIngredientsDropdown] =
+    useState(true);
   const [isDropdown, setIsDropdown] = useState({});
   const totalCost = () => {
     const mealCosts = addedMeals.map((addedMeal) => {
@@ -24,7 +27,7 @@ export default function AddedMeals({
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(sum);
-    
+
     return costPerServingFormatted;
   };
   // const getMealsWithUsedIngredients = () => {
@@ -51,81 +54,113 @@ export default function AddedMeals({
 
   return (
     <div className="added-meals-container">
-      <h2>This Week</h2>
+      <h2>
+        <button
+          onClick={() => setIsHeaderDropdown((prev) => !prev)}
+          className="dropdown-button"
+        >
+          <img src={dropdownIcon} />
+        </button>
+        This Week
+      </h2>
 
       {/* <div className="analysis-container"> */}
-      <div>Total Cost: ${totalCost()}</div>
-      <h5 className="main-ingredients-header ">Main Ingredients</h5>
-      <div className="main-ingredients-items-container keys-container">
-        <div className="dropdown-column"></div>
-        <div className="count">Use #</div>
+      {!isHeaderDropdown && (
+        <>
+          <div>Total Cost: ${totalCost()}</div>
+          <h5 className="main-ingredients-header ">
+            Main Ingredients
+            <button
+              onClick={() => setIsMainIngredientsDropdown((prev) => !prev)}
+              className="dropdown-button-recommended dropdown-button"
+            >
+              <img src={dropdownIcon} />
+            </button>
+          </h5>
 
-        <div className="ingredient-name">Name</div>
-        <div>
-          <div className="unit-container">
-            <div className="quantity">#</div>
-            <div>Unit</div>
-          </div>
-        </div>
-      </div>
-      {/* </div> */}
-      {mainIngredientsArr.map((ingredient, index) => {
-        return (
-          <div key={index}>
-            <div className="main-ingredients-items-container">
-              <div className="dropdown-column">
-                {ingredient.count > 1 && (
-                  <button
-                    onClick={(e) =>
-                      setIsDropdown((prev) => {
-                        return { ...prev, [index]: !prev[index] };
-                      })
-                    }
-                    className="dropdown-button"
-                  >
-                    <img src={dropdownIcon} />
-                  </button>
-                )}
+          {isMainIngredientsDropdown && (
+            <>
+              <div className="main-ingredients-items-container keys-container">
+                <div className="dropdown-column"></div>
+                <div className="count">Use #</div>
+
+                <div className="ingredient-name">Name</div>
+                <div>
+                  <div className="unit-container">
+                    <div className="quantity">#</div>
+                    <div>Unit</div>
+                  </div>
+                </div>
               </div>
-
-              <div className="count">{ingredient.count}x</div>
-
-              <div className="ingredient-name">
-                {ingredient.name.charAt(0).toUpperCase() +
-                  ingredient.name.slice(1)}
-              </div>
-              <div>
-                {Object.keys(ingredient.quantities).map((unitKey, index) => {
+              {/* </div> */}
+              <div className="main-ingredients-main-container">
+                {mainIngredientsArr.map((ingredient, index) => {
                   return (
-                    <div className="unit-container" key={index}>
-                      <div className="quantity">
-                        {ingredient.quantities[unitKey]}
+                    <div className="ingredient-container-child" key={index}>
+                      <div className="main-ingredients-items-container">
+                        <div className="dropdown-column">
+                          {ingredient.count > 1 && (
+                            <button
+                              onClick={(e) =>
+                                setIsDropdown((prev) => {
+                                  return { ...prev, [index]: !prev[index] };
+                                })
+                              }
+                              className="dropdown-button"
+                            >
+                              <img src={dropdownIcon} />
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="count">{ingredient.count}x</div>
+
+                        <div className="ingredient-name">
+                          {ingredient.name.charAt(0).toUpperCase() +
+                            ingredient.name.slice(1)}
+                        </div>
+                        <div>
+                          {Object.keys(ingredient.quantities).map(
+                            (unitKey, index) => {
+                              return (
+                                <div className="unit-container" key={index}>
+                                  <div className="quantity">
+                                    {ingredient.quantities[unitKey]}
+                                  </div>
+                                  <div>
+                                    {unitKey == "undefined" ? "" : unitKey}
+                                  </div>
+                                </div>
+                              );
+                            }
+                          )}
+                        </div>
                       </div>
-                      <div>{unitKey == "undefined" ? "" : unitKey}</div>
+                      {isDropdown[index] && (
+                        <div className="meal-for-ingredient-dropdown">
+                          {addedMeals.map((meal, index) => {
+                            const ingredientsForMealArray =
+                              meal.ingredients.map((addedMealsIngredient) => {
+                                return addedMealsIngredient.name;
+                              });
+
+                            if (
+                              ingredientsForMealArray.includes(ingredient.name)
+                            ) {
+                              return <div key={index}>{meal.name}</div>;
+                            }
+                            // if(meal.name)
+                          })}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
               </div>
-            </div>
-            {isDropdown[index] && (
-              <div className="meal-for-ingredient-dropdown">
-                {addedMeals.map((meal, index) => {
-                  const ingredientsForMealArray = meal.ingredients.map(
-                    (addedMealsIngredient) => {
-                      return addedMealsIngredient.name;
-                    }
-                  );
-
-                  if (ingredientsForMealArray.includes(ingredient.name)) {
-                    return <div key={index}>{meal.name}</div>;
-                  }
-                  // if(meal.name)
-                })}
-              </div>
-            )}
-          </div>
-        );
-      })}
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }

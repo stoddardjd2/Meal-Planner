@@ -1,24 +1,43 @@
 .shopping-list {
+  
+  h2{
+    position: relative;
+    .dropdown-button{
+      position: absolute;
+      z-index: 10;
+      top:8px;
+      left:-30px;
+    }
+  }
   .keys-container {
     /* background-color: grey; */
     color: rgb(112, 112, 112);
   }
+  .main-ingredients-main-container{
+    /* display: flex; */
+    /* align-items: center; */
+  }
+  .ingredient-container-child:nth-child(odd){
+    background-color: var(--secondary);
+  }
   .main-ingredients-items-container {
     display: flex;
-    gap: 5px;
+    align-items: center;
+    gap: 10px;
     .checkbox {
       width: 20px;
       display: flex;
       justify-content: start;
       align-items: center;
     }
+   
     .count {
       width: 50px;
     }
     .ingredient-name {
       display: flex;
       align-items: center;
-      width: 80px;
+      width: 150px;
     }
     .unit-container {
       display: flex;

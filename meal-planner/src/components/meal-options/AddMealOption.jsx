@@ -145,12 +145,13 @@ export default function AddMealOption({
       style={styling ? { ...styling } : {}}
       ref={popupRef}
     >
+      <h2>Enter Recipe Details</h2>
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
             return (
               <div key={index} className="ingredients-main-container">
-                <h2>Ingredients</h2>
+                <h3>Ingredients</h3>
                 <h4 className="quick-add ingredients-headers">Quick Add</h4>
                 <QuickAddAnalyzer
                   setChangesTracker={setChangesTracker}
@@ -158,9 +159,9 @@ export default function AddMealOption({
                   setFormInput={setFormInput}
                 />
                 <h4 className="quick-add ingredients-headers">Manual Add</h4>
-                <div className="input-option-container">
-                  <div className="ingredients-key-grid">
-                    <div className="ingredients-key-container">
+                <div className="input-option-container cont-1">
+                  <div>
+                    <div className="ingredients-key-container keys1">
                       <label htmlFor="Name" className="name name-key">
                         Name
                       </label>
@@ -172,7 +173,11 @@ export default function AddMealOption({
                       </label>
                     </div>
                     <div className="ingredients-key-container">
-                      <input className="name-input" id="Name" ref={inputRef}></input>
+                      <input
+                        className="name-input"
+                        id="Name"
+                        ref={inputRef}
+                      ></input>
 
                       <input
                         id="Count"
@@ -194,12 +199,13 @@ export default function AddMealOption({
                         </button>
                       </div>
                     </div>
-
+                  </div>
+                  <div className="ingredients-key-grid">
                     {formInput.ingredients.map((ingredient, index) => {
                       return (
                         <div className="ingredient-container" key={index}>
                           <input
-                          className="name-input"
+                            className="name-input"
                             onChange={(e) => {
                               setFormInput((prev) => {
                                 const copy = [...prev.ingredients];

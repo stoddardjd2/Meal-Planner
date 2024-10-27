@@ -3,6 +3,7 @@ import dropdownIcon from "../../assets/dropdown.svg";
 import "./MealsWithSharedIngredients.css";
 import MealOptionCard from "../meal-options/MealOptionCard";
 import DraggableMeal from "../draggable-meal/DraggableMeal";
+
 export default function MealsWithSharedIngredients({
   mealOptions,
   mainIngredientsArr,
@@ -12,6 +13,7 @@ export default function MealsWithSharedIngredients({
 }) {
   const [isHidingAddedMeals, setIsHidingAddedMeals] = useState(true);
   const [isDropdown, setIsDropdown] = useState({});
+  const [isHeaderDropdown, setIsHeaderDropdown] = useState(false);
   const [isHovering, setIsHovering] = useState({});
 
   // Function to get non-matching objects based on the `name` property
@@ -76,108 +78,125 @@ export default function MealsWithSharedIngredients({
   }
 
   return (
-    <div>
-      <h2>Recommened Meals</h2>
-      <div className="hide-added-meals-container">
-        <label htmlFor="hide-added">Show added meals</label>
-        <input
-          id="hide-added"
-          type="checkbox"
-          checked={!isHidingAddedMeals}
-          onChange={() => setIsHidingAddedMeals((prev) => !prev)}
-        ></input>
-      </div>
-      <div className="recommened-meals-scroll">
-        {/* <div>
+    <div className="MealsWithSharedIngredients">
+      <h2>
+        Recommened Meals
+        <button
+          onClick={() => setIsHeaderDropdown((prev) => !prev)}
+          className="dropdown-button-recommended dropdown-button"
+        >
+          <img src={dropdownIcon} />
+        </button>
+      </h2>
+
+      {!isHeaderDropdown &&
+        <>
+          <div className="hide-added-meals-container">
+            <label htmlFor="hide-added">Show added meals</label>
+            <input
+              id="hide-added"
+              type="checkbox"
+              checked={!isHidingAddedMeals}
+              onChange={() => setIsHidingAddedMeals((prev) => !prev)}
+            ></input>
+          </div>
+          <div className="recommened-meals-scroll">
+            {/* <div>
         (Found {reccommendedMealsArr.length} Meals that use the same
         ingredients)
       </div> */}
-        <h4>All Recommended</h4>
-        <div className="recommended-meals-container">
-          {/* <div className="recommended-grid-container"> */}
+            <h4>All Recommended</h4>
+            <div className="recommended-meals-container">
+              {/* <div className="recommended-grid-container"> */}
 
-          {reccommendedMealsArr.map((meal, index) => {
-            return (
-              <DraggableMeal
-                meal={getMealByName(meal)}
-                key={meal}
-                mainElement={
-                  <div className="draggable-meal-inner-container">{meal}</div>
-                }
-                mealOptions={mealOptions}
-                draggedValueRef={draggedValueRef}
-                index={index}
-                styling={{
-                  backgroundColor: `${assignments[meal].color}`,
-                  // border: "4px red solid",
-                }}
-              />
-            );
-          })}
-          {/* </div> */}
-        </div>
-        <div className="recomendation-by-ingredient-container">
-          <h4>By Reuseable Ingredients</h4>
-          {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
-            if (!(mealsForIngredientArr.length == 0)) {
-              // only display ingredients that have a meal matched that has not been added
-              return (
-                <div
-                  className="dropdown-recommendation-container"
-                  style={
-                    (index + 1) % 2 === 0
-                      ? { backgroundColor: "rgb(65, 65, 65)" }
-                      : {}
-                  }
-                  key={index}
-                >
-                  <div className="reccomendations-by-ingredient-item-container">
-                    <button
-                      onClick={(e) =>
-                        setIsDropdown((prev) => {
-                          return { ...prev, [index]: !prev[index] };
-                        })
+              {reccommendedMealsArr.map((meal, index) => {
+                return (
+                  <DraggableMeal
+                    meal={getMealByName(meal)}
+                    key={meal}
+                    mainElement={
+                      <div className="draggable-meal-inner-container">
+                        {meal}
+                      </div>
+                    }
+                    mealOptions={mealOptions}
+                    draggedValueRef={draggedValueRef}
+                    index={index}
+                    styling={{
+                      backgroundColor: `${assignments[meal].color}`,
+                      // border: "4px red solid",
+                    }}
+                  />
+                );
+              })}
+              {/* </div> */}
+            </div>
+            <div className="recomendation-by-ingredient-container">
+              <h4>By Reuseable Ingredients</h4>
+              {mealsWithUsedIngredients.map((mealsForIngredientArr, index) => {
+                if (!(mealsForIngredientArr.length == 0)) {
+                  // only display ingredients that have a meal matched that has not been added
+                  return (
+                    <div
+                      className="dropdown-recommendation-container"
+                      style={
+                        (index + 1) % 2 === 0
+                          ? { backgroundColor: "rgb(65, 65, 65)" }
+                          : {}
                       }
-                      className="dropdown-button"
+                      key={index}
                     >
-                      <img src={dropdownIcon} />
-                    </button>
-                    <div>
-                      {mainIngredientsArr[index].name.charAt(0).toUpperCase() +
-                        mainIngredientsArr[index].name.slice(1)}
+                      <div className="reccomendations-by-ingredient-item-container">
+                        <button
+                          onClick={(e) =>
+                            setIsDropdown((prev) => {
+                              return { ...prev, [index]: !prev[index] };
+                            })
+                          }
+                          className="dropdown-button"
+                        >
+                          <img src={dropdownIcon} />
+                        </button>
+                        <div>
+                          {mainIngredientsArr[index].name
+                            .charAt(0)
+                            .toUpperCase() +
+                            mainIngredientsArr[index].name.slice(1)}
+                        </div>
+                      </div>
+                      {isDropdown[index] && (
+                        <div className="recomended-dropdown-content">
+                          {mealsForIngredientArr.map((meal, index) => {
+                            return (
+                              <DraggableMeal
+                                meal={getMealByName(meal)}
+                                key={"draggable-ing-" + meal}
+                                mealOptions={mealOptions}
+                                draggedValueRef={draggedValueRef}
+                                index={index}
+                                mainElement={
+                                  <div className="draggable-meal-inner-container">
+                                    {meal}
+                                  </div>
+                                }
+                                styling={{
+                                  backgroundColor: `${assignments[meal].color}`,
+                                  // border: "4px red solid",
+                                }}
+                              />
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  {isDropdown[index] && (
-                    <div className="recomended-dropdown-content">
-                      {mealsForIngredientArr.map((meal, index) => {
-                        return (
-                          <DraggableMeal
-                            meal={getMealByName(meal)}
-                            key={"draggable-ing-" + meal}
-                            mealOptions={mealOptions}
-                            draggedValueRef={draggedValueRef}
-                            index={index}
-                            mainElement={
-                              <div className="draggable-meal-inner-container">
-                                {meal}
-                              </div>
-                            }
-                            styling={{
-                              backgroundColor: `${assignments[meal].color}`,
-                              // border: "4px red solid",
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-          })}
-          <div></div>
-        </div>
-      </div>
+                  );
+                }
+              })}
+              <div></div>
+            </div>
+          </div>
+        </>
+      }
     </div>
   );
 }
