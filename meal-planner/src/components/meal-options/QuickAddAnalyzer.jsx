@@ -36,7 +36,7 @@ export default function QuickAddAnalyzer({
         const name = getName(row);
         setFormInput((prev) => {
           const copy = [...prev.ingredients];
-          copy.unshift({
+          copy.push({
             name,
             quantity,
             units,
@@ -127,32 +127,6 @@ export default function QuickAddAnalyzer({
     console.log("foodName", foodName);
     console.log("fetch time!", foodName);
     return foodName;
-
-    const apiKey = "2f0681fc22e5432fb1120dde6513b6d8"; // Replace with your Spoonacular API key
-    // fetch(
-    //   `https://api.spoonacular.com/food/ingredients/search?query=${foodName}&apiKey=${apiKey}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.results && data.results.length > 0) {
-    //       console.log(data.results[0]); // Log the first result
-    //       setIngredientsInfo((prev) => {
-    //         const copy = [...prev];
-    //         copy.splice(index, 1, {
-    //           ...prev[index],
-    //           name: data.results[0].name,
-    //           image: data.results[0].image,
-    //         });
-    //         return copy;
-    //       });
-    //     } else {
-    //       console.log("No food details found.");
-    //     }
-    //   });
-
-    // Example usage
-    // fetchFoodDetails("apple");
-    // gets name by removing units and quantity
   }
 
   return (

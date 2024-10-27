@@ -172,7 +172,7 @@ export default function AddMealOption({
                       </label>
                     </div>
                     <div className="ingredients-key-container">
-                      <input className="" id="Name" ref={inputRef}></input>
+                      <input className="name-input" id="Name" ref={inputRef}></input>
 
                       <input
                         id="Count"
@@ -199,6 +199,7 @@ export default function AddMealOption({
                       return (
                         <div className="ingredient-container" key={index}>
                           <input
+                          className="name-input"
                             onChange={(e) => {
                               setFormInput((prev) => {
                                 const copy = [...prev.ingredients];
@@ -264,25 +265,7 @@ export default function AddMealOption({
                       );
                     })}
                   </div>
-
-                  {/* capitilize first letter of string */}
                 </div>
-                {/* <ul className="ingredients-container">
-                  {formInput.ingredients.map((ingredient, index) => {
-                    return (
-                      <li key={index}>
-                        <div className="ingredient-item-container">
-                          <div>{ingredient.name}</div>
-                          <button
-                            onClick={(e) => handleRemoveIngredient(e, index)}
-                          >
-                            <img className="x-icon" src={xIcon} />
-                          </button>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul> */}
               </div>
             );
           } else if (inputField == "multiplier") {

@@ -64,6 +64,7 @@
       top: 0px;
       right: -35px;
       display: flex;
+      flex-direction: column;
       gap: 3px;
       .action-button:hover {
         background-color: rgb(29, 29, 29, 1);
@@ -74,6 +75,9 @@
         /* padding: 5px 10px; */
         padding: 7px 14px;
         border-radius: 20px;
+      }
+      .action-button-link{
+
       }
       button {
         display: flex;
@@ -123,7 +127,7 @@
     .multiplier-fixed {
       position: absolute;
       right: -35px;
-      bottom: -15px;
+      bottom: -20px;
 
       .serving-size-multiplier-containerV2 {
         display: flex;

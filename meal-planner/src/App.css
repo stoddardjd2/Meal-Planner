@@ -13,6 +13,14 @@
   scrollbar-color: #808080 transparent;
   overflow: hidden;
 }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Starting position */
+  }
+  100% {
+    transform: rotate(360deg); /* Ending position */
+  }
+}
 img {
   user-select: none; /* Standard syntax */
   pointer-events: none; /* Disables interactions including dragging */
@@ -395,9 +403,68 @@ button:focus {
   background-color: hsla(0, 0%, 0%, 0.3);
   width: 100%;
   height: 100%;
+  display: flex;
   left: 0px;
   top: 0px;
   z-index: 10;
+  justify-content: center;
+  align-items: center;
+  .add-meal-method {
+    align-items: center;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    background-color: var(--secondary);
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+    position: relative;
+    .input-loading-placeholder {
+      height: 108px;
+      width: 108px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: spin 1s ease-in-out infinite 
+    }
+    .error-popup {
+      position: absolute;
+      top: 75%;
+      border-radius: 10px;
+      padding: 10px;
+      /* right: ; */
+    }
+    .exit-button-method:hover {
+      opacity: 1;
+    }
+    .exit-button-method {
+      position: absolute;
+      opacity: 0.6;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      /* background-color: transparent; */
+      img {
+        width: 15px;
+      }
+    }
+    input::placeholder {
+      text-align: center;
+      text-wrap: wrap;
+      font-size: 14px;
+      font-style: italic;
+    }
+    input {
+      height: 100px;
+      width: 100px;
+    }
+    button {
+      height: 100px;
+      width: 100px;
+    }
+  }
 }
 .add-meal-popup {
   width: 380px;
@@ -413,14 +480,15 @@ button:focus {
   transform: translate(-50%, -50%);
   height: 735px;
   /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
-
-  .popup-button-container:hover {
+  .add-meal-button {
+  }
+  .popup-standardize-container:hover {
     opacity: 1;
   }
-  .popup-button-container {
+  .popup-standardize-container {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10px;
+    right: 10px;
     opacity: 70%;
     .popup-hover:hover {
       opacity: 1;
@@ -535,11 +603,19 @@ button:focus {
         border-radius: 5px;
         border: 1px rgb(161, 161, 161) solid;
       }
+      .name-input {
+        width: 160px;
+      }
       .ingredients-key-grid > :not(:nth-child(-n + 3)) {
         margin-bottom: 5px;
       }
       .ingredients-key-grid {
-        height: 110px;
+        height: 105px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid rgb(122, 122, 122);
+        padding: 5px;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         /* row-gap: 10px;  */
@@ -550,10 +626,11 @@ button:focus {
         }
         .ingredients-key-container {
           display: flex;
+          margin-bottom: 1px;
           /* gap: 20px; */
           .name-key {
             /* width: 180px; */
-            margin-right: 134px;
+            margin-right: 124px;
           }
           .quantity-key {
             /* width: 40px; */
