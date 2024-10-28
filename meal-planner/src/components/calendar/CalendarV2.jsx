@@ -82,7 +82,7 @@ export default function CalendarV2({
     // const isTargetOverlapping = overlapDetection.includes(true);
     // const isTargetOverlappingOnOtherLocation = isTargetOverlapping;
 
-    if (location.column + draggedMealLength > 7) {
+    if (location.column + draggedMealLength > days.length) {
       rowOverflowLength = location.column + draggedMealLength - days.length;
 
       // update overflow length for row if overflows
@@ -146,7 +146,7 @@ export default function CalendarV2({
               // servings: draggedMeal.servings - 1,
               multiplier: updatedOriginalMultiplier,
               // cost: originalCostUpdated,
-              overflow: { [draggedMeal.location.row]: udpatedOriginalOverflow },
+              overflow: { [draggedMeal.location.row]: updatedOriginalOverflow },
             });
             const updatedNewMultiplier = 1 / draggedMeal.servings;
 

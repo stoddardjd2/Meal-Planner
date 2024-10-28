@@ -8,6 +8,7 @@ import mealIcon from "../../assets/meal.svg";
 import AddMealOption from "./AddMealOption";
 import dropdownIcon from "../../assets/dropdown.svg";
 import bannerIcon from "../../assets/banner.svg";
+import recipeIcon from "../../assets/recipe.svg";
 import "./MealOptionCard.css";
 // import GetImage from "../GetImage";
 export default function MealOptionCard({
@@ -26,7 +27,7 @@ export default function MealOptionCard({
   const [servingSizeMultiplier, setServingSizeMultiplier] = useState(
     meal.multiplier
   );
-
+  const [isHoveringOverCard, setIsHoveringOverCard] = useState(false);
   const multiplierOptions = [0.5, 1, 2];
   // Handle clicks outside the popup
   const handleClickOutside2 = (event) => {
@@ -63,139 +64,162 @@ export default function MealOptionCard({
   }).format(meal.cost / meal.servings);
 
   return (
-    <div className="meal-option-card-container">
-      <div
-        draggable={!isDropdown}
-        //   disable draggable feature if editing meal
-        onDragStart={(e) => handleDragStart(e, meal.name)}
-        onDragEnd={handleDragEnd}
-        className="meal-option-card"
-        style={styling ? styling : {}}
-      >
-        <div className="food-container">
-          <img className="food-img" src={foodIcon} />
-        </div>
-        <div className="bottom-card-container">
-          <div className="left-side">
-            <div className="top-container">
-              <div className="card-name">
-                {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
+    <div
+      onMouseOver={() => setIsHoveringOverCard(true)}
+      onMouseLeave={() => setIsHoveringOverCard(false)}
+      className="main-card-container"
+    >
+      <div className="meal-option-card-container">
+        <div
+          draggable={!isDropdown}
+          //   disable draggable feature if editing meal
+          onDragStart={(e) => handleDragStart(e, meal.name)}
+          onDragEnd={handleDragEnd}
+          className="meal-option-card"
+          style={styling ? styling : {}}
+        >
+          <div className="food-container">
+            <img className="food-img" src={foodIcon} />
+          </div>
+          <div className="bottom-card-container">
+            <div className="left-side">
+              <div className="top-container">
+                <div className="card-name">
+                  {meal.name.charAt(0).toUpperCase() + meal.name.slice(1)}
+                </div>
               </div>
             </div>
+            {isHoveringOverName && meal.cost && meal.servings && (
+              <div className="cost-per-serving">
+                ${costPerServingFormatted}/serving
+              </div>
+            )}
           </div>
-          {isHoveringOverName && meal.cost && meal.servings && (
-            <div className="cost-per-serving">
-              ${costPerServingFormatted}/serving
+
+          {meal.cost && (
+            <div
+              onMouseOver={() => setIsHoveringOverName(true)}
+              onMouseLeave={() => setIsHoveringOverName(false)}
+              className="meal-cost card-info-overlay"
+            >
+              ${parseFloat((meal.cost * meal.multiplier).toFixed(2))}
+            </div>
+          )}
+
+          {meal.prepTimeMin && (
+            <div className="time-container card-info-overlay">
+              <img className="clock-img" src={clockIcon} />
+              {meal.prepTimeMin} Min
+            </div>
+          )}
+
+          {meal.servings && (
+            <div className="servings-popup card-info-overlay">
+              <img src={mealIcon} />
+              {parseFloat((meal.servings * meal.multiplier).toFixed(1))}
+            </div>
+          )}
+
+          {!previewEnabled && (
+            <div
+              className="card-hover-fade"
+              style={!isHoveringOverCard ? { opacity: "0" } : {}}
+            >
+              {meal.instructions && (
+                <button className="meal-btn">
+                  <img src={recipeIcon} />
+                </button>
+              )}
+
+              <div className="actions-container-overlay">
+                <button
+                  className="action-button"
+                  ref={buttonRef2}
+                  onClick={() =>
+                    setIsDropdown((prev) => {
+                      return !prev;
+                    })
+                  }
+                >
+                  <img src={editIcon} />
+                </button>
+
+                {meal.link && (
+                  <a href={meal.link} target="_blank">
+                    <button className="action-button">
+                      <img src={openIcon} />
+                    </button>
+                  </a>
+                )}
+
+                {isDropdown && !previewEnabled && (
+                  <div className="popup-container">
+                    <AddMealOption
+                      popupRef={popupRef2}
+                      setMealOptions={setMealOptions}
+                      // editMeal={{ index: index, meal: meal }}
+                      editMeal={meal}
+                      setIsDropdown={setIsDropdown}
+                      mealOptions={mealOptions}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {/* servings */}
+
+          {!previewEnabled && (
+            <div
+              className="card-hover-fade"
+              style={!isHoveringOverCard ? { opacity: "0" } : {}}
+            >
+              <div className="multiplier-fixed">
+                <div className="serving-size-multiplier-containerV2">
+                  {multiplierOptions.map((option, multiplierIndex) => {
+                    return (
+                      <button
+                        className={`multiplier-${
+                          multiplierIndex + 1
+                        } multiplier-btn`}
+                        key={multiplierIndex}
+                        onClick={(e) => {
+                          setMealOptions((prev) => {
+                            const copy = [...prev];
+                            copy.splice(index, 1, {
+                              ...prev[index],
+                              multiplier: option,
+                            });
+                            return copy;
+                          });
+                          setServingSizeMultiplier(option);
+                        }}
+                        style={
+                          servingSizeMultiplier === option
+                            ? {
+                                translate: `0px -${10 * multiplierIndex}px`,
+                                opacity: 1,
+                                zIndex: 3,
+                                // boxShadow:"0px 0px 10px 0px rgb(0, 0, 0)"
+                              }
+                            : {
+                                // opacity: "60%",
+                                translate: `0px -${10 * multiplierIndex}px`,
+                                // zIndex: 10,
+                              }
+                        }
+                      >
+                        {`${option == 0.5 ? ".5" : option}x`}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </div>
-
-        {meal.cost && (
-          <div
-            onMouseOver={() => setIsHoveringOverName(true)}
-            onMouseLeave={() => setIsHoveringOverName(false)}
-            className="meal-cost card-info-overlay"
-          >
-            ${parseFloat((meal.cost * meal.multiplier).toFixed(2))}
-          </div>
-        )}
-
-        {meal.prepTimeMin && (
-          <div className="time-container card-info-overlay">
-            <img className="clock-img" src={clockIcon} />
-            {meal.prepTimeMin} Min
-          </div>
-        )}
-
-        {meal.servings && (
-          <div className="servings-popup card-info-overlay">
-            <img src={mealIcon} />
-            {parseFloat((meal.servings * meal.multiplier).toFixed(1))}
-          </div>
-        )}
-
-        {!previewEnabled && (
-          <div className="actions-container-overlay">
-            <button
-              className="action-button"
-              ref={buttonRef2}
-              onClick={() =>
-                setIsDropdown((prev) => {
-                  return !prev;
-                })
-              }
-            >
-              <img src={editIcon} />
-            </button>
-            {meal.link && (
-              <a href={meal.link} target="_blank">
-                <button className="action-button">
-                  <img src={openIcon} />
-                </button>
-              </a>
-            )}
-
-            {isDropdown && !previewEnabled && (
-              <div className="popup-container">
-                <AddMealOption
-                  popupRef={popupRef2}
-                  setMealOptions={setMealOptions}
-                  // editMeal={{ index: index, meal: meal }}
-                  editMeal={meal}
-                  setIsDropdown={setIsDropdown}
-                  mealOptions={mealOptions}
-                />
-              </div>
-            )}
-          </div>
-        )}
-        {/* servings */}
-
-        {!previewEnabled && (
-          <div className="multiplier-fixed">
-            <div className="serving-size-multiplier-containerV2">
-              {multiplierOptions.map((option, multiplierIndex) => {
-                return (
-                  <button
-                    className={`multiplier-${
-                      multiplierIndex + 1
-                    } multiplier-btn`}
-                    key={multiplierIndex}
-                    onClick={(e) => {
-                      setMealOptions((prev) => {
-                        const copy = [...prev];
-                        copy.splice(index, 1, {
-                          ...prev[index],
-                          multiplier: option,
-                        });
-                        return copy;
-                      });
-                      setServingSizeMultiplier(option);
-                    }}
-                    style={
-                      servingSizeMultiplier === option
-                        ? {
-                            translate: `0px -${10 * multiplierIndex}px`,
-                            opacity: 1,
-                            zIndex: 3,
-                            // boxShadow:"0px 0px 10px 0px rgb(0, 0, 0)"
-                          }
-                        : {
-                            // opacity: "60%",
-                            translate: `0px -${10 * multiplierIndex}px`,
-                            // zIndex: 10,
-                          }
-                    }
-                  >
-                    {`${option == 0.5 ? ".5" : option}x`}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        {/* <input className="is-added-popup" type="checkbox"></input> */}
       </div>
-      {/* <input className="is-added-popup" type="checkbox"></input> */}
     </div>
   );
 }

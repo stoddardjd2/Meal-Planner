@@ -40,6 +40,7 @@ function App() {
     // const userData = localStorage.getItem("mealPlanner");
   }, []);
 
+  const [isClearing, setIsClearing] = useState(false);
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState(() => {
     const data = JSON.parse(localStorage.getItem("mealPlanner"));
@@ -270,7 +271,28 @@ function App() {
             draggedValueRef={draggedValueRef}
             assignments={assignments}
           />
-          <button onClick={()=>setAddedMeals([])}>CLEAR</button>
+          <div className="clear-confirm-container">
+            {!isClearing ? (
+              <button className="clear-btn" onClick={() => setIsClearing(true)}>
+                Reset Planner
+              </button>
+            ) : (
+              <>
+                <button
+                className="confirm-btn"
+                  onClick={() => {
+                    setAddedMeals([]);
+                    setIsClearing(false);
+                  }}
+                >
+                  Confirm Reset 
+                </button>
+                <button className="cancel-btn"  onClick={() => {
+                    setIsClearing(false);
+                  }}>Cancel</button>
+              </>
+            )}
+          </div>
 
           {/* <CalendarV3
             draggedValueRef={draggedValueRef}
