@@ -105,39 +105,11 @@ export default function MealsWithSharedIngredients({
         (Found {reccommendedMealsArr.length} Meals that use the same
         ingredients)
       </div> */}
-            <h4>All Recommended</h4>
-            <div
-              className="recommended-meals-container"
-             
-            >
-              {/* <div className="recommended-grid-container"> */}
 
-              {reccommendedMealsArr.map((meal, index) => {
-                return (
-                  <DraggableMeal
-                    meal={getMealByName(meal)}
-                    key={meal}
-                    mainElement={
-                      <div className="draggable-meal-inner-container">
-                        {meal}
-                      </div>
-                    }
-                    mealOptions={mealOptions}
-                    draggedValueRef={draggedValueRef}
-                    index={index}
-                    styling={{
-                      backgroundColor: `${assignments[meal].color}`,
-                      // border: "4px red solid",
-                    }}
-                  />
-                );
-              })}
-              {/* </div> */}
-            </div>
-            <div className="recomendation-by-ingredient-container">
+<div className="recomendation-by-ingredient-container">
               <h4>By Reuseable Ingredients</h4>
               <div className="parent-container">
-                {mealsWithUsedIngredients.map(
+                {!(mealsWithUsedIngredients.length == 0) ? mealsWithUsedIngredients.map(
                   (mealsForIngredientArr, index) => {
                     if (!(mealsForIngredientArr.length == 0)) {
                       // only display ingredients that have a meal matched that has not been added
@@ -197,9 +169,40 @@ export default function MealsWithSharedIngredients({
                       );
                     }
                   }
-                )}
+                ) : <div className="none-placholder">None</div>}
               </div>
             </div>
+
+            <h4>All Recommended</h4>
+            <div
+              className="recommended-meals-container"
+             
+            >
+              {/* <div className="recommended-grid-container"> */}
+
+              {!(reccommendedMealsArr.length == 0) ? reccommendedMealsArr.map((meal, index) => {
+                return (
+                  <DraggableMeal
+                    meal={getMealByName(meal)}
+                    key={meal}
+                    mainElement={
+                      <div className="draggable-meal-inner-container">
+                        {meal}
+                      </div>
+                    }
+                    mealOptions={mealOptions}
+                    draggedValueRef={draggedValueRef}
+                    index={index}
+                    styling={{
+                      backgroundColor: `${assignments[meal].color}`,
+                      // border: "4px red solid",
+                    }}
+                  />
+                );
+              }) : <div className="none-placholder">None</div>}
+              {/* </div> */}
+            </div>
+            
           </div>
         </>
       )}

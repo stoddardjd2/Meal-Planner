@@ -12,7 +12,12 @@
   --secondaryOpacity: rgba(59, 59, 59, 0.4);
   scrollbar-color: #808080 transparent;
   overflow: hidden;
+  /* font-family: .montserrat */
+  font-family:"quicksand"
+
 }
+
+
 @keyframes growY {
   from {
     height: 0px;
@@ -58,6 +63,10 @@
     outline-color: #ff7e5f;
   }
 }
+.none-placholder{
+  color:grey
+}
+
 .gradual-outline-change {
   outline: 3px solid; /* Set initial outline size */
   animation: outlineColorChange 2s linear infinite;
@@ -109,6 +118,7 @@ button:focus {
         justify-content: space-between;
         width: 88.5%;
         margin-left: 20px;
+        user-select: none;
       }
       .meal-header-container {
         display: flex;
@@ -135,6 +145,8 @@ button:focus {
       }
       .meal-columns-container {
         height: 79vh;
+        user-select: none;
+
         /* background-color: red; */
         display: flex;
         gap: 10px;
@@ -397,9 +409,10 @@ button:focus {
       display: flex;
       justify-content: center;
       align-items: center;
-      top: -10px;
+      bottom: -10px;
       right: -10px;
       /* z-index: 4; */
+      z-index: 10;
       opacity: 0.7;
       img {
         width: 9px;
@@ -525,7 +538,7 @@ button:focus {
   width: 400px;
   background-color: rgb(51, 51, 51);
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 30px;
   z-index: 10;
   cursor: default;
   position: fixed;

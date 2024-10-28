@@ -3,6 +3,7 @@ import DraggableMeal from "../draggable-meal/DraggableMeal";
 import "./CalendarV2.css";
 import { useRef } from "react";
 import subtractIcon from "../../assets/subtract.svg";
+import plusIcon from "../../assets/plus.svg";
 export default function CalendarV2({
   draggedValueRef,
   mealOptions,
@@ -13,37 +14,18 @@ export default function CalendarV2({
   const [isCompactMode, setIsCompactMode] = useState(true);
   const targetRef = useRef(null); // Ref to directly manipulate the DOM content
   //   const [rows, setRows] = useState([]);
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  // useEffect(() => {
-  //   fetch("https://api.iconify.design/axe/", {
-  //     method: "GET", // Use "POST", "PUT", or "DELETE" as needed
-  //     headers: {
-  //       "Content-Type": "application/json", // Adjust as needed, e.g., for JSON or form data
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  //       return response.json(); // Parse JSON data (use response.text() for plain text)
-  //     })
-  //     .then((data) => {
-  //       // Process and display the data as needed
-  //     })
-  //     .catch((error) => {
-  //     });
-  // }, []);vv
-  //   let overFlowCount = { 0: 0, 1: 0, 2: 2 };
-  //   const [overflowCount, setOverFlowCount] = useState({ 0: 0, 1: 0, 2: 2 });
-  //   morning, afternoon, evening
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  // useEffect(()=>{
+  //   //after adding item to calendar, check if any identical meals-
+  //   //are adjacent and combine into 1 group
+  //   console.log("addedMeals", addedMeals)
+  //   const isAdjacent =  ? true : false
+  //   const isIdentical = ? true : false
+  //   if(){
+  //     console.log("COMBING TIME")
+  //   }
+  // },[addedMeals])
 
   function getOverflowForRow(rowIndex) {
     if (!(addedMeals.length == 0)) {
@@ -73,7 +55,7 @@ export default function CalendarV2({
     const draggedMealLength = Math.ceil(
       draggedMeal.servings * draggedMeal?.multiplier
     );
-    let rowOverflowLength = 0;
+    // let rowOverflowLength = 0;
     const value = location.column + 1;
     const min = draggedLocation?.column + 1;
     const max = draggedLocation?.column + draggedMealLength;
@@ -83,6 +65,8 @@ export default function CalendarV2({
     const hasSameRowIndex = draggedLocation?.row == location.row;
     const targetIsOnSelf =
       inColumnRange && hasSameSlotIndex & hasSameRowIndex ? true : false;
+      
+    const rowOverflowLength = location.column + draggedMealLength - days.length;
 
     const targetSlot = e.currentTarget.id;
 
@@ -102,7 +86,6 @@ export default function CalendarV2({
     if (targetSlot == "empty") {
       if (location.column + draggedMealLength > 7) {
         // update overflow length for row if overflows
-        rowOverflowLength = location.column + draggedMealLength - days.length;
       }
       // const isFirstOccupiedSlot = min == location.column ? true : false;
       // if dragging first slot of meal, move entire group }
@@ -111,16 +94,40 @@ export default function CalendarV2({
         if (!draggedIsFirst) {
           // if not first item and dragged, remove dragged and place to dragged spot.
           //update data with new positions to compensate for break
+
+          // check if any slots in target row is adjacent to identical meals and combine if so.
+          // let isIdenticalMealInSameRowAndSlot = false;
+          // let isAdjacentToColumnStart = false;
+          // let isAdjacentToColumnEnd = false;
+          // addedMeals.map((meal, index) => {
+          //   isIdenticalMealInSameRowAndSlot =
+          //     meal.location.row == location.row &&
+          //     meal.location.slot == location.slot &&
+          //     meal.name == draggedMeal.name
+          //       ? true
+          //       : false;
+
+          //   isAdjacentToColumnStart =
+          //     location.column + 1 == meal.location.column ? true : false;
+          //   const servings = 1;
+
+          //   isAdjacentToColumnEnd =
+          //     meal.location.column + meal.servings * meal.multiplier ==
+          //     location.column
+          //       ? true
+          //       : false;
+          //   console.log("TEST",
+          //     meal.location.column + meal.servings * meal.multiplier,
+          //     location.column
+          //   );
+          //   // console.log("END", meal.location.column + meal.servings);
+          // });
+
+          // const isAdjacent =  ? true : false
+          // const isIdentical = ? true : false
+
           setAddedMeals((prev) => {
             // update original meal to be 1 less
-            // const originalCostUpdated = +(
-            //   (+(+draggedMeal.servings - 1) / +draggedMeal.servings) *
-            //   +draggedMeal.cost
-            // ).toFixed(2);
-            // const newCost = +(
-            //   (1 / +draggedMeal.servings) *
-            //   +draggedMeal.cost
-            // ).toFixed(2);
             const copy = [...prev];
             const updatedOriginalMultiplier =
               (+draggedMeal.servings * +draggedMeal.multiplier - 1) /
@@ -264,6 +271,7 @@ export default function CalendarV2({
                       backgroundColor: `${assignments[mealForSlot.name].color}`,
                       width: "100%",
                       height: "57px",
+                      // zIndex: "0"
                       //   border: "2px red solid",
                       // background: `linear-gradient(to right, ${colorOptions[addedMealIndex]} 0%, rgba(255, 0, 0, 0) ${percentage}%)`,
                     }
@@ -294,58 +302,54 @@ export default function CalendarV2({
                 </div>
               }
             />
-            {isLastOccupiedSlot && !isFirstOccupiedSlot && (
-              // to remove 1 serving if on last part of meal and not first
+            {isFirstOccupiedSlot && (
               <button
                 onClick={() => {
                   setAddedMeals((prev) => {
                     // update original meal to be 1 less
-                    const originalServings = mealForSlot.originalServings;
-                    const originalMultiplier = mealForSlot.originalMultiplier;
-
-                    const originalCostUpdated = +(
-                      (+(+mealForSlot.servings - 1) / +mealForSlot.servings) *
-                      +mealForSlot.cost
-                    ).toFixed(2);
-
-                    // FIX BUG, IF USING MULTIPLIER AND SUBTRACT ITEM, DOES NOT UPDATE SERVING SIZE CORRECTLY
-                    // MEAL INGREDIENTS QUANTITY NOT UPDATING PROPERLY. USES MULTIPLIER TO CALCULATE.
-
-                    // const servingRatio =
-                    //   (mealForSlot.servings - 1) / originalServings;
-                    // const ingredientsMultiplier = (
-                    //   originalMultiplier * servingRatio
-                    // ).toFixed(2);
-
-                    // console.log("SERVING RATIO", servingRatio);
-
-                    // console.log("NEW MULTIPLIER", ingredientsMultiplier);
-
                     const copy = [...prev];
-                    // console.log(
-                    //   "SERVINGS BLOCKS",
 
-                    //   (mealForSlot.servings - 1) * mealForSlot.multiplier
-                    //   // (mealForSlot.servings - 1) * mealForSlot.multiplier
-                    // );
                     const updatedMultiplier =
-                      (+mealForSlot.servings * +mealForSlot.multiplier - 1) /
+                      (+mealForSlot.servings * +mealForSlot.multiplier + 1) /
                       +mealForSlot.servings;
 
                     copy.splice(addedMealIndex, 1, {
                       ...mealForSlot,
-                      // servings: mealForSlot.servings - 1,
                       multiplier: updatedMultiplier,
-                      // cost: originalCostUpdated,
-                      // ingredientsMultiplier: ingredientsMultiplier,
                     });
                     return [...copy];
                   });
                 }}
-                className="subtract-servings"
+                className="add-servings"
               >
-                <img src={subtractIcon} />
+                <img src={plusIcon} />
               </button>
+            )}
+            {isLastOccupiedSlot && !isFirstOccupiedSlot && (
+              // to remove 1 serving if on last part of meal and not first
+              <div>
+                <button
+                  onClick={() => {
+                    setAddedMeals((prev) => {
+                      // update original meal to be 1 less
+                      const copy = [...prev];
+
+                      const updatedMultiplier =
+                        (+mealForSlot.servings * +mealForSlot.multiplier - 1) /
+                        +mealForSlot.servings;
+
+                      copy.splice(addedMealIndex, 1, {
+                        ...mealForSlot,
+                        multiplier: updatedMultiplier,
+                      });
+                      return [...copy];
+                    });
+                  }}
+                  className="subtract-servings"
+                >
+                  <img src={subtractIcon} />
+                </button>
+              </div>
             )}
           </div>
         );
@@ -367,7 +371,7 @@ export default function CalendarV2({
   }
 
   return (
-    <div  className="CalendarV2">
+    <div className="CalendarV2">
       {/* <img src="https://api.iconify.design/akar-icons/camera.svg?color=%23ba3329" /> */}
 
       {

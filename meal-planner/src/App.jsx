@@ -33,11 +33,39 @@ function App() {
     "#D62828", // Fiery Red
     "#264653", // Deep Blue Green
   ];
+  const [loadedUserData, setLoadedUserData] = useState();
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("mealPlanner"));
+    setLoadedUserData(data);
+    // const userData = localStorage.getItem("mealPlanner");
+  }, []);
+
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
-  const [mealOptions, setMealOptions] = useState(simulateData);
+  const [mealOptions, setMealOptions] = useState(() => {
+    const data = JSON.parse(localStorage.getItem("mealPlanner"));
+    return data?.mealOptions ? data.mealOptions : [];
+  });
 
   const [mealNamesSearch, setMealNamesSearch] = useState();
-  const [addedMeals, setAddedMeals] = useState([]);
+  const [addedMeals, setAddedMeals] = useState(() => {
+    const data = JSON.parse(localStorage.getItem("mealPlanner"));
+    return data?.addedMeals ? data.addedMeals : [];
+  });
+
+  useEffect(() => {
+    if (!(mealOptions.length == 0)) {
+      localStorage.setItem(
+        "mealPlanner",
+        JSON.stringify({ addedMeals, mealOptions })
+      );
+    }
+  }, [addedMeals, mealOptions]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("mealPlannerUserData", {});
+  //   const userData = localStorage.getItem("my key");
+  //   console.log("DATA", userData);
+  // }, [addedMeals]);
 
   const getAssignments = () => {
     const assignmentsArr = mealOptions.map((meal, index) => {
@@ -167,17 +195,16 @@ function App() {
           <h2>Your Meals</h2>
 
           <div className="meals-action-container">
-            
             <SearchInput
               mealOptions={mealOptions}
               setMealNamesSearch={setMealNamesSearch}
             />
-              {/* <AddMealBtn
+            {/* <AddMealBtn
             mealOptions={mealOptions}
             setMealOptions={setMealOptions}
           /> */}
           </div>
-        
+
           <div className="meal-columns-header-container">
             <div className="meal-header-container">
               <h2 className="sticky">Meals</h2>
@@ -199,7 +226,7 @@ function App() {
             <div className="meal-option-cards-grid sticky recommended-grid">
               {reccommendedMealsArr.map((name, index) => {
                 // Lime amount of reccomened option to display
-                const limitResults = 4;
+                const limitResults = 5;
                 if (index < limitResults) {
                   const getIndexInMealOptions = () => {
                     // slow, should change if becomes problem and have index calculate when setting reccomenedArr
