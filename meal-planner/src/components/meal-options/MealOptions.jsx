@@ -8,10 +8,9 @@ export default function MealOptions({
   setMealOptions,
   mealNamesSearch,
   assignments,
-  setIsDropdown,
-  isDropdown,
+  setIsPopup,
+  isPopup,
 }) {
-
   return (
     <div className="mealOptions">
       <div className="meal-option-cards-grid">
@@ -27,8 +26,8 @@ export default function MealOptions({
             if (mealNamesSearch.includes(meal.name)) {
               return (
                 <MealOptionCard
-                  setIsDropdown={setIsDropdown}
-                  isDropdown={isDropdown}
+                  setIsPopup={setIsPopup}
+                  isPopup={isPopup}
                   mealOptions={mealOptions}
                   meal={meal}
                   key={meal.name}
@@ -46,8 +45,8 @@ export default function MealOptions({
             // display all cardss
             return (
               <MealOptionCard
-                setIsDropdown={setIsDropdown}
-                isDropdown={isDropdown}
+                setIsPopup={setIsPopup}
+                isPopup={isPopup}
                 mealOptions={mealOptions}
                 meal={meal}
                 key={meal.name}

@@ -17,8 +17,8 @@ import CalendarV3 from "./components/calendar/CalendarV3";
 import CalendarV4 from "./components/calendar/CalendarV4";
 import AddMealBtn from "./components/AddMealBtn";
 import { simulateData } from "./simulateData";
+import CookingInstructions from "./components/CookingInstructions";
 import AddMealOption from "./components/meal-options/AddMealOption";
-
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
   const colorOptions = [
@@ -41,14 +41,14 @@ function App() {
     setLoadedUserData(data);
     // const userData = localStorage.getItem("mealPlanner");
   }, []);
-  const [isDropdown, setIsDropdown] = useState();
+  const [isPopup, setIsPopup] = useState();
   const [isClearing, setIsClearing] = useState(false);
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState(() => {
     const data = JSON.parse(localStorage.getItem("mealPlanner"));
     return data?.mealOptions ? data.mealOptions : [];
   });
-
+  const instructionsRef = useRef(null);
   const [mealNamesSearch, setMealNamesSearch] = useState();
   const [addedMeals, setAddedMeals] = useState(() => {
     const data = JSON.parse(localStorage.getItem("mealPlanner"));
@@ -59,10 +59,19 @@ function App() {
   const handleClickOutside = (event) => {
     // Check if click is outside the ref element
     if (addRecipeRef.current && !addRecipeRef.current.contains(event.target)) {
-      console.log("Clicked outside the component!");
-      setIsDropdown()
+      setIsPopup();
+    }
+    console.log()
+    if (
+      instructionsRef.current &&
+      !instructionsRef.current.contains(event.target)
+    ) {
+      setIsPopup();
     }
   };
+  // useEffect(() => {
+  //   console.log("mealOptions EFFECT", mealOptions);
+  // }, [mealOptions]);
 
   useEffect(() => {
     // Attach event listener to the document
@@ -248,8 +257,8 @@ function App() {
             <div className="left-meals-column">
               <MealOptions
                 mealOptions={mealOptions}
-                isDropDown={isDropdown}
-                setIsDropdown={setIsDropdown}
+                isPopup={isPopup}
+                setIsPopup={setIsPopup}
                 mealNamesSearch={mealNamesSearch}
                 setMealOptions={setMealOptions}
                 draggedValueRef={draggedValueRef}
@@ -273,8 +282,8 @@ function App() {
 
                   return (
                     <MealOptionCard
-                      setIsDropdown={setIsDropdown}
-                      isDropdown={isDropdown}
+                      isPopup={isPopup}
+                      setIsPopup={setIsPopup}
                       key={"recommended-" + index}
                       meal={getMealByName(name)}
                       // previewEnabled={true}
@@ -369,16 +378,27 @@ function App() {
 
       {/* popups: */}
 
-      {isDropdown && (
+      {isPopup?.for == "add-meal-option" && (
         <div className="popup-container">
           <AddMealOption
             setMealOptions={setMealOptions}
             // editMeal={{ index: index, meal: meal }}
             popupRef={addRecipeRef}
-            editMeal={isDropdown}
-            isDropdown={isDropdown}
-            setIsDropdown={setIsDropdown}
+            editMeal={isPopup.meal}
+            isPopup={isPopup}
+            setIsPopup={setIsPopup}
             mealOptions={mealOptions}
+          />
+        </div>
+      )}
+      {console.log("POPUP", isPopup)}
+      {isPopup?.for == "cooking-instructions" && (
+        <div className="popup-container">
+          <CookingInstructions
+            instructionsRef={instructionsRef}
+            setIsPopup={setIsPopup}
+            isPopup={isPopup}
+            setMealOptions={setMealOptions}
           />
         </div>
       )}

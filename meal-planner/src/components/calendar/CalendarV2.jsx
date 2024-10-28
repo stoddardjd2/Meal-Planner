@@ -97,36 +97,62 @@ export default function CalendarV2({
           // if not first item and dragged, remove dragged and place to dragged spot.
           //update data with new positions to compensate for break
 
-          // check if any slots in target row is adjacent to identical meals and combine if so.
-          // let isIdenticalMealInSameRowAndSlot = false;
-          // let isAdjacentToColumnStart = false;
-          // let isAdjacentToColumnEnd = false;
           // addedMeals.map((meal, index) => {
-          //   isIdenticalMealInSameRowAndSlot =
-          //     meal.location.row == location.row &&
-          //     meal.location.slot == location.slot &&
-          //     meal.name == draggedMeal.name
-          //       ? true
-          //       : false;
+          //   if (hasSameSlotIndex && hasSameRowIndex) {
 
-          //   isAdjacentToColumnStart =
-          //     location.column + 1 == meal.location.column ? true : false;
-          //   const servings = 1;
+          //     let mealsInRowSlot = [];
+          //     days.map((day, index) => {
+          //       if (meal.location.column == index) {
+          //         mealsInRowSlot.push({ index, meal });
+          //       }
+          //     });
+          //     if (mealsInRowSlot.length >= 2) {
 
-          //   isAdjacentToColumnEnd =
-          //     meal.location.column + meal.servings * meal.multiplier ==
-          //     location.column
-          //       ? true
-          //       : false;
-          //   console.log("TEST",
-          //     meal.location.column + meal.servings * meal.multiplier,
-          //     location.column
-          //   );
-          //   // console.log("END", meal.location.column + meal.servings);
+          //       // check if at least 2 meals to potentially merge if adjacent
+          //       const allUpdatesToMeals = [...addedMeals];
+          //       mealsInRowSlot.map((meal, index) => {
+          //         // check each pair to see if adjacent and then combine if so
+          //         if (
+          //           mealsInRowSlot[index + 1].meal.location.column -
+          //             mealsInRowSlot[index].meal.location.column ==
+          //           1
+          //         ) {
+          //           // if the first 2 meals are adjacent
+
+          //           const updatedMultiplier =
+          //             (+mealsInRowSlot[0].servings *
+          //               +mealsInRowSlot[0].multiplier +
+          //               1) /
+          //             +mealsInRowSlot[0].servings;
+
+          //           const overflow =
+          //             mealsInRowSlot[0].location.column +
+          //               mealsInRowSlot[0].servings *
+          //                 mealsInRowSlot[0].multiplier +
+          //               1 -
+          //               days.length >
+          //             0
+          //               ? mealsInRowSlot[0].overflow[
+          //                   mealsInRowSlot[0].location.row
+          //                 ] + 1
+          //               : 0;
+
+          //           allUpdatesToMeals.splice(mealsInRowSlot[0].index, 1, {
+          //             ...mealsInRowSlot[0],
+          //             multiplier: updatedMultiplier,
+          //             overflow: overflow,
+          //           });
+          //           allUpdatesToMeals.splice(mealsInRowSlot[1].index, 1);
+          //           // remove index of second meal that is being combined
+          //           console.log("COMBINE!")
+          //           setAddedMeals((prev) => {
+          //             return allUpdatesToMeals;
+          //           });
+          //         }
+          //       });
+          //     }
+          //   }
           // });
-
-          // const isAdjacent =  ? true : false
-          // const isIdentical = ? true : false
 
           setAddedMeals((prev) => {
             // update original meal to be 1 less
@@ -134,8 +160,6 @@ export default function CalendarV2({
             const updatedOriginalMultiplier =
               (+draggedMeal.servings * +draggedMeal.multiplier - 1) /
               +draggedMeal.servings;
-            console.log("OVERFLOW!", prev);
-            console.log("HERE", rowOverflowLength);
             const updatedOriginalOverflow =
               location.column - days.length > days.length
                 ? location.column + 1 - days.length
@@ -339,14 +363,7 @@ export default function CalendarV2({
                       0
                         ? mealForSlot.overflow[mealForSlot.location.row] + 1
                         : 0;
-                    console.log("days.length", days.length);
-                    console.log(
-                      "OVERFLOW",
-                      mealForSlot.location.column +
-                        mealForSlot.servings * mealForSlot.multiplier +
-                        1 -
-                        days.length
-                    );
+
                     copy.splice(addedMealIndex, 1, {
                       ...mealForSlot,
                       multiplier: updatedMultiplier,

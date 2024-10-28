@@ -17,8 +17,8 @@ export default function MealOptionCard({
   index,
   draggedValueRef,
   previewEnabled,
-  setIsDropdown,
-  isDropdown,
+  setIsPopup,
+  isPopup,
   styling,
 }) {
   // setIsDropdown(meal)
@@ -53,7 +53,7 @@ export default function MealOptionCard({
     >
       <div className="meal-option-card-container">
         <div
-          draggable={isDropdown ? false : true}
+          draggable={isPopup ? false : true}
           //   disable draggable feature if editing meal
           onDragStart={(e) => handleDragStart(e, meal.name)}
           onDragEnd={handleDragEnd}
@@ -109,16 +109,19 @@ export default function MealOptionCard({
               style={!isHoveringOverCard ? { opacity: "0" } : {}}
             >
               {meal.instructions && (
-                <button className="meal-btn">
+                <button
+                  onClick={() => setIsPopup({ meal, for: "cooking-instructions" })}
+                  className="meal-btn"
+                >
                   <img src={recipeIcon} />
                 </button>
               )}
-
+  {console.log("RECIOE", meal)}
               <div className="actions-container-overlay">
                 <button
                   className="action-button"
                   ref={buttonRef2}
-                  onClick={() => setIsDropdown(meal)}
+                  onClick={() => setIsPopup({ meal, for: "add-meal-option" })}
                 >
                   <img src={editIcon} />
                 </button>

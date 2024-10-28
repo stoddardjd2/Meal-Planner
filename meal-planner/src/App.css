@@ -13,10 +13,8 @@
   scrollbar-color: #808080 transparent;
   overflow: hidden;
   /* font-family: .montserrat */
-  font-family:"quicksand"
-
+  font-family: "quicksand";
 }
-
 
 @keyframes growY {
   from {
@@ -27,7 +25,8 @@
     height: 100px;
     background-color: green;
   }
-}@keyframes shrinkY {
+}
+@keyframes shrinkY {
   from {
     height: 100px;
     background-color: red;
@@ -63,8 +62,8 @@
     outline-color: #ff7e5f;
   }
 }
-.none-placholder{
-  color:grey
+.none-placholder {
+  color: grey;
 }
 
 .gradual-outline-change {
@@ -455,7 +454,7 @@ button:focus {
     /* width: 100%; */
     background-color: white;
     padding: 5px;
- 
+
     /* margin-left: 20px; */
     img {
       width: 14px;
@@ -534,6 +533,88 @@ button:focus {
     }
   }
 }
+.exit-popup-btn{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.instructions-container{
+overflow-y: auto;
+}
+.cooking-instructions-popup {
+  width: 900px;
+  background-color: rgb(51, 51, 51);
+  border-radius: 10px;
+  padding: 10px 30px;
+  z-index: 10;
+  cursor: default;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 660px;
+  font-family: "quicksand";
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: "quicksand";
+  /* justify-content: center; */
+  padding: 30px;
+  .input-container:nth-child(odd){
+    background-color: rgb(68, 68, 68);
+  }
+  .input-container {
+    display: flex;
+    align-items: center;
+  }
+  .input-flex{
+    display: flex;
+    align-items: center;
+    gap:30px;
+    margin-bottom: 20px;
+
+  }
+  .add-step-btn{
+     height: 29px;
+     padding: 4px 15px;
+  }
+  .delete-instruction-btn{
+    background-color: transparent;
+    /* height: 20px; */
+    padding: 5px;
+    img{
+      width: 10px;
+    }
+  }
+
+  .new-instructions-input{
+    border: 1px solid white;
+    background-color: transparent;
+    resize: none;
+    height:25px;
+    width: 400px;
+  }
+  
+  li{
+    align-self: start;
+  }
+  .instructions-input {
+    resize: none;
+    /* height: 30px; */
+    border: none;
+    font-family: "quicksand";
+
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    background-color: transparent;
+    width: 100%;
+    text-wrap: wrap;
+  }
+}
+
 .add-meal-popup {
   width: 400px;
   background-color: rgb(51, 51, 51);
@@ -545,7 +626,7 @@ button:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height:860px;
+  height: 860px;
   /* box-shadow: 0px 0px 10px 0px rgb(255, 255, 255); */
   .add-meal-button {
     /* bottom: 10px;
@@ -651,7 +732,7 @@ button:focus {
       display: flex;
       flex-direction: column;
       gap: 1px;
-      
+
       .name {
         position: relative;
         font-size: 14px;
@@ -699,21 +780,20 @@ button:focus {
       .ingredients-key-grid > :not(:nth-child(-n + 3)) {
         margin-bottom: 5px;
       }
-      .keys1{
+      .keys1 {
         margin-left: 5px;
         translate: -2px 9px;
-        label{
+        label {
           background-color: #333333;
         }
       }
       .ingredients-key-container {
         display: flex;
         margin-bottom: 10px;
-        .name-input{
+        .name-input {
           /* width: fit-content; */
           margin-left: 5px;
           width: 175px;
-
         }
         /* gap: 20px; */
         .name-key {
@@ -738,7 +818,7 @@ button:focus {
         margin-right: 0px;
         width: 85px;
       }
-     
+
       .ingredients-key-grid {
         height: 105px;
         margin-bottom: 10px;
@@ -775,8 +855,10 @@ button:focus {
         }
       }
     }
-    .cont-1:focus-within .name{
-      transform: translateY(0px) !important;/* Move the .name element down by 20px */
+    .cont-1:focus-within .name {
+      transform: translateY(
+        0px
+      ) !important; /* Move the .name element down by 20px */
       transition: linear 0.15s all;
     }
     .input-option-container:focus-within .name {
@@ -821,22 +903,21 @@ button:focus {
     padding: 10px;
   }
 }
-.clear-btn{
+.clear-btn {
 }
-.clear-confirm-container{
-margin-left: 70px;
+.clear-confirm-container {
+  margin-left: 70px;
 
   display: flex;
   gap: 10px;
   justify-content: center;
-  .confirm-btn{
+  .confirm-btn {
     background-color: rgb(167, 57, 57);
   }
-  .cancel-btn{
-    opacity: .5;
-  
+  .cancel-btn {
+    opacity: 0.5;
   }
-  .cancel-btn:hover{
+  .cancel-btn:hover {
     opacity: 1;
   }
 }

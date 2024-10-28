@@ -13,7 +13,6 @@ export default function AddMealOption({
   isDropDown,
   styling,
   mealOptions,
-  
 }) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
@@ -32,6 +31,7 @@ export default function AddMealOption({
           cost: editMeal.cost,
           ingredients: [...editMeal.ingredients],
           multiplier: editMeal.multiplier,
+          instructions: [...editMeal.instructions],
         }
       : {
           name: "",
@@ -41,6 +41,7 @@ export default function AddMealOption({
           cost: "",
           ingredients: [],
           multiplier: 1,
+          instructions: [],
         }
   );
 
@@ -73,7 +74,7 @@ export default function AddMealOption({
 
   function handleUpdateMeal(e) {
     e.preventDefault();
-    setIsDropdown(false);
+    setIsDropdown();
     setMealOptions((prev) => {
       const copy = [...prev];
       copy.splice(editMeal.index, 1, formInput);
@@ -276,7 +277,7 @@ export default function AddMealOption({
                 </div>
               </div>
             );
-          } else if (inputField == "multiplier") {
+          } else if (inputField == "multiplier" || inputField == "instructions") {
             // hide multiplier field
             return;
           } else {
@@ -320,7 +321,7 @@ export default function AddMealOption({
           Add Meal
         </button>
       )}
-      <button onClick={() => setIsDropdown(false)} className="exit-button">
+      <button onClick={() => setIsDropdown()} className="exit-button">
         <img src={xIcon} />
       </button>
       <StandardizedNamesBtn formInput={formInput} setFormInput={setFormInput} />

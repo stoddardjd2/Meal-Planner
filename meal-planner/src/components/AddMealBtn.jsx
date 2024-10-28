@@ -73,6 +73,19 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
                 };
               }
             );
+            function splitIntoSentences(text) {
+              // Remove line breaks and extra spaces
+              const cleanedText = text.replace(/\s+/g, ' ').trim();
+            
+              // Match sentence-ending punctuation not part of common abbreviations
+              const sentences = cleanedText.match(/[^.!?]*\b(?<!\b(?:e\.g|i\.e|oz|lb|lbs|tbsp|tsp|g|ml|l|kg|cm|mm|qt|gal|pt|fl\.oz|hr|min|sec)\.)(?<!\.\.\.)[.!?](?:\s|$)/gi) || [];
+              
+              return sentences.map(sentence => sentence.trim());
+            }
+            const splitInstuctions = splitIntoSentences(
+              recipeData.instructions
+            );
+
             setIsError();
             setIsDropdown(false);
             setIsRecipeLoading(false);
@@ -92,7 +105,7 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
                 cost: undefined,
                 ingredients: [...formattedIngredients],
                 multiplier: 1,
-                instructions: recipeData.instructions,
+                instructions: splitInstuctions,
               };
               return [...prev, newMeal];
             });
