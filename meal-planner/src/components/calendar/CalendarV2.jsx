@@ -65,9 +65,8 @@ export default function CalendarV2({
     const hasSameRowIndex = draggedLocation?.row == location.row;
     const targetIsOnSelf =
       inColumnRange && hasSameSlotIndex & hasSameRowIndex ? true : false;
-      
-    const rowOverflowLength = location.column + draggedMealLength - days.length;
 
+    let rowOverflowLength;
     const targetSlot = e.currentTarget.id;
 
     // let overlapDetection = [];
@@ -83,10 +82,13 @@ export default function CalendarV2({
     // const isTargetOverlapping = overlapDetection.includes(true);
     // const isTargetOverlappingOnOtherLocation = isTargetOverlapping;
 
+    if (location.column + draggedMealLength > 7) {
+      rowOverflowLength = location.column + draggedMealLength - days.length;
+
+      // update overflow length for row if overflows
+    }
+
     if (targetSlot == "empty") {
-      if (location.column + draggedMealLength > 7) {
-        // update overflow length for row if overflows
-      }
       // const isFirstOccupiedSlot = min == location.column ? true : false;
       // if dragging first slot of meal, move entire group }
       if (draggedIsOnCalendar) {
@@ -132,19 +134,34 @@ export default function CalendarV2({
             const updatedOriginalMultiplier =
               (+draggedMeal.servings * +draggedMeal.multiplier - 1) /
               +draggedMeal.servings;
+            console.log("OVERFLOW!", prev);
+            console.log("HERE", rowOverflowLength);
+            const updatedOriginalOverflow =
+              location.column - days.length > days.length
+                ? location.column + 1 - days.length
+                : 0;
+
             copy.splice(draggedAddedMealIndex, 1, {
               ...draggedMeal,
               // servings: draggedMeal.servings - 1,
               multiplier: updatedOriginalMultiplier,
               // cost: originalCostUpdated,
+              overflow: { [draggedMeal.location.row]: udpatedOriginalOverflow },
             });
             const updatedNewMultiplier = 1 / draggedMeal.servings;
+
+            const upatedNewOverflow =
+              location.column + 1 - days.length > days.length
+                ? location.column + 1 - days.length
+                : 0;
+
+            // cannot overflow by nature
             return [
               ...copy,
               {
                 ...draggedMeal,
                 // servings: 1,
-                overflow: 0,
+                overflow: { [location.row]: 0 },
                 location,
                 multiplier: updatedNewMultiplier,
                 // cost: newCost,
@@ -299,6 +316,7 @@ export default function CalendarV2({
               mainElement={
                 <div className="calendar-draggable-variant">
                   {mealForSlot.name}
+                  {/* {console.log("mealForSlot?.overflow", mealForSlot)} */}
                 </div>
               }
             />
@@ -313,9 +331,26 @@ export default function CalendarV2({
                       (+mealForSlot.servings * +mealForSlot.multiplier + 1) /
                       +mealForSlot.servings;
 
+                    const overflow =
+                      mealForSlot.location.column +
+                        mealForSlot.servings * mealForSlot.multiplier +
+                        1 -
+                        days.length >
+                      0
+                        ? mealForSlot.overflow[mealForSlot.location.row] + 1
+                        : 0;
+                    console.log("days.length", days.length);
+                    console.log(
+                      "OVERFLOW",
+                      mealForSlot.location.column +
+                        mealForSlot.servings * mealForSlot.multiplier +
+                        1 -
+                        days.length
+                    );
                     copy.splice(addedMealIndex, 1, {
                       ...mealForSlot,
                       multiplier: updatedMultiplier,
+                      overflow: { [mealForSlot.location.row]: overflow },
                     });
                     return [...copy];
                   });
@@ -338,9 +373,15 @@ export default function CalendarV2({
                         (+mealForSlot.servings * +mealForSlot.multiplier - 1) /
                         +mealForSlot.servings;
 
+                      const overflow =
+                        mealForSlot.overflow[mealForSlot.location.row] - 1 > 0
+                          ? mealForSlot.overflow[mealForSlot.location.row] - 1
+                          : 0;
+
                       copy.splice(addedMealIndex, 1, {
                         ...mealForSlot,
                         multiplier: updatedMultiplier,
+                        overflow: { [mealForSlot.location.row]: overflow },
                       });
                       return [...copy];
                     });

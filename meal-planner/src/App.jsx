@@ -270,6 +270,8 @@ function App() {
             draggedValueRef={draggedValueRef}
             assignments={assignments}
           />
+          <button onClick={()=>setAddedMeals([])}>CLEAR</button>
+
           {/* <CalendarV3
             draggedValueRef={draggedValueRef}
             addedMeals={addedMeals}
