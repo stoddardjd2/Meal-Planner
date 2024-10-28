@@ -377,6 +377,7 @@ function App() {
       /> */}
 
       {/* popups: */}
+      {console.log("mealOptions", mealOptions)}
 
       {isPopup?.for == "add-meal-option" && (
         <div className="popup-container">
@@ -391,7 +392,6 @@ function App() {
           />
         </div>
       )}
-      {console.log("POPUP", isPopup)}
       {isPopup?.for == "cooking-instructions" && (
         <div className="popup-container">
           <CookingInstructions

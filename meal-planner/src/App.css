@@ -581,6 +581,7 @@ overflow-y: auto;
   .delete-instruction-btn{
     background-color: transparent;
     /* height: 20px; */
+    width: 30px;
     padding: 5px;
     img{
       width: 10px;

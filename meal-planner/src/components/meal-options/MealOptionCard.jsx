@@ -108,7 +108,7 @@ export default function MealOptionCard({
               className="card-hover-fade"
               style={!isHoveringOverCard ? { opacity: "0" } : {}}
             >
-              {meal.instructions && (
+              {(
                 <button
                   onClick={() => setIsPopup({ meal, for: "cooking-instructions" })}
                   className="meal-btn"

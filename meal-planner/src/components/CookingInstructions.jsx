@@ -27,15 +27,15 @@ export default function CookingInstructions({
     });
   }, [mealInstructions]);
   const textareaRef = useRef(null);
-  const handleInput = () => {
-    const textarea = textareaRef.current;
-    textarea.style.height = "auto"; // Reset height
-    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
-  };
+//   const handleInput = () => {
+//     const textarea = textareaRef.current;
+//     textarea.style.height = "auto"; // Reset height
+//     textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
+//   };
 
-  useEffect(() => {
-    handleInput(); // Adjust height initially
-  }, []);
+//   useEffect(() => {
+//     handleInput(); // Adjust height initially
+//   }, []);
   function handleSubmitNewInput(e) {
     e.preventDefault();
     if (newInstructionInput) {
@@ -71,8 +71,8 @@ export default function CookingInstructions({
             <div key={index} className="input-container">
               <li></li>
               <textarea
-                ref={textareaRef}
-                onInput={handleInput}
+                // ref={textareaRef}
+                // onInput={handleInput}
                 onChange={(e) => {
                   setMealInstructions((prev) => {
                     const copy = [...prev];
