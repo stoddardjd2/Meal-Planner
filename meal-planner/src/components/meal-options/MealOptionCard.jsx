@@ -17,38 +17,20 @@ export default function MealOptionCard({
   index,
   draggedValueRef,
   previewEnabled,
-  mealOptions,
+  setIsDropdown,
+  isDropdown,
   styling,
 }) {
+  // setIsDropdown(meal)
+  // console.log("HETE", setIsDropdown())
   const [isHoveringOverName, setIsHoveringOverName] = useState(false);
-  const [isDropdown, setIsDropdown] = useState(false);
-  const popupRef2 = useRef(null); // Reference to the popup element
+  // const [isDropdown, setIsDropdown] = useState(false);
   const buttonRef2 = useRef(null);
   const [servingSizeMultiplier, setServingSizeMultiplier] = useState(
     meal.multiplier
   );
   const [isHoveringOverCard, setIsHoveringOverCard] = useState(false);
   const multiplierOptions = [0.5, 1, 2];
-  // Handle clicks outside the popup
-  const handleClickOutside2 = (event) => {
-    if (
-      popupRef2.current &&
-      !popupRef2.current.contains(event.target) &&
-      !buttonRef2.current.contains(event.target)
-    ) {
-      setIsDropdown(false); // Close the popup if clicked outside
-    }
-  };
-
-  // Add event listener to detect clicks outside of the popup
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside2);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside2);
-    };
-  }, []);
 
   const handleDragEnd = (e) => {
     e.target.style.cursor = "grab"; // Reset the cursor after dragging ends
@@ -71,7 +53,7 @@ export default function MealOptionCard({
     >
       <div className="meal-option-card-container">
         <div
-          draggable={!isDropdown}
+          draggable={isDropdown ? false : true}
           //   disable draggable feature if editing meal
           onDragStart={(e) => handleDragStart(e, meal.name)}
           onDragEnd={handleDragEnd}
@@ -89,6 +71,7 @@ export default function MealOptionCard({
                 </div>
               </div>
             </div>
+
             {isHoveringOverName && meal.cost && meal.servings && (
               <div className="cost-per-serving">
                 ${costPerServingFormatted}/serving
@@ -135,11 +118,7 @@ export default function MealOptionCard({
                 <button
                   className="action-button"
                   ref={buttonRef2}
-                  onClick={() =>
-                    setIsDropdown((prev) => {
-                      return !prev;
-                    })
-                  }
+                  onClick={() => setIsDropdown(meal)}
                 >
                   <img src={editIcon} />
                 </button>
@@ -151,22 +130,10 @@ export default function MealOptionCard({
                     </button>
                   </a>
                 )}
-
-                {isDropdown && !previewEnabled && (
-                  <div className="popup-container">
-                    <AddMealOption
-                      popupRef={popupRef2}
-                      setMealOptions={setMealOptions}
-                      // editMeal={{ index: index, meal: meal }}
-                      editMeal={meal}
-                      setIsDropdown={setIsDropdown}
-                      mealOptions={mealOptions}
-                    />
-                  </div>
-                )}
               </div>
             </div>
           )}
+
           {/* servings */}
 
           {!previewEnabled && (

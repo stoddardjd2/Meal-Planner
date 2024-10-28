@@ -1,5 +1,6 @@
 .main-card-container{
   width: 100%;
+  z-index:5;
 }
 .meal-option-card-container {
   position: relative;

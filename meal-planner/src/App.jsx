@@ -17,6 +17,8 @@ import CalendarV3 from "./components/calendar/CalendarV3";
 import CalendarV4 from "./components/calendar/CalendarV4";
 import AddMealBtn from "./components/AddMealBtn";
 import { simulateData } from "./simulateData";
+import AddMealOption from "./components/meal-options/AddMealOption";
+
 function App() {
   // use Name as unique identifier. Prevent creating meals with duplicate names
   const colorOptions = [
@@ -39,7 +41,7 @@ function App() {
     setLoadedUserData(data);
     // const userData = localStorage.getItem("mealPlanner");
   }, []);
-
+  const [isDropdown, setIsDropdown] = useState();
   const [isClearing, setIsClearing] = useState(false);
   const draggedValueRef = useRef(""); // Use ref to store the dragged element's value
   const [mealOptions, setMealOptions] = useState(() => {
@@ -52,6 +54,35 @@ function App() {
     const data = JSON.parse(localStorage.getItem("mealPlanner"));
     return data?.addedMeals ? data.addedMeals : [];
   });
+  const addRecipeRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    // Check if click is outside the ref element
+    if (addRecipeRef.current && !addRecipeRef.current.contains(event.target)) {
+      console.log("Clicked outside the component!");
+      setIsDropdown()
+    }
+  };
+
+  useEffect(() => {
+    // Attach event listener to the document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Attach event listener to the document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (!(mealOptions.length == 0)) {
@@ -217,6 +248,8 @@ function App() {
             <div className="left-meals-column">
               <MealOptions
                 mealOptions={mealOptions}
+                isDropDown={isDropdown}
+                setIsDropdown={setIsDropdown}
                 mealNamesSearch={mealNamesSearch}
                 setMealOptions={setMealOptions}
                 draggedValueRef={draggedValueRef}
@@ -240,6 +273,8 @@ function App() {
 
                   return (
                     <MealOptionCard
+                      setIsDropdown={setIsDropdown}
+                      isDropdown={isDropdown}
                       key={"recommended-" + index}
                       meal={getMealByName(name)}
                       // previewEnabled={true}
@@ -279,17 +314,22 @@ function App() {
             ) : (
               <>
                 <button
-                className="confirm-btn"
+                  className="confirm-btn"
                   onClick={() => {
                     setAddedMeals([]);
                     setIsClearing(false);
                   }}
                 >
-                  Confirm Reset 
+                  Confirm Reset
                 </button>
-                <button className="cancel-btn"  onClick={() => {
+                <button
+                  className="cancel-btn"
+                  onClick={() => {
                     setIsClearing(false);
-                  }}>Cancel</button>
+                  }}
+                >
+                  Cancel
+                </button>
               </>
             )}
           </div>
@@ -326,6 +366,22 @@ function App() {
         mealOptions={mealOptions}
         draggedValueRef={draggedValueRef}
       /> */}
+
+      {/* popups: */}
+
+      {isDropdown && (
+        <div className="popup-container">
+          <AddMealOption
+            setMealOptions={setMealOptions}
+            // editMeal={{ index: index, meal: meal }}
+            popupRef={addRecipeRef}
+            editMeal={isDropdown}
+            isDropdown={isDropdown}
+            setIsDropdown={setIsDropdown}
+            mealOptions={mealOptions}
+          />
+        </div>
+      )}
     </div>
   );
 }

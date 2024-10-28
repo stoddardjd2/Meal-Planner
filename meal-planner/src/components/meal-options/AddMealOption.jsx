@@ -10,8 +10,10 @@ export default function AddMealOption({
   setMealOptions,
   editMeal,
   setIsDropdown,
+  isDropDown,
   styling,
   mealOptions,
+  
 }) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
