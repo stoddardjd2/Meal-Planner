@@ -4,12 +4,14 @@ import "./CalendarV2.css";
 import { useRef } from "react";
 import subtractIcon from "../../assets/subtract.svg";
 import plusIcon from "../../assets/plus.svg";
+import recipeIcon from "../../assets/recipe.svg";
 export default function CalendarV2({
   draggedValueRef,
   mealOptions,
   addedMeals,
   setAddedMeals,
   assignments,
+  setIsPopup
 }) {
   const [isCompactMode, setIsCompactMode] = useState(true);
   const targetRef = useRef(null); // Ref to directly manipulate the DOM content
@@ -298,6 +300,25 @@ export default function CalendarV2({
             className="slot-item"
             style={isCompactMode ? { margin: "5px 0px" } : {}}
           >
+            {isFirstOccupiedSlot && (
+              <button
+             
+              className="recipe-slot-btn meal-btn"
+                style={{
+                  position: "absolute",
+                  zIndex: "2",
+                  padding: "3px 3px",
+                  bottom: "-7px",
+                  left: "-7px",
+                  opacity: ".9"
+                }}
+                onClick={() =>
+                  setIsPopup({ meal:mealForSlot, for: "cooking-instructions" })
+                }
+              >
+                <img style={{ width: "12px" }} src={recipeIcon} />
+              </button>
+            )}
             <DraggableMeal
               draggedValueRef={draggedValueRef}
               meal={mealForSlot}

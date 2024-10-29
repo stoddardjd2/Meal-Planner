@@ -21,8 +21,6 @@ export default function MealOptionCard({
   isPopup,
   styling,
 }) {
-  // setIsDropdown(meal)
-  // console.log("HETE", setIsDropdown())
   const [isHoveringOverName, setIsHoveringOverName] = useState(false);
   // const [isDropdown, setIsDropdown] = useState(false);
   const buttonRef2 = useRef(null);
@@ -116,7 +114,6 @@ export default function MealOptionCard({
                   <img src={recipeIcon} />
                 </button>
               )}
-  {console.log("RECIOE", meal)}
               <div className="actions-container-overlay">
                 <button
                   className="action-button"

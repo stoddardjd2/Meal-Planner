@@ -30,27 +30,8 @@ export default function AddedMeals({
 
     return costPerServingFormatted;
   };
-  // const getMealsWithUsedIngredients = () => {
-  //   // results corresponds with position of mainIngredientsArr. For each ingredient, shows all meals that use that ingredient
-  //   const ingredientNamesArr = mainIngredientsArr.map((ingredient) => {
-  //     return ingredient.name;
-  //   });
-  //   const matches = ingredientNamesArr.map((name) => {
-  //     const unfilterdArray = mealOptions.map((meal, index) => {
-  //       const mealIngredientsArr = meal.ingredients.map((ingredient) => {
-  //         return ingredient.name;
-  //       });
-  //       if (mealIngredientsArr.includes(name)) {
-  //         return { name: meal.name, index: index };
-  //       }
-  //     });
-  //     const filteredArray = unfilterdArray.filter(
-  //       (element) => element !== undefined
-  //     );
-  //     return filteredArray;
-  //   });
-  // };
-  // const mealsWithUsedIngredients = getMealsWithUsedIngredients();
+
+
 
   return (
     <div className="added-meals-container">
@@ -78,6 +59,10 @@ export default function AddedMeals({
             </button>
           </h5>
 
+
+       
+
+
           {isMainIngredientsDropdown && (
             <>
               <div className="main-ingredients-items-container keys-container">
@@ -98,20 +83,7 @@ export default function AddedMeals({
                   return (
                     <div className="ingredient-container-child" key={index}>
                       <div className="main-ingredients-items-container">
-                        <div className="dropdown-column">
-                          {/* {ingredient.count > 1 && (
-                            <button
-                              onClick={(e) =>
-                                setIsDropdown((prev) => {
-                                  return { ...prev, [index]: !prev[index] };
-                                })
-                              }
-                              className="dropdown-button"
-                            >
-                              <img src={dropdownIcon} />
-                            </button>
-                          )} */}
-                        </div>
+                        <div className="dropdown-column"></div>
 
                         <div className="count">{ingredient.count}x</div>
 
@@ -125,8 +97,9 @@ export default function AddedMeals({
                               return (
                                 <div className="unit-container" key={index}>
                                   <div className="quantity">
-
-                                    { Number(ingredient.quantities[unitKey].toFixed(2))}
+                                    {Number(
+                                      ingredient.quantities[unitKey].toFixed(2)
+                                    )}
                                   </div>
                                   <div>
                                     {unitKey == "undefined" ? "" : unitKey}
@@ -160,6 +133,7 @@ export default function AddedMeals({
               </div>
             </>
           )}
+         
         </>
       )}
     </div>

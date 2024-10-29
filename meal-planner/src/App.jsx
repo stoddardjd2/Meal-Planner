@@ -61,7 +61,6 @@ function App() {
     if (addRecipeRef.current && !addRecipeRef.current.contains(event.target)) {
       setIsPopup();
     }
-    console.log()
     if (
       instructionsRef.current &&
       !instructionsRef.current.contains(event.target)
@@ -69,9 +68,6 @@ function App() {
       setIsPopup();
     }
   };
-  // useEffect(() => {
-  //   console.log("mealOptions EFFECT", mealOptions);
-  // }, [mealOptions]);
 
   useEffect(() => {
     // Attach event listener to the document
@@ -101,12 +97,6 @@ function App() {
       );
     }
   }, [addedMeals, mealOptions]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("mealPlannerUserData", {});
-  //   const userData = localStorage.getItem("my key");
-  //   console.log("DATA", userData);
-  // }, [addedMeals]);
 
   const getAssignments = () => {
     const assignmentsArr = mealOptions.map((meal, index) => {
@@ -228,6 +218,15 @@ function App() {
   const reccommendedMealsArr = [...new Set(mealsWithUsedIngredients.flat())];
 
   // END
+
+  // get added meals that have no set ingredients
+  const mealsWithoutIngredientsSet = addedMeals.filter((meal) => {
+    console.log("meal.ingredients", meal, meal.ingredients);
+    if (meal.ingredients == 0) {
+      return meal;
+    }
+  });
+
   return (
     <div className="app-container">
       {/* <Drag /> */}
@@ -308,7 +307,25 @@ function App() {
             mealOptions={mealOptions}
             draggedValueRef={draggedValueRef}
           /> */}
+          {!(mealsWithoutIngredientsSet.length == 0) && (
+            <div className="mealsWithoutIngredients">
+              <span className="warning">Warning</span>
+              <span>
+                {" "}
+                {mealsWithoutIngredientsSet.length} added meal
+                {mealsWithoutIngredientsSet.length <= 1 ? "" : "s"}{" "}
+                {mealsWithoutIngredientsSet.length <= 1 ? "has" : "have"} no
+                ingredients:
+              </span>
+              <div className="without-ingredients-item-container">
+                {mealsWithoutIngredientsSet.map((meal) => {
+                  return <div>{meal.name}</div>;
+                })}
+              </div>
+            </div>
+          )}
           <CalendarV2
+          setIsPopup={setIsPopup}
             addedMeals={addedMeals}
             setAddedMeals={setAddedMeals}
             mealOptions={mealOptions}
@@ -377,7 +394,6 @@ function App() {
       /> */}
 
       {/* popups: */}
-      {console.log("mealOptions", mealOptions)}
 
       {isPopup?.for == "add-meal-option" && (
         <div className="popup-container">

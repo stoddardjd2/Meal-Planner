@@ -43,7 +43,6 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
   };
 
   function handleSearchByUrl(url) {
-    console.log("SERACH!");
     setIsRecipeLoading(true);
     if (url) {
       fetch(
@@ -53,7 +52,6 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
       )
         .then((data) => data.json())
         .then((recipeData) => {
-          console.log("RES", recipeData);
           const nameTaken = mealOptions.some((meal) => {
             if (meal.name == recipeData.title) {
               return true;
@@ -63,7 +61,6 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
           if (!nameTaken) {
             const cleanName = removeUnitsAndNumbers(recipeData.title);
             // call helper function to clean up name
-            console.log(cleanName);
             const formattedIngredients = recipeData.extendedIngredients.map(
               (ingredient) => {
                 return {
@@ -89,7 +86,6 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
             setIsError();
             setIsDropdown(false);
             setIsRecipeLoading(false);
-            console.log("recipeData", recipeData);
             const prepTimeMin =
               recipeData.readyInMinutes == null ||
               recipeData.readyInMinutes == -1 ||
@@ -112,13 +108,11 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
           } else {
             setIsError("Meal with name is already added!");
             setIsRecipeLoading(false);
-            console.log("NAME TAKEN");
           }
         })
         .catch((err) => {
           setIsRecipeLoading(false);
           setIsError("Failed to get recipe!");
-          console.error("Failed to fetch recipe:", err);
         });
     }
   }
@@ -150,7 +144,6 @@ export default function AddMealBtn({ mealOptions, setMealOptions }) {
         <div
           id="close"
           onClick={(e) => {
-            console.log("close", e.target.id);
             if (e.target.id == "close") {
               setIsDropdown(false);
             }

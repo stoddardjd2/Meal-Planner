@@ -4,13 +4,15 @@ import xIcon from "../../assets/x.svg";
 import MealOptions from "./MealOptions";
 import QuickAddAnalyzer from "./QuickAddAnalyzer";
 import Dropdown from "../Dropdown";
+import trashIcon from "../../assets/trash.svg";
 import StandardizedNamesBtn from "./StandardizedNamesBtn";
+import ImageUpload from "../ImageUpload";
 export default function AddMealOption({
   popupRef,
   setMealOptions,
   editMeal,
-  setIsDropdown,
-  isDropDown,
+  isPopup,
+  setIsPopup,
   styling,
   mealOptions,
 }) {
@@ -20,6 +22,7 @@ export default function AddMealOption({
   const inputUnitsRef = useRef(null);
   const [isNameValid, setIsNameValid] = useState(true);
   const [changesTracker, setChangesTracker] = useState([]);
+  const [isDeletingMeal, setIsDeletingMeal] = useState(false);
   const [formInput, setFormInput] = useState(
     // if editing, loadValues
     editMeal
@@ -36,7 +39,7 @@ export default function AddMealOption({
       : {
           name: "",
           link: "",
-          servings: undefined,
+          servings: 1,
           prepTimeMin: undefined,
           cost: "",
           ingredients: [],
@@ -63,24 +66,17 @@ export default function AddMealOption({
         });
       }
     }
-    //  else {
-    //   setMealOptions((prev) => {
-    //     const copy = [...prev];
-    //     copy.unshift(formInput);
-    //     return [...copy];
-    //   });
-    // }
   }, [formInput]);
 
-  function handleUpdateMeal(e) {
-    e.preventDefault();
-    setIsDropdown();
-    setMealOptions((prev) => {
-      const copy = [...prev];
-      copy.splice(editMeal.index, 1, formInput);
-      return [...copy];
-    });
-  }
+  // function handleUpdateMeal(e) {
+  //   e.preventDefault();
+  //   setIsDropdown();
+  //   setMealOptions((prev) => {
+  //     const copy = [...prev];
+  //     copy.splice(editMeal.index, 1, formInput);
+  //     return [...copy];
+  //   });
+  // }
 
   function handleSubmitNewMeal(e) {
     e.preventDefault();
@@ -148,7 +144,41 @@ export default function AddMealOption({
       style={styling ? { ...styling } : {}}
       ref={popupRef}
     >
-      <h2>Enter Recipe Details</h2>
+      <div className="add-meal-header-container">
+        <h2>Enter Recipe Details</h2>
+        {/* {editMeal && (
+          <>
+            {!isDeletingMeal && (
+              <button onClick={() => setIsDeletingMeal(true)}>
+                <img src={trashIcon} />
+              </button>
+            )}
+            {isDeletingMeal && (
+              <div className="confirm-delete-container">
+                <button
+                  onClick={() => {
+                    setIsPopup();
+                    setMealOptions((prev) => {
+                      const copy = [...prev];
+                      copy.splice(editMeal.index, 1);
+                      return copy;
+                    });
+                  }}
+                  className="confirm-btn"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => setIsDeletingMeal(false)}
+                  className="cancel-btn"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </>
+        )} */}
+      </div>
       <form>
         {Object.keys(formInput).map((inputField, index) => {
           if (inputField === "ingredients") {
@@ -277,10 +307,13 @@ export default function AddMealOption({
                 </div>
               </div>
             );
-          } else if (inputField == "multiplier" || inputField == "instructions") {
+          } else if (
+            inputField == "multiplier" ||
+            inputField == "instructions"
+          ) {
             // hide multiplier field
             return;
-          } else {
+          }else {
             return (
               <div className="input-option-container" key={index}>
                 <label htmlFor={inputField} className="name">
@@ -321,7 +354,7 @@ export default function AddMealOption({
           Add Meal
         </button>
       )}
-      <button onClick={() => setIsDropdown()} className="exit-button">
+      <button onClick={() => setIsPopup()} className="exit-button">
         <img src={xIcon} />
       </button>
       <StandardizedNamesBtn formInput={formInput} setFormInput={setFormInput} />

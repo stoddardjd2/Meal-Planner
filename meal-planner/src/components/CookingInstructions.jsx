@@ -13,7 +13,6 @@ export default function CookingInstructions({
   );
   useEffect(() => {
     setMealOptions((prev) => {
-      console.log("MEA:S", prev);
       const mealIndex = prev.findIndex((meal, index) => {
         // get index of meal to update in mealOptions
         return meal.name == isPopup.meal.name;
@@ -47,6 +46,7 @@ export default function CookingInstructions({
   }
   return (
     <div ref={instructionsRef} className="cooking-instructions-popup">
+      <h2>{isPopup.meal.name}</h2>
       <h3>Cooking Instructions</h3>
       <label htmlFor="add-step">Add Step:</label>
       <form onSubmit={handleSubmitNewInput}>

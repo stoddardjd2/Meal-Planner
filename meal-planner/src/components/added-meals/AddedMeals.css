@@ -3,6 +3,13 @@
   flex-direction: column;
   /* width: 100px; */
   position: relative;
+  .mealsWithoutIngredients{
+    .warning{
+      background-color: rgb(180, 54, 54);
+      padding: 4px;
+      border-radius: 5px;
+    }
+  }
   .dropdown-button{
     position: absolute;
     z-index: 10;

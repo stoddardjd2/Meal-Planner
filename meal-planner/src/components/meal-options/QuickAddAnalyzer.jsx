@@ -28,7 +28,6 @@ export default function QuickAddAnalyzer({
     e.preventDefault();
     // Split the text by newline characters and filter out empty lines
     const rows = textareaValue.split("\n").filter((line) => line.trim() !== "");
-    console.log("ROWS", rows);
     rows.map((row, index) => {
       if (row) {
         const quantity = getQuantity(row);
@@ -124,8 +123,6 @@ export default function QuickAddAnalyzer({
 
   function getName(str, index) {
     const foodName = removeUnitsAndNumbers(str);
-    console.log("foodName", foodName);
-    console.log("fetch time!", foodName);
     return foodName;
   }
 
@@ -143,7 +140,6 @@ export default function QuickAddAnalyzer({
       >
         Submit
       </button>
-      {console.log("changes tracker", changesTracker)}
       {!(changesTracker.length == 0) && (
         <button className="undo quickAdd-btn" onClick={handleUndo}>
           Undo
