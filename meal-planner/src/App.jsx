@@ -232,7 +232,7 @@ function App() {
       {/* <Drag /> */}
       <div className="split-container">
         <div className="split-1">
-          <h2>Your Meals</h2>
+          <h2 style={{marginLeft:"20px"}}>Your Meals</h2>
 
           <div className="meals-action-container">
             <SearchInput
@@ -247,9 +247,9 @@ function App() {
 
           <div className="meal-columns-header-container">
             <div className="meal-header-container">
-              <h2 className="sticky">Meals</h2>
+              <h3 className="sticky">Meals</h3>
             </div>
-            <h2 className="recommended-header">Recommended</h2>
+            <h3 className="recommended-header">Recommended</h3>
           </div>
 
           <div className="meal-columns-container">
@@ -405,6 +405,7 @@ function App() {
             isPopup={isPopup}
             setIsPopup={setIsPopup}
             mealOptions={mealOptions}
+            setAddedMeals={setAddedMeals}
           />
         </div>
       )}

@@ -151,6 +151,8 @@ button:focus {
         display: flex;
         width: 390px;
         gap: 10px;
+        height: 65px;
+        align-items: center;
         /* margin-bottom: 20px; */
         /* justify-content: space-between; */
       }
@@ -179,7 +181,6 @@ button:focus {
         display: flex;
         width: 100%;
         margin-left: 60px;
-
         align-items: center;
         font-size: 20px;
         width: 180px;
@@ -1037,5 +1038,5 @@ button:focus {
   opacity: 1 !important;
 }
 .recipe-slot-btn {
-  opacity: 0.5 !important;
+  opacity: 0.7 !important;
 }

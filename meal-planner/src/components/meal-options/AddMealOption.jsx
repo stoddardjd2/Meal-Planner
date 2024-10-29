@@ -15,6 +15,7 @@ export default function AddMealOption({
   setIsPopup,
   styling,
   mealOptions,
+  setAddedMeals,
 }) {
   // const [ingredients, setIngredients] = useState(["afaf", "2"]);
   const inputRef = useRef(null);
@@ -158,6 +159,20 @@ export default function AddMealOption({
                 <button
                   onClick={() => {
                     setIsPopup();
+                    setAddedMeals((prev) => {
+                      const addMealIndexesToRemove = prev.filter(
+                        (meal, index) => {
+                          if (meal.name == editMeal.name) {
+                            return index;
+                          }
+                        }
+                      );
+                      const copy = [...prev];
+                      const filteredArray = copy.filter(
+                        (_, index) => !addMealIndexesToRemove.includes(index)
+                      );
+                      return filteredArray;
+                    });
                     setMealOptions((prev) => {
                       const copy = [...prev];
                       copy.splice(editMeal.index, 1);
@@ -313,7 +328,7 @@ export default function AddMealOption({
           ) {
             // hide multiplier field
             return;
-          }else {
+          } else {
             return (
               <div className="input-option-container" key={index}>
                 <label htmlFor={inputField} className="name">

@@ -308,8 +308,8 @@ export default function CalendarV2({
                   position: "absolute",
                   zIndex: "2",
                   padding: "3px 3px",
-                  bottom: "-7px",
-                  left: "-7px",
+                  bottom: "-10px",
+                  left: "-10px",
                   opacity: ".9"
                 }}
                 onClick={() =>
