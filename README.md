@@ -3,6 +3,8 @@
 # Meal-Planner
 ## Description: 
 This repository contains a meal planner designed to make it easier to manage your meals and find recommended meals.
+##Demo:
+![Demo 1](/Demo-Images/Meal-Planner-Demo.png?raw=true "Optional Title")
 
 ## Usage Information: 
 Link for deployed site:
