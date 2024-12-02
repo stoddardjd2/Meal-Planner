@@ -32,10 +32,6 @@ https://budget-meal-planner.netlify.app/
 ![Demo 4](/Demo-Images/Meal-Planner-Demo4.png?raw=true)
 <br/><br/>
 
-## Usage Information: 
-Link for deployed site:
-https://budget-meal-planner.netlify.app/
-
 ## License: 
 This project is licensed under the MIT License 
 ## Questions?: 
