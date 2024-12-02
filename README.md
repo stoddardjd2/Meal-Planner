@@ -12,7 +12,7 @@ https://budget-meal-planner.netlify.app/
 ![Demo 1](/Demo-Images/Meal-Planner-Demo.png?raw=true)
 <br/><br/>
 
-### Add meal by coping and pasting URL into box to utilize web scraper API or add manually
+### Add meal by coping and pasting any recipe URL into box to utilize web scraper API or add manually
 ![Demo 3](/Demo-Images/Meal-Planner-Demo3.png?raw=true)
 <br/><br/>
 
