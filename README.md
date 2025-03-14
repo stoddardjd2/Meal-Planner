@@ -16,7 +16,7 @@ https://budget-meal-planner.netlify.app/
 ![Demo 3](/Demo-Images/Meal-Planner-Demo3.png?raw=true)
 <br/><br/>
 
-### View recommended meals that resuse some of the same ingredients as other meals planned for the week
+### View recommended meals that reuse some of the same ingredients as other meals planned for the week
 ![Demo 6](/Demo-Images/Meal-Planner-Demo6.png?raw=true)
 <br/><br/>
 
