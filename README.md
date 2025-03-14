@@ -9,7 +9,7 @@ This repository contains a meal planner designed to make it easier to manage you
 https://budget-meal-planner.netlify.app/
 
 ## Demo:
-### Drag and drop interface that allows you to easily visualize and adjust serving sizes for the week.
+### Drag and drop interface that allows you to easily visualize and adjust serving sizes for the week. Users can also move the entire meal around or split the meals up across any days.
 ![Demo 1](/Demo-Images/Meal-Planner-Demo.png?raw=true)
 <br/><br/>
 
